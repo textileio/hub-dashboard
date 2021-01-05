@@ -1,9 +1,10 @@
-
-import './App.css';
+import "./App.css";
+import AccessPage from "./pages/AccessPage";
 
 function App() {
   return (
-    <div className="App">Textile
+    <div className="App">
+      <AccessPage />
     </div>
   );
 }
