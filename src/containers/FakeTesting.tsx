@@ -1,6 +1,6 @@
 import { useStore } from "../store/Provider";
 
-const SignInForm = () => {
+const FakeTesting = () => {
   const [{ user, hub, loading }, actions] = useStore();
   return (
     <div>
@@ -21,4 +21,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default FakeTesting;
