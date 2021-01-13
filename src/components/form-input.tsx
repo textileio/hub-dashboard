@@ -53,7 +53,7 @@ const FormInput: FC<IFormInputProps> = ({ name, label, type }) => {
         id={name}
         type={type}
         className="form-input"
-        onChange={e =>
+        onChange={(e) =>
           e.target.value.length ? setHasValue(true) : setHasValue(false)
         }
       />
