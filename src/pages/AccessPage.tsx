@@ -5,7 +5,6 @@ import SignInForm from "../containers/SignInForm";
 import SignUpForm from "../containers/SignUpForm";
 import ResetPasswordForm from "../containers/ResetPasswordForm";
 import SuccessForm from "../containers/SuccessForm";
-import FakeTesting from "../containers/FakeTesting";
 import { ReactComponent as TextileLogo } from "../assets/textile-logo-h.svg";
 import { defaultTheme } from "../utils";
 
@@ -98,7 +97,6 @@ const AccessPage = () => {
       <RightPanel>
         <div className="content">
           <TextileLogo />
-          <FakeTesting />
           <Switch>
             <Route path="/signin" component={SignInForm} />
             <Route path="/signup" component={SignUpForm} />

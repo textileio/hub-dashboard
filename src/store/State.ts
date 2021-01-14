@@ -1,10 +1,21 @@
 /**
+ * UserSessionInfo represents the live info of a hub session.
+ * TODO: We don't really need to store it here, it can just be added to the
+ * client's context...
+ */
+export interface UserSessionInfo {
+  key: string;
+  session: string;
+}
+
+/**
  * User represents the app User state.
  * Use it for things like UI settings and user options.
  */
 export interface User {
   authorized?: boolean;
-  firstName?: string; // TODO: Remove these fake values
+  // TODO: We don't really need this here... see above
+  sessionInfo?: UserSessionInfo;
 }
 
 /**

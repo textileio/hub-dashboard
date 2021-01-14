@@ -44,7 +44,7 @@ interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-const FormInput: FC<IFormInputProps> = ({ name, label, type }) => {
+const FormInput: FC<IFormInputProps> = ({ name, label, type, onChange }) => {
   const [hasValue, setHasValue] = useState<boolean>(false);
 
   return (
@@ -53,9 +53,10 @@ const FormInput: FC<IFormInputProps> = ({ name, label, type }) => {
         id={name}
         type={type}
         className="form-input"
-        onChange={(e) =>
-          e.target.value.length ? setHasValue(true) : setHasValue(false)
-        }
+        onChange={(e) => {
+          e.target.value.length ? setHasValue(true) : setHasValue(false);
+          if (onChange) onChange(e);
+        }}
       />
       <label
         htmlFor={name}
