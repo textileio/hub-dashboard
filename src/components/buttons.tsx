@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { typescale, defaultTheme, primaryFontMedium } from "../utils";
 
 export const Button = styled.button`

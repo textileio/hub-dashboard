@@ -1,36 +1,34 @@
 import { Reducer } from "react";
 import { AsyncActionHandlers } from "use-reducer-async";
+
 import { State } from "./State";
-import {
-  Action,
-  AsyncAction,
-  InnerType,
-  OuterType,
-  AsyncType,
-} from "./Actions";
+import * as Actions from "./Actions";
 import { admin } from "./Textile";
 
-export const reducer: Reducer<State, Action> = (state, action): State => {
+export const reducer: Reducer<State, Actions.Action> = (
+  state,
+  action
+): State => {
   switch (action.type) {
-    case InnerType.ErrorFetch:
+    case Actions.InnerType.ErrorFetch:
       return {
         ...state,
         loading: false,
         hub: { count: 0 }, // TODO: Remove these fake values
       };
-    case OuterType.Increment:
+    case Actions.OuterType.Increment:
       return {
         ...state,
         hub: { count: (state.hub?.count ?? 0) + 1 },
       };
 
     // Real Textile APIs
-    case InnerType.StartSignUp:
+    case Actions.InnerType.StartSignUp:
       return {
         ...state,
         loading: true,
       };
-    case InnerType.FinishSignUp:
+    case Actions.InnerType.FinishSignUp:
       const { sessionInfo } = action;
       return {
         ...state,
@@ -43,18 +41,21 @@ export const reducer: Reducer<State, Action> = (state, action): State => {
 };
 
 export const asyncActionHandlers: AsyncActionHandlers<
-  Reducer<State, Action>,
-  AsyncAction
+  Reducer<State, Actions.Action>,
+  Actions.AsyncAction
 > = {
-  [AsyncType.SignUp]: ({ dispatch }) => async (action) => {
-    dispatch({ type: InnerType.StartSignUp });
-    const { username, email } = action;
-    try {
-      // This will sit here, waiting until we get a confirmation email click
-      const sessionInfo = await admin.signUp(username, email);
-      dispatch({ type: InnerType.FinishSignUp, sessionInfo });
-    } catch (e) {
-      dispatch({ type: InnerType.ErrorFetch, message: e.message });
-    }
+  [Actions.AsyncType.SignUp]: ({ dispatch }) => async ({ username, email }) => {
+    dispatch({ type: Actions.InnerType.StartSignUp });
+    // This will sit here, waiting until we get a confirmation email click
+    admin
+      .signUp(username, email)
+      .then((sessionInfo) => {
+        console.log(sessionInfo);
+        dispatch({ type: Actions.InnerType.FinishSignUp, sessionInfo });
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch({ type: Actions.InnerType.ErrorFetch, message: e.message });
+      });
   },
 };

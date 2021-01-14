@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import FormInput from "../components/form-input";
+import FormInput from "../components/FormInput";
 import { ReactComponent as TextileLogo } from "../assets/textile-logo-h.svg";
 import { CardDefault } from "../components/Card";
-import { PrimaryButton } from "../components/buttons";
+import { PrimaryButton } from "../components/Buttons";
 
 const ConsoleAccessPageContainer = styled.div`
   display: flex;

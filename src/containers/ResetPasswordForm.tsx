@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import FormInput from "../components/form-input";
-import { PrimaryButton } from "../components/buttons";
+
+import FormInput from "../components/FormInput";
+import { PrimaryButton } from "../components/Buttons";
 
 const ResetPasswordForm = () => {
   return (
