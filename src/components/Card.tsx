@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { defaultTheme } from "../utils";
 
 export const CardDefault = styled.div`
