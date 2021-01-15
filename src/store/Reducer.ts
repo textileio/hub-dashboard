@@ -1,9 +1,12 @@
 import { Reducer } from "react";
 import { AsyncActionHandlers } from "use-reducer-async";
+import Cookies from "universal-cookie";
 
 import { State } from "./State";
 import * as Actions from "./Actions";
 import { admin } from "./Textile";
+
+export const cookies = new Cookies();
 
 export const reducer: Reducer<State, Actions.Action> = (
   state,
@@ -50,7 +53,10 @@ export const asyncActionHandlers: AsyncActionHandlers<
     admin
       .signUp(username, email)
       .then((sessionInfo) => {
-        console.log(sessionInfo);
+        cookies.set("sessionInfo", sessionInfo, {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7, // TODO: Pick a better time (1 week)
+        });
         dispatch({ type: Actions.InnerType.FinishSignUp, sessionInfo });
       })
       .catch((e) => {

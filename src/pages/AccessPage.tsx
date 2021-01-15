@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Switch, Route } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import SignInForm from "../containers/SignInForm";
 import SignUpForm from "../containers/SignUpForm";
@@ -67,6 +68,8 @@ const RightPanel = styled(panel)`
 `;
 
 const AccessPage = () => {
+  // Specify specific cookies here to limit re-rendering to when they update
+  const [cookies] = useCookies();
   return (
     <AccessPageContainer>
       <LeftPanel>
@@ -97,6 +100,12 @@ const AccessPage = () => {
       <RightPanel>
         <div className="content">
           <TextileLogo />
+          <br />
+          {cookies.sessionInfo
+            ? `Good news, here's your session: ${JSON.stringify(
+                cookies.sessionInfo
+              )}...`
+            : "Sorry, ya gotta signin/signup, no existing session info"}
           <Switch>
             <Route path="/signin" component={SignInForm} />
             <Route path="/signup" component={SignUpForm} />
