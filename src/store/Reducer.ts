@@ -13,16 +13,16 @@ export const reducer: Reducer<State, Actions.Action> = (
   action
 ): State => {
   switch (action.type) {
-    case Actions.InnerType.ErrorFetch:
+    case Actions.OuterType.SetError:
       return {
         ...state,
         loading: false,
-        hub: { count: 0 }, // TODO: Remove these fake values
+        error: action.message,
       };
-    case Actions.OuterType.Increment:
+    case Actions.OuterType.ClearError:
       return {
         ...state,
-        hub: { count: (state.hub?.count ?? 0) + 1 },
+        error: undefined,
       };
 
     // Real Textile APIs
@@ -47,10 +47,14 @@ export const asyncActionHandlers: AsyncActionHandlers<
   Reducer<State, Actions.Action>,
   Actions.AsyncAction
 > = {
-  [Actions.AsyncType.SignUp]: ({ dispatch }) => async ({ username, email }) => {
+  [Actions.AsyncType.SignUp]: ({ dispatch }) => async ({
+    username,
+    email,
+    callback,
+  }) => {
     dispatch({ type: Actions.InnerType.StartSignUp });
     // This will sit here, waiting until we get a confirmation email click
-    admin
+    return admin
       .signUp(username, email)
       .then((sessionInfo) => {
         cookies.set("sessionInfo", sessionInfo, {
@@ -58,10 +62,11 @@ export const asyncActionHandlers: AsyncActionHandlers<
           maxAge: 60 * 60 * 24 * 7, // TODO: Pick a better time (1 week)
         });
         dispatch({ type: Actions.InnerType.FinishSignUp, sessionInfo });
+        if (callback) callback(sessionInfo);
       })
       .catch((e) => {
         console.log(e);
-        dispatch({ type: Actions.InnerType.ErrorFetch, message: e.message });
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
       });
   },
 };
