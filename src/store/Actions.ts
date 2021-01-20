@@ -45,6 +45,8 @@ export type OuterAction =
  */
 export type Action = InnerAction | OuterAction;
 
+type Callback<T = any> = (arg: T) => void;
+
 /**
  * AsyncAction represents all possible async actions.
  */
@@ -52,6 +54,7 @@ export type AsyncAction = {
   type: AsyncType.SignUp;
   username: string;
   email: string;
+  callback?: Callback<UserSessionInfo>;
 };
 
 /**
@@ -60,7 +63,11 @@ export type AsyncAction = {
 export interface Actions {
   setError: (message: string) => void;
   clearError: () => void;
-  signUp(username: string, email: string): void;
+  signUp(
+    username: string,
+    email: string,
+    callback?: Callback<UserSessionInfo>
+  ): void;
 }
 
 export function createActions(
@@ -71,8 +78,11 @@ export function createActions(
 
   const clearError = () => dispatch({ type: OuterType.ClearError });
 
-  const signUp = (username: string, email: string) =>
-    dispatch({ type: AsyncType.SignUp, username, email });
+  const signUp = (
+    username: string,
+    email: string,
+    callback?: Callback<UserSessionInfo>
+  ) => dispatch({ type: AsyncType.SignUp, username, email, callback });
 
   return { setError, clearError, signUp };
 }

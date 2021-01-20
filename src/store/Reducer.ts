@@ -47,10 +47,14 @@ export const asyncActionHandlers: AsyncActionHandlers<
   Reducer<State, Actions.Action>,
   Actions.AsyncAction
 > = {
-  [Actions.AsyncType.SignUp]: ({ dispatch }) => async ({ username, email }) => {
+  [Actions.AsyncType.SignUp]: ({ dispatch }) => async ({
+    username,
+    email,
+    callback,
+  }) => {
     dispatch({ type: Actions.InnerType.StartSignUp });
     // This will sit here, waiting until we get a confirmation email click
-    admin
+    return admin
       .signUp(username, email)
       .then((sessionInfo) => {
         cookies.set("sessionInfo", sessionInfo, {
@@ -58,6 +62,7 @@ export const asyncActionHandlers: AsyncActionHandlers<
           maxAge: 60 * 60 * 24 * 7, // TODO: Pick a better time (1 week)
         });
         dispatch({ type: Actions.InnerType.FinishSignUp, sessionInfo });
+        if (callback) callback(sessionInfo);
       })
       .catch((e) => {
         console.log(e);

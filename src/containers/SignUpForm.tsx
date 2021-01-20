@@ -17,8 +17,8 @@ const SignUpForm = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (username && email) actions.signUp(username, email);
-        history.push("/success");
+        if (username && email)
+          actions.signUp(username, email, () => history.push("/success"));
       }}
     >
       <h1>Create your Account</h1>
