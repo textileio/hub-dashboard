@@ -13,16 +13,16 @@ export const reducer: Reducer<State, Actions.Action> = (
   action
 ): State => {
   switch (action.type) {
-    case Actions.InnerType.ErrorFetch:
+    case Actions.OuterType.SetError:
       return {
         ...state,
         loading: false,
-        hub: { count: 0 }, // TODO: Remove these fake values
+        error: action.message,
       };
-    case Actions.OuterType.Increment:
+    case Actions.OuterType.ClearError:
       return {
         ...state,
-        hub: { count: (state.hub?.count ?? 0) + 1 },
+        error: undefined,
       };
 
     // Real Textile APIs
@@ -61,7 +61,7 @@ export const asyncActionHandlers: AsyncActionHandlers<
       })
       .catch((e) => {
         console.log(e);
-        dispatch({ type: Actions.InnerType.ErrorFetch, message: e.message });
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
       });
   },
 };

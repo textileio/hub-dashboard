@@ -1,5 +1,6 @@
+import { FunctionComponent } from "react";
 import styled from "styled-components";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import SignInForm from "../containers/SignInForm";
@@ -67,6 +68,25 @@ const RightPanel = styled(panel)`
   background-color: ${neutral100};
 `;
 
+const PrivateRoute = ({
+  component: Component,
+}: RouteProps & {
+  component: FunctionComponent;
+}) => {
+  const [cookies] = useCookies();
+  return (
+    <Route
+      render={(props) =>
+        cookies.sessionInfo ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{ pathname: "/signup" }} />
+        )
+      }
+    />
+  );
+};
+
 const AccessPage = () => {
   // Specify specific cookies here to limit re-rendering to when they update
   const [cookies] = useCookies();
@@ -110,7 +130,7 @@ const AccessPage = () => {
             <Route path="/signin" component={SignInForm} />
             <Route path="/signup" component={SignUpForm} />
             <Route path="/reset" component={ResetPasswordForm} />
-            <Route path="/success" component={SuccessForm} />
+            <PrivateRoute path="/" component={SuccessForm} />
           </Switch>
         </div>
       </RightPanel>

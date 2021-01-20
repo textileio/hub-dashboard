@@ -35,6 +35,7 @@ export interface State {
   hub?: Hub;
   // Top-level state items, keep these to a minimum
   loading: boolean;
+  error?: string;
 }
 
 // Initial state reflects an un-authorized, empty user/hub state.
