@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import MessageBox from "../components/MessageBox";
 
 const SignUpForm = () => {
-  const [, actions] = useContext(Context);
+  const [state, actions] = useContext(Context);
   const [username, setUsername] = useState<string | undefined>();
   const [loading, setLoading] = useState<boolean | false>();
   const [email, setEmail] = useState<string | undefined>();
@@ -20,7 +20,10 @@ const SignUpForm = () => {
         e.preventDefault();
         setLoading(true);
         if (username && email)
-          actions.signUp(username, email, () => history.push("/success"));
+          actions.signUp(username, email, () => {
+            actions.clearError();
+            history.push("/success");
+          });
       }}
     >
       <h1>Create your Account</h1>
@@ -28,11 +31,9 @@ const SignUpForm = () => {
         Create encrypted, resilient, and cross-application data storage in
         seconds.
       </p>
-      <MessageBox
-        type="error"
-        message="The email is already registered"
-        title="Error"
-      />
+      {state.error && (
+        <MessageBox type="error" message={state.error} title="Error" />
+      )}
       <hr />
       <FormInput
         name="userEmail"
