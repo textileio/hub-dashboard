@@ -65,8 +65,8 @@ export const asyncActionHandlers: AsyncActionHandlers<
         if (callback) callback(sessionInfo);
       })
       .catch((e) => {
-        console.log(e);
         dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
       });
   },
 };

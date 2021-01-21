@@ -45,7 +45,7 @@ export type OuterAction =
  */
 export type Action = InnerAction | OuterAction;
 
-type Callback<T = any> = (arg: T) => void;
+type Callback<T = any> = (arg?: T, err?: Error) => void;
 
 /**
  * AsyncAction represents all possible async actions.
