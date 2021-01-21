@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { defaultTheme, primaryFontBold, typescale } from "../utils";
+import { defaultTheme, typescale } from "../utils";
 
 const { small } = typescale.desktop;
 const { errorDefault, accentA } = defaultTheme;
