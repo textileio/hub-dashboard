@@ -10,7 +10,6 @@ import MessageBox from "../components/MessageBox";
 const SignUpForm = () => {
   const [state, actions] = useContext(Context);
   const [username, setUsername] = useState<string | undefined>();
-  const [loading, setLoading] = useState<boolean | false>();
   const [email, setEmail] = useState<string | undefined>();
   const history = useHistory();
 
@@ -18,7 +17,6 @@ const SignUpForm = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        setLoading(true);
         if (username && email)
           actions.signUp(username, email, () => {
             actions.clearError();
@@ -49,7 +47,7 @@ const SignUpForm = () => {
         value={username}
         onChange={({ target: { value } }) => value.length && setUsername(value)}
       />
-      {loading ? (
+      {state.loading ? (
         <div style={{ display: "flex" }}>
           <Loader size={60} count={2} speed={2} />
           <div>
