@@ -88,19 +88,28 @@ const AccessPage = () => {
             unstoppable apps and safe-guard the world's data.
           </p>
           <hr />
-          <h3>Create Buckets</h3>
+          <h3>Hosted Infrastructure</h3>
           <p>
-            Dynamic content management for teams. Host websites, blogs, and data
-            on IPFS.
+            User our kick ass infrastructure that includes IPFS and Filecoin
+            network management, scaling, and more.
           </p>
-          <h3>Manage ThreadS</h3>
+          <h3>Flexible Tooling</h3>
           <p>
-            A distributed, scalable, and flexible database solution for
-            decentralized applications.
+            Build with the IPFS gateway, IPNS publishing, object storage in
+            Buckets, and dynamic databases over Threads.
           </p>
-          <h3>Access Powergate</h3>
+          <h3>The Best Community</h3>
           <p>
-            Drop-in Filecoin API and management system for your critical data.
+            1000s of developers build with Textile. We're here to help and just
+            a chat away on our{" "}
+            <a
+              href="https://slack.textile.io/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              community forum
+            </a>
+            .
           </p>
         </div>
       </LeftPanel>
