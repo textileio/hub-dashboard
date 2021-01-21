@@ -15,6 +15,13 @@ const AccessPageContainer = styled.div`
 `;
 
 const panel = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 40px;
+    margin: 40px 0;
+    align-items: center;
+    height: auto;
+  }
   display: flex;
   width: 50vw;
   height: 100vh;
@@ -28,6 +35,9 @@ const panel = styled.div`
 `;
 
 const LeftPanel = styled(panel)`
+  @media (max-width: 768px) {
+    display: none;
+  }
   background-size: 200px 200px;
   align-items: flex-end;
   background-color: ${neutral200};

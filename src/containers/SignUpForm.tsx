@@ -5,6 +5,7 @@ import FormInput from "../components/FormInput";
 import { PrimaryButton } from "../components/Buttons";
 import Context from "../store/Context";
 import Loader from "../components/Loader";
+import MessageBox from "../components/MessageBox";
 
 const SignUpForm = () => {
   const [, actions] = useContext(Context);
@@ -27,6 +28,11 @@ const SignUpForm = () => {
         Create encrypted, resilient, and cross-application data storage in
         seconds.
       </p>
+      <MessageBox
+        type="error"
+        message="The email is already registered"
+        title="Error"
+      />
       <hr />
       <FormInput
         name="userEmail"
