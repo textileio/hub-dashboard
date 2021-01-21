@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { defaultTheme } from "../utils";
-import Loader from "../components/Loader";
 
 const { accentA, neutral1000, primary } = defaultTheme;
 
@@ -38,21 +37,9 @@ const UsefulLinks = styled.ol`
 const SuccessForm = () => {
   return (
     <div>
-      <h1>Confirm email</h1>
-      <div style={{ display: "flex" }}>
-        <Loader size={60} count={2} speed={2} />
-        <div>
-          <p className="announcement" style={{ marginLeft: "20px" }}>
-            Please check your email...
-            <br />
-            you will get a confirmation link
-          </p>
-        </div>
-      </div>
       <h1>Account created</h1>
       <p className="announcement">
-        Your account has been successfully created, you may now log in to your
-        account.
+        Your account has been successfully created!
       </p>
       <p className="announcement">
         <b>Next Steps:</b>
