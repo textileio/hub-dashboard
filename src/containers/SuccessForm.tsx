@@ -28,6 +28,8 @@ const UsefulLinks = styled.ol`
   list-style-type: none;
   width: 100%;
   li {
+    display: flex;
+    align-items: center;
     margin: 15px 0;
     width: 100%;
   }
@@ -58,26 +60,32 @@ const SuccessForm = () => {
       <UsefulLinks>
         <li>
           <Step>1</Step>
-          Download the
-          <a
-            href="https://docs.textile.io/hub/accounts/"
-            rel="noreferrer"
-            target="_blank"
-          >
-            {" "}
-            Hub CLI →
-          </a>
+          <div>
+            Download the{" "}
+            <a
+              href="https://docs.textile.io/hub/accounts/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Hub CLI →
+            </a>
+          </div>
         </li>
         <li>
           <Step>2</Step>
-          use <Command>hub init</Command> to get started.
+          <div>
+            use <Command>hub init</Command> to get started.
+          </div>
         </li>
         <li>
-          <Step>3</Step>Read the{" "}
-          <a href="https://docs.textile.io/" rel="noreferrer" target="_blank">
-            docs →
-          </a>{" "}
-          and start building!
+          <Step>3</Step>
+          <div>
+            Read the{" "}
+            <a href="https://docs.textile.io/" rel="noreferrer" target="_blank">
+              docs →{" "}
+            </a>{" "}
+            and start building!
+          </div>
         </li>
       </UsefulLinks>
     </div>
