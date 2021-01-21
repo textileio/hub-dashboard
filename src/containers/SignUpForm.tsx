@@ -50,15 +50,13 @@ const SignUpForm = () => {
       />
       {loading ? (
         <div style={{ display: "flex" }}>
-          <div style={{ display: "flex" }}>
-            <Loader size={60} count={2} speed={2} />
-            <div>
-              <p className="announcement" style={{ marginLeft: "20px" }}>
-                Please check your email...
-                <br />
-                you should have a confirmation link
-              </p>
-            </div>
+          <Loader size={60} count={2} speed={2} />
+          <div>
+            <p className="announcement" style={{ marginLeft: "20px" }}>
+              Please check your email...
+              <br />
+              you should have a confirmation link
+            </p>
           </div>
         </div>
       ) : (
