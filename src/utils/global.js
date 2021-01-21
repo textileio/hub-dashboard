@@ -9,6 +9,10 @@ export const GlobalStyles = createGlobalStyle`${css`
     font-family: "Biotif Regular";
   }
 
+  div {
+    box-sizing: border-box;
+  }
+
   input:focus {
     font-family: "Biotif Regular";
     outline: none;
@@ -21,6 +25,9 @@ export const GlobalStyles = createGlobalStyle`${css`
   hr {
     border: 1px solid ${neutral200};
     margin: 40px 0 30px 0;
+  }
+  b {
+    font-family: "Biotif Bold";
   }
 
   h1 {

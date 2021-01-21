@@ -3,9 +3,7 @@ import styled from "styled-components";
 import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-import SignInForm from "../containers/SignInForm";
 import SignUpForm from "../containers/SignUpForm";
-import ResetPasswordForm from "../containers/ResetPasswordForm";
 import SuccessForm from "../containers/SuccessForm";
 import { ReactComponent as TextileLogo } from "../assets/textile-logo-h.svg";
 import { defaultTheme } from "../utils";
@@ -30,18 +28,7 @@ const panel = styled.div`
 `;
 
 const LeftPanel = styled(panel)`
-  /*
-  /* opacity: 0; */
-  animation: scroll 5s linear infinite;
-  background: repeating-linear-gradient(
-    45deg,
-    #f9f9f9,
-    #f9f9f9 5%,
-    #f6f6f6 5%,
-    #f6f6f6 10%
-  );
   background-size: 200px 200px;
-
   align-items: flex-end;
   background-color: ${neutral200};
   h3 {
@@ -53,14 +40,6 @@ const LeftPanel = styled(panel)`
   }
   p {
     margin: 0;
-  }
-  @keyframes scroll {
-    0% {
-      background-position: initial;
-    }
-    100% {
-      background-position: 100px 0px;
-    }
   }
 `;
 
@@ -89,7 +68,6 @@ const PrivateRoute = ({
 
 const AccessPage = () => {
   // Specify specific cookies here to limit re-rendering to when they update
-  const [cookies] = useCookies();
   return (
     <AccessPageContainer>
       <LeftPanel>
@@ -120,16 +98,8 @@ const AccessPage = () => {
       <RightPanel>
         <div className="content">
           <TextileLogo />
-          <br />
-          {cookies.sessionInfo
-            ? `Good news, here's your session: ${JSON.stringify(
-                cookies.sessionInfo
-              )}...`
-            : "Sorry, ya gotta signin/signup, no existing session info"}
           <Switch>
-            <Route path="/signin" component={SignInForm} />
             <Route path="/signup" component={SignUpForm} />
-            <Route path="/reset" component={ResetPasswordForm} />
             <PrivateRoute path="/" component={SuccessForm} />
           </Switch>
         </div>

@@ -1,15 +1,15 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 
 import FormInput from "../components/FormInput";
 import { PrimaryButton } from "../components/Buttons";
 import Context from "../store/Context";
+import Loader from "../components/Loader";
 
 const SignUpForm = () => {
   const [, actions] = useContext(Context);
-  // const [password, setPassword] = useState<string | undefined>();
   const [username, setUsername] = useState<string | undefined>();
+  const [loading, setLoading] = useState<boolean | false>();
   const [email, setEmail] = useState<string | undefined>();
   const history = useHistory();
 
@@ -17,6 +17,7 @@ const SignUpForm = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        setLoading(true);
         if (username && email)
           actions.signUp(username, email, () => history.push("/success"));
       }}
@@ -41,21 +42,18 @@ const SignUpForm = () => {
         value={username}
         onChange={({ target: { value } }) => value.length && setUsername(value)}
       />
-      {/* <FormInput
-        name="password"
-        type="password"
-        label="Password"
-        value={password}
-        onChange={({ target: { value } }) => value.length && setPassword(value)}
-      /> */}
-      {/* <FormInput name="password" type="password" label="Confirm Password" /> */}
-      <PrimaryButton type="submit">Create Account</PrimaryButton>
-      <hr />
-      <p>
-        {/* Session info: {state.user?.sessionInfo?.session.slice(0, 15)}... */}
-        <br />
-        Already have an account? <Link to="/signin">Sign In</Link>
-      </p>
+      {loading ? (
+        <div style={{ display: "flex" }}>
+          <Loader size={60} count={2} speed={2} />
+          <div>
+            <p className="announcement" style={{ marginLeft: "20px" }}>
+              Creating Account... Please Wait
+            </p>
+          </div>
+        </div>
+      ) : (
+        <PrimaryButton type="submit">Create Account</PrimaryButton>
+      )}
     </form>
   );
 };
