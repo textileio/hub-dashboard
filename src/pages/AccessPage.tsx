@@ -110,7 +110,7 @@ const AccessPage = () => {
           <TextileLogo />
           <Switch>
             <Route path="/signup" component={SignUpForm} />
-            <Route path="/success" component={SuccessForm} />
+            <PrivateRoute path="/" component={SuccessForm} />
           </Switch>
         </div>
       </RightPanel>
