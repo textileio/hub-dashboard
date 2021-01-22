@@ -18,17 +18,17 @@ const SignUpForm = () => {
       onSubmit={(e) => {
         e.preventDefault();
         if (username && email) {
-          // actions.clearError();
-          // actions.signUp(username, email, (_res, err) => {
-          //   if (err) {
-          //     if (err.message.includes("exists")) {
-          //       actions.clearError();
-          //     } else {
-          //       return;
-          //     }
-          //   }
-          history.push("/success");
-          // });
+          actions.clearError();
+          actions.signUp(username, email, (_res, err) => {
+            if (err) {
+              if (err.message.includes("exists")) {
+                actions.clearError();
+              } else {
+                return;
+              }
+            }
+            history.push("/success");
+          });
         }
       }}
     >
