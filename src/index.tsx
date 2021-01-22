@@ -6,7 +6,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { GlobalStyles } from "./utils/";
 import Provider from "./store/Provider";
 import { cookies } from "./store/Reducer";
@@ -15,10 +15,10 @@ ReactDOM.render(
   <StrictMode>
     <CookiesProvider cookies={cookies}>
       <Provider>
-        <BrowserRouter>
+        <HashRouter>
           <App />
           <GlobalStyles />
-        </BrowserRouter>
+        </HashRouter>
       </Provider>
     </CookiesProvider>
   </StrictMode>,

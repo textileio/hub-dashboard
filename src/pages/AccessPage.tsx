@@ -122,8 +122,8 @@ const AccessPage = () => {
           </p>
           <h3>The Best Community</h3>
           <p>
-            Join 1000s of developers build with Textile. We're here to help and
-            just a chat away on our{" "}
+            Join 1000s of developers building with Textile. We're here to help
+            and just a chat away on our{" "}
             <a
               href="https://slack.textile.io/"
               rel="noreferrer"
