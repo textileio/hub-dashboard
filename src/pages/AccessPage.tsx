@@ -6,9 +6,11 @@ import { useCookies } from "react-cookie";
 import SignUpForm from "../containers/SignUpForm";
 import SuccessForm from "../containers/SuccessForm";
 import { ReactComponent as TextileLogo } from "../assets/textile-logo-h.svg";
-import { defaultTheme } from "../utils";
+import { defaultTheme, fadeIn } from "../utils";
 
-const { neutral100, neutral200, primary } = defaultTheme;
+import Loader from "../components/Loader";
+
+const { neutral100, primary } = defaultTheme;
 
 const AccessPageContainer = styled.div`
   display: flex;
@@ -31,6 +33,7 @@ const panel = styled.div`
   justify-content: center;
   .content {
     max-width: 380px;
+    animation: ${fadeIn} 0.5s;
   }
 `;
 
@@ -40,7 +43,7 @@ const LeftPanel = styled(panel)`
   }
   background-size: 200px 200px;
   align-items: flex-end;
-  background-color: ${neutral200};
+  background-color: #f6f6f6d1;
   h3 {
     margin: 40px 0 20px 0;
     &::before {
@@ -55,6 +58,16 @@ const LeftPanel = styled(panel)`
 
 const RightPanel = styled(panel)`
   background-color: ${neutral100};
+`;
+
+const BackgroundContainer = styled.div`
+  z-index: -1;
+  position: fixed;
+  transform: rotate(180deg);
+  /* filter: blur(10px); */
+
+  opacity: 0.5;
+  right: 50%;
 `;
 
 const PrivateRoute = ({
@@ -77,20 +90,28 @@ const PrivateRoute = ({
 };
 
 const AccessPage = () => {
-  // Specify specific cookies here to limit re-rendering to when they update
   return (
     <AccessPageContainer>
       <LeftPanel>
+        <BackgroundContainer>
+          <Loader size={2500} count={16} speed={6} />
+        </BackgroundContainer>
         <div className="content">
           <h2>Tools for developers</h2>
           <p className="announcement">
             Interoperable, open-source, and easy to use tools to build
             unstoppable apps and safe-guard the world's data.
           </p>
-          <hr />
           <h3>Hosted Infrastructure</h3>
           <p>
-            User our kick ass infrastructure that includes IPFS and Filecoin
+            User our kick ass infrastructure that includes{" "}
+            <a href="https://ipfs.io/" rel="noreferrer" target="_blank">
+              IPFS{" "}
+            </a>
+            and{" "}
+            <a href="https://filecoin.io/" rel="noreferrer" target="_blank">
+              Filecoin
+            </a>{" "}
             network management, scaling, and more.
           </p>
           <h3>Flexible Tooling</h3>
@@ -119,7 +140,6 @@ const AccessPage = () => {
           <TextileLogo />
           <Switch>
             <Route path="/signup" component={SignUpForm} />
-            <Route path="/success" component={SuccessForm} />
             <PrivateRoute path="/" component={SuccessForm} />
           </Switch>
         </div>

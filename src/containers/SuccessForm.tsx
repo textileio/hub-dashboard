@@ -17,6 +17,7 @@ const Step = styled.span`
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  min-width: 35px;
   width: 35px;
   height: 35px;
   border-radius: 50%;

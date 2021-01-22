@@ -1,13 +1,18 @@
 import React, { FC, InputHTMLAttributes, useState } from "react";
 import styled from "styled-components";
 
-import { defaultTheme } from "../utils";
+import { defaultTheme, typescale } from "../utils";
 
+const { big } = typescale.desktop;
 const { neutral800 } = defaultTheme;
 
 const FormInputGoup = styled.div`
   position: relative;
   width: 100%;
+  input {
+    font-size: ${big};
+    padding: 6px;
+  }
   .form-input {
     width: 100%;
     border: none;
@@ -15,6 +20,7 @@ const FormInputGoup = styled.div`
     border-bottom: 1px solid;
     margin: 20px 0;
     background-color: transparent;
+
     &:focus ~ .form-input-label {
       top: -10px;
       font-size: 12px;

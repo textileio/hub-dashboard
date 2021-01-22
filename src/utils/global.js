@@ -2,11 +2,15 @@ import { createGlobalStyle, css } from "styled-components";
 import { typescale, defaultTheme } from "../utils";
 
 const { heading1, heading2, heading3, announcement } = typescale.desktop;
-const { neutral200, neutral800, primary } = defaultTheme;
+const { neutral200, neutral800, primary, accentC } = defaultTheme;
 
 export const GlobalStyles = createGlobalStyle`${css`
   body {
     font-family: "Biotif Regular";
+  }
+
+  ::selection {
+    background: ${accentC};
   }
 
   div {
@@ -17,6 +21,13 @@ export const GlobalStyles = createGlobalStyle`${css`
     font-family: "Biotif Regular";
     outline: none;
   }
+  input:required {
+    box-shadow: none;
+  }
+  input:invalid {
+    box-shadow: none;
+  }
+
   a {
     color: ${primary};
     text-decoration: none;

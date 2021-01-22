@@ -34,7 +34,8 @@ const SignUpForm = () => {
     >
       <h1>Create your Account</h1>
       <p className="announcement">
-        Start building with the IPFS and Filecoin networks in seconds.
+        Create encrypted, resilient, and cross-application data storage in
+        seconds.
       </p>
       {state.error && (
         <MessageBox type="error" message={state.error} title="Error" />
