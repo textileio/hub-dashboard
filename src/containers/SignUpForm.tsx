@@ -27,7 +27,7 @@ const SignUpForm = () => {
                 return;
               }
             }
-            history.push("/success");
+            history.push("../success");
           });
         }
       }}
