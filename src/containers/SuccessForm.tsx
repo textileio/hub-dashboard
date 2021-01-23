@@ -62,7 +62,7 @@ const SuccessForm = () => {
         <li>
           <Step>2</Step>
           <div>
-            use <Command>hub init</Command> to get started.
+            use <Command>hub login</Command> to get started.
           </div>
         </li>
         <li>
