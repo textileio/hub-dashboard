@@ -118,7 +118,8 @@ const AccessPage = () => {
           <h3>Flexible Tooling</h3>
           <p>
             Build with the IPFS gateway, IPNS publishing, object storage in
-            Buckets, and dynamic databases over Threads.
+            Buckets, offline messaging with Mailboxes, and dynamic databases
+            over Threads.
           </p>
           <h3>The Best Community</h3>
           <p>
