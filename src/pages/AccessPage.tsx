@@ -1,7 +1,8 @@
-import { FunctionComponent } from "react";
+// import { FunctionComponent } from "react";
 import styled from "styled-components";
-import { Switch, Route, Redirect, RouteProps } from "react-router-dom";
-import { useCookies } from "react-cookie";
+// import { RouteProps } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+// import { useCookies } from "react-cookie";
 
 import SignUpForm from "../containers/SignUpForm";
 import SuccessForm from "../containers/SuccessForm";
@@ -70,24 +71,24 @@ const BackgroundContainer = styled.div`
   right: 50%;
 `;
 
-const PrivateRoute = ({
-  component: Component,
-}: RouteProps & {
-  component: FunctionComponent;
-}) => {
-  const [cookies] = useCookies();
-  return (
-    <Route
-      render={(props) =>
-        cookies.sessionInfo ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={{ pathname: "/signup" }} />
-        )
-      }
-    />
-  );
-};
+// const PrivateRoute = ({
+//   component: Component,
+// }: RouteProps & {
+//   component: FunctionComponent;
+// }) => {
+//   const [cookies] = useCookies();
+//   return (
+//     <Route
+//       render={(props) =>
+//         cookies.sessionInfo ? (
+//           <Component {...props} />
+//         ) : (
+//           <Redirect to={{ pathname: "./" }} />
+//         )
+//       }
+//     />
+//   );
+// };
 
 const AccessPage = () => {
   return (
@@ -104,7 +105,7 @@ const AccessPage = () => {
           </p>
           <h3>Hosted Infrastructure</h3>
           <p>
-            User our kick ass infrastructure that includes{" "}
+            Use our kick ass infrastructure that includes{" "}
             <a href="https://ipfs.io/" rel="noreferrer" target="_blank">
               IPFS{" "}
             </a>
@@ -121,8 +122,8 @@ const AccessPage = () => {
           </p>
           <h3>The Best Community</h3>
           <p>
-            1000s of developers build with Textile. We're here to help and just
-            a chat away on our{" "}
+            Join 1000s of developers building with Textile. We're here to help
+            and just a chat away on our{" "}
             <a
               href="https://slack.textile.io/"
               rel="noreferrer"
@@ -139,8 +140,10 @@ const AccessPage = () => {
         <div className="content">
           <TextileLogo />
           <Switch>
-            <Route path="/signup" component={SignUpForm} />
-            <PrivateRoute path="/" component={SuccessForm} />
+            <Route path="/success" component={SuccessForm} />
+            <Route exact path="/" component={SignUpForm} />
+            <Redirect from="*" to="/" />
+            {/* <PrivateRoute path="." component={SignUpForm} /> */}
           </Switch>
         </div>
       </RightPanel>
