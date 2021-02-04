@@ -36,11 +36,58 @@ export interface State {
   // Top-level state items, keep these to a minimum
   loading: boolean;
   error?: string;
+  // fake data+
+  fakeOrganizations: any[];
+  fakeKeys: any[];
 }
 
 // Initial state reflects an un-authorized, empty user/hub state.
 export const initialState: State = {
-  user: { authorized: false },
+  user: { authorized: true },
   hub: { count: 0 },
   loading: false,
+
+  // ! fake Organizations
+  fakeOrganizations: [
+    {
+      name: "FakeOrg1",
+      url: "fakeurl.fakeorg.ok",
+      publicKey: "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasd",
+      members: 8,
+    },
+    {
+      name: "AnotherOrg",
+      url: "fakeurl.otherorg.ok",
+      publicKey: "tryiytriuortyiouyouitruriotyuiyrtyrtioytiruo",
+      members: 2,
+    },
+  ],
+
+  // ! fake Keys
+  fakeKeys: [
+    {
+      publicKey: "hjkadshjdsahjkadshjkdashjkdasjhkdsakhjdas",
+      secretKey: "ajskdjkhdashjkdsahjadshjkdashkjdsahjkadshkjdaskhjdaskjhads",
+      type: "account",
+      secure: false,
+      valid: true,
+      threads: 5,
+    },
+    {
+      publicKey: "yuewqiuyieqwuiyqewyuieqwuiyqweuyieqwuyiqew",
+      secretKey: "xczjkcxkjjxkczljkxcjkxcjkcxjkxcjkxcjxkcjkxcjkxcjkxcjckxkjxc",
+      type: "usergroup",
+      secure: true,
+      valid: false,
+      threads: 5,
+    },
+    {
+      publicKey: "sadasdasdasdasdasdasdasdasdasdasd",
+      secretKey: "hjgkhjgjhhjkhjkjhgkjhghgjjhgkgjhkgjhjhgkhjgkjhgk",
+      type: "account",
+      secure: true,
+      valid: false,
+      threads: 5,
+    },
+  ],
 };
