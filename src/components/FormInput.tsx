@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { defaultTheme, typescale } from "../utils";
 
 const { big } = typescale.desktop;
-const { neutral800 } = defaultTheme;
+const { neutral800, neutral1000 } = defaultTheme;
 
 const FormInputGoup = styled.div`
   position: relative;
@@ -12,12 +12,13 @@ const FormInputGoup = styled.div`
   input {
     font-size: ${big};
     padding: 6px;
+    color: ${neutral1000};
   }
   .form-input {
     width: 100%;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid ${neutral1000};
     margin: 20px 0;
     background-color: transparent;
 

@@ -4,12 +4,12 @@ import styled from "styled-components";
 import { Switch, Route, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 
-import SignUpForm from "../containers/SignUpForm";
-import SuccessForm from "../containers/SuccessForm";
-import { ReactComponent as TextileLogo } from "../assets/textile-logo-h.svg";
-import { defaultTheme, fadeIn } from "../utils";
+import SignUpForm from "./SignUpForm";
+import SuccessForm from "./SuccessForm";
+import { ReactComponent as TextileLogo } from "../../assets/textile-logo-h.svg";
+import { defaultTheme, fadeIn, hexOpacity } from "../../utils";
 
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 
 const { neutral100, primary } = defaultTheme;
 
@@ -44,7 +44,7 @@ const LeftPanel = styled(panel)`
   }
   background-size: 200px 200px;
   align-items: flex-end;
-  background-color: #f6f6f6d1;
+  background-color: ${neutral100 + hexOpacity[7]};
   h3 {
     margin: 40px 0 20px 0;
     &::before {
@@ -65,9 +65,6 @@ const BackgroundContainer = styled.div`
   z-index: -1;
   position: fixed;
   transform: rotate(180deg);
-  /* filter: blur(10px); */
-
-  opacity: 0.5;
   right: 50%;
 `;
 

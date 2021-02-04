@@ -2,7 +2,6 @@ import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { CookiesProvider } from "react-cookie";
 
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";

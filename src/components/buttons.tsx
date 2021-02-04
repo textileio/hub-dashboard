@@ -1,19 +1,20 @@
 import styled from "styled-components";
-import { typescale, defaultTheme, primaryFontMedium } from "../utils";
+import { typescale, defaultTheme, primaryFontMedium, space } from "../utils";
 
-const { big, announcement } = typescale.desktop;
+const { big, small, announcement } = typescale.desktop;
 const {
   primary,
   neutral100,
   neutral300,
+  neutral800,
   neutral1000,
   primaryDark100,
 } = defaultTheme;
 
 export const Button = styled.button`
   padding: 8px 12px;
+  color: white;
   background-color: ${primary};
-  color: ${neutral100};
   border-radius: 8px;
   border-style: none;
   cursor: pointer;
@@ -26,8 +27,18 @@ export const Button = styled.button`
   }
 `;
 
+export const TertiarySmallButton = styled(Button)`
+  color: ${neutral800};
+  background-color: ${neutral100};
+  border: 1px solid ${neutral800};
+  padding: ${space[1]};
+  font-size: ${small};
+  &:hover {
+    background-color: ${neutral300};
+  }
+`;
+
 export const PrimaryButton = styled(Button)`
-  width: 100%;
   margin-top: 20px;
   padding: 12px 18px;
   font-size: ${announcement};
@@ -45,6 +56,6 @@ export const ContextOrgButton = styled(PrimaryButton)`
   &:hover {
     color: ${primary};
     background-color: ${neutral100};
-    border: 1px solid ${neutral300};
+    /* border: 1px solid ${neutral300}; */
   }
 `;

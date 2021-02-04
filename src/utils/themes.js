@@ -24,3 +24,28 @@ export const defaultTheme = {
   errorDefault: error.default,
   errorDark: error.dark,
 };
+
+// export const defaultTheme = {
+//   primary: primary.default,
+//   primaryLight100: primary.light[100],
+//   primaryLight200: primary.light[200],
+//   primaryLight300: primary.light[300],
+//   primaryDark100: primary.dark[100],
+//   primaryDark200: primary.dark[200],
+//   neutral100: neutral[1000],
+//   neutral200: neutral[900],
+//   neutral300: neutral[800],
+//   neutral400: neutral[700],
+//   neutral500: neutral[600],
+//   neutral600: neutral[500],
+//   neutral700: neutral[400],
+//   neutral800: neutral[300],
+//   neutral900: neutral[200],
+//   neutral1000: neutral[100],
+//   accentA: accent.a,
+//   accentB: accent.b,
+//   accentC: accent.c,
+//   errorLight: error.light,
+//   errorDefault: error.default,
+//   errorDark: error.dark,
+// };

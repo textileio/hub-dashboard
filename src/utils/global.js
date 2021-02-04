@@ -1,31 +1,58 @@
 import { createGlobalStyle, css } from "styled-components";
-import { typescale, defaultTheme } from "../utils";
+import { typescale, fontFaces, defaultTheme } from "../utils";
 
-const { heading1, heading2, heading3, announcement } = typescale.desktop;
-const { neutral200, neutral800, primary, accentC } = defaultTheme;
+const { announcement } = typescale.desktop;
+const {
+  neutral100,
+  neutral200,
+  neutral800,
+  neutral1000,
+  primary,
+  accentC,
+} = defaultTheme;
 
-export const GlobalStyles = createGlobalStyle`${css`
-  body {
-    font-family: "Biotif Regular";
-  }
-
-  ::selection {
-    background: ${accentC};
-  }
-
-  div {
+const baseStyles = css`
+  html {
+    font-size: 16px;
     box-sizing: border-box;
   }
 
-  input:focus {
-    font-family: "Biotif Regular";
-    outline: none;
+  body {
+    margin: 0;
+    background-color: ${neutral100};
   }
-  input:required {
-    box-shadow: none;
+
+  hr {
+    border: 1px solid ${neutral200};
+    margin: 40px 0 30px 0;
   }
-  input:invalid {
-    box-shadow: none;
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+
+  /* ::selection {
+    background: ${accentC};
+  } */
+
+  ul {
+    padding-left: 0;
+    li {
+      list-style: none;
+    }
+  }
+
+  input {
+    &:focus {
+      outline: none;
+    }
+    &:required {
+      box-shadow: none;
+    }
+    &:invalid {
+      box-shadow: none;
+    }
   }
 
   a {
@@ -33,26 +60,6 @@ export const GlobalStyles = createGlobalStyle`${css`
     text-decoration: none;
   }
 
-  hr {
-    border: 1px solid ${neutral200};
-    margin: 40px 0 30px 0;
-  }
-  b {
-    font-family: "Biotif Bold";
-  }
-
-  h1 {
-    font-size: ${heading1};
-    font-family: "Biotif Bold";
-  }
-  h2 {
-    font-size: ${heading2};
-    font-family: "Biotif Bold";
-  }
-  h3 {
-    font-size: ${heading3};
-    font-family: "Biotif Bold";
-  }
   .announcement {
     font-size: ${announcement};
     color: ${neutral800};
@@ -60,4 +67,57 @@ export const GlobalStyles = createGlobalStyle`${css`
   .text-align-right {
     text-align: right;
   }
+`;
+
+// DEFAULT TYPOGRAPHY STYLES
+export const fontDefaults = css`
+  html,
+  body,
+  buttons,
+  input,
+  textarea,
+  etc {
+    color: ${neutral1000};
+    font-family: "Biotif Regular", "Segoe UI", "Roboto";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  b {
+    font-family: "Biotif Bold";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Biotif Bold";
+    color: ${neutral1000};
+  }
+  h1 {
+    font-size: ${typescale.desktop.heading1};
+  }
+  h2 {
+    font-size: ${typescale.desktop.heading2};
+  }
+  h3 {
+    font-size: ${typescale.desktop.heading3};
+  }
+  h4 {
+    font-size: ${typescale.desktop.heading4};
+  }
+  h5 {
+    font-size: ${typescale.desktop.heading5};
+  }
+  input:focus {
+    font-family: "Biotif Regular";
+    outline: none;
+  }
+`;
+
+export const GlobalStyles = createGlobalStyle`${css`
+  /* GENERAL IMPORTS */
+  ${baseStyles}
+  ${fontFaces}
+  ${fontDefaults}
 `}`;

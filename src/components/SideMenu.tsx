@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
-import { ReactComponent as ArrowDown } from "../assets/icons/arrow-down-icon.svg";
 import { defaultTheme, primaryFontBold, typescale } from "../utils";
-import { ContextOrgButton } from "./Buttons";
 
-const { neutral400, primary } = defaultTheme;
+const { neutral100, neutral300, neutral400, primary } = defaultTheme;
 const { big } = typescale.desktop;
 
 const SideMenuContainer = styled.div`
@@ -14,7 +14,8 @@ const SideMenuContainer = styled.div`
   flex-direction: column;
   width: 20%;
   min-width: 210px;
-  border-right: 2px solid ${neutral400};
+  border-right: 2px solid ${neutral300};
+  background-color: ${neutral100};
   align-items: center;
   .sidemenu-textile-logo {
     margin: 40px 0;
@@ -53,17 +54,16 @@ const SideMenu = () => {
   return (
     <SideMenuContainer>
       <TextileLogo />
-      <ContextOrgButton>
-        Organization
-        <ArrowDown />
-      </ContextOrgButton>
+      <OrganizationSwitch />
       <SideMenuNav>
         <li>Overview</li>
         <li>Buckets</li>
         <li>Threads</li>
         <li>Billing</li>
         <li>Powergate</li>
-        <li>API Keys</li>
+        <li>
+          <Link to="/keys">API Keys</Link>
+        </li>
       </SideMenuNav>
     </SideMenuContainer>
   );

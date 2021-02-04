@@ -1,6 +1,12 @@
 import Header from "./Header";
 import SideMenu from "./SideMenu";
 import styled from "styled-components";
+import OrganizationsPanel from "../pages/Organizations/OrganizationsPanel";
+import EditOrganization from "../pages/Organizations/EditOrganization";
+import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import { Switch, Route } from "react-router-dom";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -8,7 +14,10 @@ const LayoutContainer = styled.div`
 const ActiveSection = styled.div`
   display: flex;
   width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
   height: 100%;
+  box-sizing: border-box;
 `;
 
 const Content = styled.div`
@@ -20,11 +29,19 @@ const Content = styled.div`
 const Layout = () => {
   return (
     <LayoutContainer>
-      <SideMenu />
-      <Content>
-        <Header />
-        <ActiveSection />
-      </Content>
+      <Router>
+        <SideMenu />
+        <Content>
+          <Header />
+          <ActiveSection>
+            <Switch>
+              <Route path="/organizations" component={OrganizationsPanel} />
+              <Route path="/keys" component={ApiKeysPanel} />
+              <Route path="/edit" component={EditOrganization} />
+            </Switch>
+          </ActiveSection>
+        </Content>
+      </Router>
     </LayoutContainer>
   );
 };

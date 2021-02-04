@@ -1,19 +1,19 @@
 import styled from "styled-components";
+
 import { typescale, primaryFontBold, defaultTheme } from "../utils";
-import { ReactComponent as SettingsIcon } from "../assets/icons/settings-icon.svg";
 import { ReactComponent as NotificationsIcon } from "../assets/icons/notifications-icon.svg";
 
 const { heading4, medium } = typescale.desktop;
-const { primary, neutral400 } = defaultTheme;
+const { primary, neutral300, neutral400, neutral100 } = defaultTheme;
 
 const HeaderContainer = styled.div`
   font-size: ${medium};
   display: flex;
-  width: 100%;
-  border-bottom: 2px solid ${neutral400};
+  border-bottom: 2px solid ${neutral300};
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
+  background-color: ${neutral100};
 `;
 
 const HeaderTitle = styled.span`
@@ -65,16 +65,15 @@ const Header = () => {
   return (
     <HeaderContainer>
       <div>
-        <HeaderTitle>Overview</HeaderTitle>
+        <HeaderTitle>activeSection</HeaderTitle>
       </div>
       <HeaderMenu>
         <ul>
           <li>Support</li>
-          <li>Browse Docs</li>
+          <li>Documentation</li>
         </ul>
         <UserTag>
           <NotificationsIcon />
-          <SettingsIcon />
           <div>
             <p>Alejandro Brunella</p>
             <p>Administrator</p>

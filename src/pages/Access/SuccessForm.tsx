@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { defaultTheme } from "../utils";
+import { defaultTheme } from "../../utils";
 
 const { accentA, neutral1000, primary } = defaultTheme;
 

@@ -1,11 +1,16 @@
 import styled from "styled-components";
 import { defaultTheme } from "../utils/index";
 
-const { neutral200, neutral400, neutral500 } = defaultTheme;
+const {
+  neutral100,
+  neutral200,
+  neutral300,
+  neutral400,
+  neutral500,
+} = defaultTheme;
 
 const PreloaderScreenContainer = styled.div`
   animation: appear 0s linear;
-  background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,35 +55,30 @@ const LogoBox = styled.div<LoaderProps>`
     transform: rotate(90deg);
   }
   @keyframes border-animation {
-    0% {
-      border-top-color: rgba(0, 0, 0, 0.4);
-      border-right-color: rgba(0, 0, 0, 0.1);
-      border-bottom-color: rgba(0, 0, 0, 0.2);
-      border-left-color: rgba(0, 0, 0, 0.3);
+    0%,
+    100% {
+      border-top-color: ${neutral400};
+      border-right-color: ${neutral100};
+      border-bottom-color: ${neutral200};
+      border-left-color: ${neutral300};
     }
     25% {
-      border-top-color: rgba(0, 0, 0, 0.3);
-      border-right-color: rgba(0, 0, 0, 0.4);
-      border-bottom-color: rgba(0, 0, 0, 0.1);
-      border-left-color: rgba(0, 0, 0, 0.2);
+      border-top-color: ${neutral300};
+      border-right-color: ${neutral400};
+      border-bottom-color: ${neutral100};
+      border-left-color: ${neutral200};
     }
     50% {
-      border-top-color: rgba(0, 0, 0, 0.2);
-      border-right-color: rgba(0, 0, 0, 0.3);
-      border-bottom-color: rgba(0, 0, 0, 0.4);
-      border-left-color: rgba(0, 0, 0, 0.1);
+      border-top-color: ${neutral200};
+      border-right-color: ${neutral300};
+      border-bottom-color: ${neutral400};
+      border-left-color: ${neutral100};
     }
     75% {
-      border-top-color: rgba(0, 0, 0, 0.1);
-      border-right-color: rgba(0, 0, 0, 0.2);
-      border-bottom-color: rgba(0, 0, 0, 0.3);
-      border-left-color: rgba(0, 0, 0, 0.4);
-    }
-    100% {
-      border-top-color: rgba(0, 0, 0, 0.4);
-      border-right-color: rgba(0, 0, 0, 0.1);
-      border-bottom-color: rgba(0, 0, 0, 0.2);
-      border-left-color: rgba(0, 0, 0, 0.3);
+      border-top-color: ${neutral100};
+      border-right-color: ${neutral200};
+      border-bottom-color: ${neutral300};
+      border-left-color: ${neutral400};
     }
   }
 `;

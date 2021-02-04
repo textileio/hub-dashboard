@@ -1,11 +1,11 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router";
 
-import FormInput from "../components/FormInput";
-import { PrimaryButton } from "../components/Buttons";
-import Context from "../store/Context";
-import Loader from "../components/Loader";
-import MessageBox from "../components/MessageBox";
+import FormInput from "../../components/FormInput";
+import { PrimaryButton } from "../../components/Buttons";
+import Context from "../../store/Context";
+import Loader from "../../components/Loader";
+import MessageBox from "../../components/MessageBox";
 
 const SignUpForm = () => {
   const [state, actions] = useContext(Context);
