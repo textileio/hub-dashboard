@@ -57,10 +57,10 @@ const SideMenu = () => {
       <OrganizationSwitch />
       <SideMenuNav>
         <li>Overview</li>
-        <li>Buckets</li>
+        {/* <li>Buckets</li>
         <li>Threads</li>
         <li>Billing</li>
-        <li>Powergate</li>
+        <li>Powergate</li> */}
         <li>
           <Link to="/keys">API Keys</Link>
         </li>

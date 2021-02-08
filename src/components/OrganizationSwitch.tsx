@@ -2,7 +2,10 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../store/Context";
+
 import { ReactComponent as ArrowDown } from "../assets/icons/arrow-down-icon.svg";
+import { ReactComponent as SettingsIcon } from "../assets/icons/settings-icon.svg";
+
 import {
   defaultTheme,
   primaryFontBold,
@@ -45,6 +48,7 @@ const OrganizationList = styled.div`
     &::before {
       content: "✓  ";
       color: ${primary};
+      margin-right: ${space[1]};
     }
   }
   a {
@@ -64,11 +68,20 @@ const OrganizationList = styled.div`
     margin: 0;
     li {
       padding: ${space[2] + " " + space[3]};
+      display: flex;
+      height: 52px;
+      box-sizing: border-box;
+      align-items: center;
       &:hover:not(.selected-organization) {
         cursor: pointer;
         transition: background-color 0.3s;
         background-color: ${primaryLight100};
         color: white;
+      }
+      a {
+        margin: 0;
+        display: inline-block;
+        margin-left: auto;
       }
     }
   }
@@ -92,17 +105,17 @@ const OrganizationSwitch = () => {
         <OrganizationList>
           <span>Select Organization</span>
           <ul>
-            <li>username</li>
+            <li className="selected-organization">username</li>
             {state.fakeOrganizations.map((organization) => (
-              <li
-                key={organization.publicKey}
-                className="selected-organization"
-              >
+              <li key={organization.publicKey}>
                 {organization.name}
+                <Link to="/editorganization">
+                  <SettingsIcon />
+                </Link>
               </li>
             ))}
           </ul>
-          <Link to="/organizations">Manage Organizations</Link>
+          <Link to="/editorganization">Add Organization +</Link>
         </OrganizationList>
       ) : null}
     </OrganizationSwitchContainer>
