@@ -20,10 +20,11 @@ const KeyTable = styled.table`
 `;
 
 interface KeyListProps {
+  typeFilter: "usergroup" | "account";
   keys: any[];
 }
 
-const KeyList = ({ keys }: KeyListProps) => {
+const KeyList = ({ keys, typeFilter }: KeyListProps) => {
   return (
     <KeyTable>
       <thead>
@@ -38,9 +39,11 @@ const KeyList = ({ keys }: KeyListProps) => {
         </tr>
       </thead>
       <tbody>
-        {keys.map(({ ...props }) => (
-          <KeyItem {...props} key={props.publicKey} />
-        ))}
+        {keys
+          .filter((element) => element.type === typeFilter)
+          .map(({ ...props }) => (
+            <KeyItem {...props} key={props.publicKey} />
+          ))}
       </tbody>
     </KeyTable>
   );

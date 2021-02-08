@@ -69,8 +69,25 @@ const Header = () => {
       </div>
       <HeaderMenu>
         <ul>
-          <li>Support</li>
-          <li>Documentation</li>
+          <li>
+            <a href="https://blog.textile.io/" target="_blank" rel="noreferrer">
+              Blog
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://slack.textile.io/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Support
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.textile.io/" target="_blank" rel="noreferrer">
+              Documentation
+            </a>
+          </li>
         </ul>
         <UserTag>
           <NotificationsIcon />
