@@ -2,10 +2,12 @@ import { css } from "styled-components";
 import BiotifRegular from "../assets/fonts/biotif-regular.otf";
 import BiotifMedium from "../assets/fonts/biotif-medium.otf";
 import BiotifBold from "../assets/fonts/biotif-bold.otf";
+import BiotifLight from "../assets/fonts/biotif-light.otf";
 
 export const primaryFont = "Biotif Regular";
 export const primaryFontBold = "Biotif Bold";
 export const primaryFontMedium = "Biotif Medium";
+export const primaryFontLight = "Biotif Light";
 
 // FONT SIZE TYPESCALE
 export const typescale = {
@@ -37,5 +39,9 @@ export const fontFaces = css`
   @font-face {
     font-family: "Biotif Medium";
     src: local("Biotif Medium"), url(${BiotifMedium}) format("truetype");
+  }
+  @font-face {
+    font-family: "Biotif Light";
+    src: local("Biotif Light"), url(${BiotifLight}) format("truetype");
   }
 `;

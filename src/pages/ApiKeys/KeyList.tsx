@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { defaultTheme, space } from "../../utils/";
+import { space, typescale } from "../../utils/";
 import KeyItem from "./KeyItem";
 
 const KeyTable = styled.table`
@@ -8,14 +8,21 @@ const KeyTable = styled.table`
   width: 100%;
   word-wrap: break-word;
   border-collapse: collapse;
-
+  thead {
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.neutral700};
+    font-size: ${typescale.desktop.small};
+  }
   tr {
-    border-bottom: 1px solid ${defaultTheme.neutral400};
+    border-bottom: 1px solid ${({ theme }) => theme.neutral400};
   }
   td,
   th {
     max-width: 200px;
     padding: ${space[2]};
+    &:last-child {
+      text-align: right;
+    }
   }
 `;
 
@@ -31,7 +38,6 @@ const KeyList = ({ keys, typeFilter }: KeyListProps) => {
         <tr>
           <th>publicKey</th>
           <th>secret</th>
-          <th>type</th>
           <th>secure</th>
           <th>valid</th>
           <th>threads</th>

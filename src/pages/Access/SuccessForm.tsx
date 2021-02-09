@@ -1,19 +1,16 @@
 import styled from "styled-components";
-import { defaultTheme } from "../../utils";
-
-const { accentA, neutral1000, primary } = defaultTheme;
 
 const Command = styled.span`
-  background-color: ${accentA};
+  background-color: ${({ theme }) => theme.accentA};
   padding: 4px 10px;
-  color: ${neutral1000};
+  color: ${({ theme }) => theme.neutral1000};
   border-radius: 4px;
 `;
 
 const Step = styled.span`
   margin-right: 10px;
-  color: ${primary};
-  border: 1px solid ${primary};
+  color: ${({ theme }) => theme.primary};
+  border: 1px solid ${({ theme }) => theme.primary};
   display: inline-flex;
   justify-content: center;
   align-items: center;

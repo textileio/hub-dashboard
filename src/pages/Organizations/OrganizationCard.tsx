@@ -1,14 +1,12 @@
 import styled from "styled-components";
 import { PrimaryButton } from "../../components/Buttons";
-import { defaultTheme, space } from "../../utils";
-
-const { neutral400 } = defaultTheme;
+import { space } from "../../utils";
 
 const OrganizationCardContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid ${neutral400};
+  border: 1px solid ${({ theme }) => theme.neutral400};
   border-radius: 4px;
   padding: ${space[3]};
   margin-bottom: ${space[2]};

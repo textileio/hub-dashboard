@@ -49,3 +49,28 @@ export const darkTheme = {
   errorDefault: error.default,
   errorDark: error.dark,
 };
+
+export const blueTheme = {
+  primary: primary.light[100],
+  primaryLight100: primary.light[100],
+  primaryLight200: primary.light[200],
+  primaryLight300: primary.light[300],
+  primaryDark100: primary.dark[100],
+  primaryDark200: primary.dark[200],
+  neutral100: "#000313",
+  neutral200: "#1b203c",
+  neutral300: "#1b203c",
+  neutral400: "#1b203c",
+  neutral500: "#1b203c",
+  neutral600: "#1b203c",
+  neutral700: accent.b,
+  neutral800: "white",
+  neutral900: "#040717",
+  neutral1000: neutral[100],
+  accentA: accent.a,
+  accentB: accent.b,
+  accentC: accent.c,
+  errorLight: error.light,
+  errorDefault: error.default,
+  errorDark: error.dark,
+};

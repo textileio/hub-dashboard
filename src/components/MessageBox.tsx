@@ -1,16 +1,15 @@
 import styled from "styled-components";
-import { defaultTheme, typescale } from "../utils";
+import { typescale } from "../utils";
 
 const { small } = typescale.desktop;
-const { errorDefault, accentA } = defaultTheme;
 
 const MessageBoxContainer = styled.div`
-  color: ${errorDefault};
+  color: ${({ theme }) => theme.errorDefault};
   font-size: ${small};
   width: 100%;
   padding: 10px;
-  background-color: ${accentA};
-  border: 1px dashed ${errorDefault};
+  background-color: ${({ theme }) => theme.accentA};
+  border: 1px dashed ${({ theme }) => theme.errorDefault};
   border-radius: 4px;
   p {
     margin: 0;

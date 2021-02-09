@@ -6,7 +6,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import { HashRouter } from "react-router-dom";
-import { GlobalStyles } from "./utils/";
 import Provider from "./store/Provider";
 import { cookies } from "./store/Reducer";
 
@@ -16,7 +15,6 @@ ReactDOM.render(
       <Provider>
         <HashRouter>
           <App />
-          <GlobalStyles />
         </HashRouter>
       </Provider>
     </CookiesProvider>

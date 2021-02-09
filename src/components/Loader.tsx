@@ -1,13 +1,4 @@
 import styled from "styled-components";
-import { defaultTheme } from "../utils/index";
-
-const {
-  neutral100,
-  neutral200,
-  neutral300,
-  neutral400,
-  neutral500,
-} = defaultTheme;
 
 const PreloaderScreenContainer = styled.div`
   animation: appear 0s linear;
@@ -31,10 +22,10 @@ const PreloaderScreenContainer = styled.div`
 
 export const PreloaderLogo = styled.div<LoaderProps>`
   display: grid;
-  grid-template-columns: ${(props) => " 1fr ".repeat(props.count)};
-  grid-template-rows: ${(props) => " 1fr ".repeat(props.count)};
-  width: ${(props) => props.size + "px"};
-  height: ${(props) => props.size + "px"};
+  grid-template-columns: ${({ count }) => " 1fr ".repeat(count)};
+  grid-template-rows: ${({ count }) => " 1fr ".repeat(count)};
+  width: ${({ size }) => size + "px"};
+  height: ${({ size }) => size + "px"};
   overflow: hidden;
 `;
 
@@ -42,43 +33,43 @@ const LogoBox = styled.div<LoaderProps>`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  border-top: ${(props) =>
-    props.size / 1.95 / props.count + "px solid " + neutral400};
-  border-bottom: ${(props) =>
-    props.size / 1.95 / props.count + "px solid " + neutral500};
-  border-left: ${(props) =>
-    props.size / 1.95 / props.count + "px solid " + neutral200};
-  border-right: ${(props) =>
-    props.size / 1.95 / props.count + "px solid " + neutral400};
-  animation: border-animation ${(props) => props.speed}s infinite;
+  border-top: ${({ size, count, theme }) =>
+    size / 1.95 / count + "px solid " + theme.neutral400};
+  border-bottom: ${({ size, count, theme }) =>
+    size / 1.95 / count + "px solid " + theme.neutral500};
+  border-left: ${({ size, count, theme }) =>
+    size / 1.95 / count + "px solid " + theme.neutral200};
+  border-right: ${({ size, count, theme }) =>
+    size / 1.95 / count + "px solid " + theme.neutral400};
+  animation: border-animation ${({ speed }) => speed}s infinite;
   &:nth-child(odd) {
     transform: rotate(90deg);
   }
   @keyframes border-animation {
     0%,
     100% {
-      border-top-color: ${neutral400};
-      border-right-color: ${neutral100};
-      border-bottom-color: ${neutral200};
-      border-left-color: ${neutral300};
+      border-top-color: ${({ theme }) => theme.neutral400};
+      border-right-color: ${({ theme }) => theme.neutral100};
+      border-bottom-color: ${({ theme }) => theme.neutral200};
+      border-left-color: ${({ theme }) => theme.neutral300};
     }
     25% {
-      border-top-color: ${neutral300};
-      border-right-color: ${neutral400};
-      border-bottom-color: ${neutral100};
-      border-left-color: ${neutral200};
+      border-top-color: ${({ theme }) => theme.neutral300};
+      border-right-color: ${({ theme }) => theme.neutral400};
+      border-bottom-color: ${({ theme }) => theme.neutral100};
+      border-left-color: ${({ theme }) => theme.neutral200};
     }
     50% {
-      border-top-color: ${neutral200};
-      border-right-color: ${neutral300};
-      border-bottom-color: ${neutral400};
-      border-left-color: ${neutral100};
+      border-top-color: ${({ theme }) => theme.neutral200};
+      border-right-color: ${({ theme }) => theme.neutral300};
+      border-bottom-color: ${({ theme }) => theme.neutral400};
+      border-left-color: ${({ theme }) => theme.neutral100};
     }
     75% {
-      border-top-color: ${neutral100};
-      border-right-color: ${neutral200};
-      border-bottom-color: ${neutral300};
-      border-left-color: ${neutral400};
+      border-top-color: ${({ theme }) => theme.neutral100};
+      border-right-color: ${({ theme }) => theme.neutral200};
+      border-bottom-color: ${({ theme }) => theme.neutral300};
+      border-left-color: ${({ theme }) => theme.neutral400};
     }
   }
 `;

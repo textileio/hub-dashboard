@@ -5,13 +5,11 @@ import { Switch, Route, Redirect } from "react-router-dom";
 // import { useCookies } from "react-cookie";
 
 import SignUpForm from "./SignUpForm";
-import SuccessForm from "./SuccessForm";
 import { ReactComponent as TextileLogo } from "../../assets/textile-logo-h.svg";
-import { defaultTheme, fadeIn, hexOpacity } from "../../utils";
+import { fadeIn, hexOpacity } from "../../utils";
 
 import Loader from "../../components/Loader";
-
-const { neutral100, primary } = defaultTheme;
+import DashboardPage from "../DashboardPage";
 
 const AccessPageContainer = styled.div`
   display: flex;
@@ -44,12 +42,12 @@ const LeftPanel = styled(panel)`
   }
   background-size: 200px 200px;
   align-items: flex-end;
-  background-color: ${neutral100 + hexOpacity[7]};
+  background-color: ${({ theme }) => theme.neutral100 + hexOpacity[7]};
   h3 {
     margin: 40px 0 20px 0;
     &::before {
       content: "✓  ";
-      color: ${primary};
+      color: ${({ theme }) => theme.primary};
     }
   }
   p {
@@ -58,7 +56,7 @@ const LeftPanel = styled(panel)`
 `;
 
 const RightPanel = styled(panel)`
-  background-color: ${neutral100};
+  background-color: ${({ theme }) => theme.neutral100};
 `;
 
 const BackgroundContainer = styled.div`
@@ -138,7 +136,7 @@ const AccessPage = () => {
         <div className="content">
           <TextileLogo />
           <Switch>
-            <Route path="/success" component={SuccessForm} />
+            <Route path="/success" component={DashboardPage} />
             <Route exact path="/" component={SignUpForm} />
             <Redirect from="*" to="/" />
             {/* <PrivateRoute path="." component={SignUpForm} /> */}

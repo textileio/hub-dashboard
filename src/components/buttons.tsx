@@ -1,21 +1,13 @@
 import styled from "styled-components";
-import { typescale, defaultTheme, primaryFontMedium, space } from "../utils";
+import { typescale, primaryFontMedium, space } from "../utils";
 
 const { big, small, announcement } = typescale.desktop;
-const {
-  primary,
-  neutral100,
-  neutral300,
-  neutral800,
-  neutral1000,
-  primaryDark100,
-} = defaultTheme;
 
 export const Button = styled.button`
   padding: 8px 12px;
   color: white;
-  background-color: ${primary};
-  border-radius: 8px;
+  background-color: ${({ theme }) => theme.primary};
+  border-radius: 4px;
   border-style: none;
   cursor: pointer;
   font-size: ${big};
@@ -23,18 +15,18 @@ export const Button = styled.button`
   font-family: ${primaryFontMedium};
   transition: 0.3s all;
   &:hover {
-    background-color: ${primaryDark100};
+    background-color: ${({ theme }) => theme.primaryDark100};
   }
 `;
 
 export const TertiarySmallButton = styled(Button)`
-  color: ${neutral800};
-  background-color: ${neutral100};
-  border: 1px solid ${neutral800};
+  color: ${({ theme }) => theme.neutral800};
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 1px solid ${({ theme }) => theme.neutral800};
   padding: ${space[1]};
   font-size: ${small};
   &:hover {
-    background-color: ${neutral300};
+    background-color: ${({ theme }) => theme.neutral300};
   }
 `;
 
@@ -45,17 +37,46 @@ export const PrimaryButton = styled(Button)`
 `;
 
 export const ContextOrgButton = styled(PrimaryButton)`
-  color: ${neutral1000};
-  background-color: ${neutral100};
-  border: 1px solid ${neutral100};
+  color: ${({ theme }) => theme.neutral1000};
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 1px solid ${({ theme }) => theme.neutral100};
   svg {
     margin-left: 8px;
     width: 12px;
     height: 12px;
+    stroke: ${({ theme }) => theme.neutral1000};
   }
   &:hover {
-    color: ${primary};
-    background-color: ${neutral100};
-    /* border: 1px solid ${neutral300}; */
+    svg {
+      stroke: ${({ theme }) => theme.primary};
+    }
+    color: ${({ theme }) => theme.primary};
+    background-color: ${({ theme }) => theme.neutral100};
+    /* border: 1px solid ${({ theme }) => theme.neutral300}; */
+  }
+`;
+
+export const DocsButton = styled(Button)`
+  padding: 5px 6px;
+  font-family: ${primaryFontMedium};
+  background-color: ${({ theme }) => theme.neutral100};
+  color: ${({ theme }) => theme.primaryLight100};
+  border: 1px solid ${({ theme }) => theme.primaryLight100};
+  font-size: ${small};
+  display: flex;
+  align-items: center;
+  svg {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+    fill: ${({ theme }) => theme.primaryLight100};
+  }
+  &:hover {
+    background-color: ${({ theme }) => theme.neutral100};
+    border: 1px solid ${({ theme }) => theme.primaryDark100};
+    color: ${({ theme }) => theme.primaryDark100};
+    svg {
+      fill: ${({ theme }) => theme.primaryDark100};
+    }
   }
 `;

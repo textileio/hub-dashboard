@@ -1,7 +1,7 @@
 import Header from "./Header";
 import SideMenu from "./SideMenu";
 import styled from "styled-components";
-import OrganizationsPanel from "../pages/Organizations/OrganizationsPanel";
+import OverviewPage from "../pages/Overview/OverviewPage";
 import EditOrganization from "../pages/Organizations/EditOrganization";
 import EditApiKey from "../pages/ApiKeys/EditApiKey";
 import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
@@ -36,10 +36,23 @@ const Layout = () => {
           <Header />
           <ActiveSection>
             <Switch>
-              <Route path="/organizations" component={OrganizationsPanel} />
-              <Route path="/editorganization" component={EditOrganization} />
-              <Route path="/keys" component={ApiKeysPanel} />
-              <Route path="/editapikey" component={EditApiKey} />
+              <Route
+                exact
+                path="/:currentOrganization/"
+                component={OverviewPage}
+              />
+              <Route
+                path="/:currentOrganization/editorganization"
+                component={EditOrganization}
+              />
+              <Route
+                path="/:currentOrganization/keys"
+                component={ApiKeysPanel}
+              />
+              <Route
+                path="/:currentOrganization/editapikey"
+                component={EditApiKey}
+              />
             </Switch>
           </ActiveSection>
         </Content>

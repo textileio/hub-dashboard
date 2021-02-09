@@ -1,25 +1,25 @@
 import styled from "styled-components";
+import { typescale, primaryFontBold } from "../utils";
 
-import { typescale, primaryFontBold, defaultTheme } from "../utils";
-import { ReactComponent as NotificationsIcon } from "../assets/icons/notifications-icon.svg";
-
-const { heading4, medium } = typescale.desktop;
-const { primary, neutral300, neutral400, neutral100 } = defaultTheme;
+const {
+  // heading4,
+  medium,
+} = typescale.desktop;
 
 const HeaderContainer = styled.div`
   font-size: ${medium};
   display: flex;
-  border-bottom: 2px solid ${neutral300};
+  border-bottom: 1px solid ${({ theme }) => theme.neutral300};
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: ${neutral100};
+  background-color: ${({ theme }) => theme.neutral100};
 `;
 
-const HeaderTitle = styled.span`
-  font-family: ${primaryFontBold};
-  font-size: ${heading4};
-`;
+// const HeaderTitle = styled.span`
+//   font-family: ${primaryFontBold};
+//   font-size: ${heading4};
+// `;
 
 const HeaderMenu = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ const HeaderMenu = styled.div`
 `;
 
 const UserTag = styled.div`
-  border-left: 1px solid ${neutral400};
+  border-left: 1px solid ${({ theme }) => theme.neutral400};
   margin: 0 40px;
   align-items: center;
   padding-left: 20px;
@@ -56,7 +56,7 @@ const UserTag = styled.div`
 const UserPhoto = styled.div`
   margin-left: 10px;
   border-radius: 50%;
-  background-color: ${primary};
+  background-color: ${({ theme }) => theme.primary};
   width: 35px;
   height: 35px;
 `;
@@ -64,9 +64,7 @@ const UserPhoto = styled.div`
 const Header = () => {
   return (
     <HeaderContainer>
-      <div>
-        <HeaderTitle>activeSection</HeaderTitle>
-      </div>
+      <div>{/* <HeaderTitle>activeSection</HeaderTitle> */}</div>
       <HeaderMenu>
         <ul>
           <li>
@@ -90,10 +88,8 @@ const Header = () => {
           </li>
         </ul>
         <UserTag>
-          <NotificationsIcon />
           <div>
-            <p>Alejandro Brunella</p>
-            <p>Administrator</p>
+            <p>username</p>
           </div>
           <UserPhoto />
         </UserTag>

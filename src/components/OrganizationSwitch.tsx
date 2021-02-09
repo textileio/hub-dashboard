@@ -2,27 +2,13 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../store/Context";
-
+import { useLocation } from "react-router-dom";
 import { ReactComponent as ArrowDown } from "../assets/icons/arrow-down-icon.svg";
 import { ReactComponent as SettingsIcon } from "../assets/icons/settings-icon.svg";
 
-import {
-  defaultTheme,
-  primaryFontBold,
-  typescale,
-  borderRadius,
-  space,
-} from "../utils";
+import { primaryFontBold, typescale, borderRadius, space } from "../utils";
 import { ContextOrgButton } from "./Buttons";
 
-const {
-  neutral100,
-  neutral400,
-  neutral700,
-  neutral1000,
-  primary,
-  primaryLight100,
-} = defaultTheme;
 const { small } = typescale.desktop;
 
 const OrganizationSwitchContainer = styled.div`
@@ -39,31 +25,31 @@ const OrganizationList = styled.div`
   width: 100%;
   top: 70px;
   box-sizing: border-box;
-  background-color: ${neutral100};
-  border: 1px solid ${neutral400};
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 1px solid ${({ theme }) => theme.neutral400};
   border-radius: ${borderRadius.default};
   .selected-organization {
     font-family: ${primaryFontBold};
-    color: ${primary};
+    color: ${({ theme }) => theme.primary};
     &::before {
       content: "✓  ";
-      color: ${primary};
+      color: ${({ theme }) => theme.primary};
       margin-right: ${space[1]};
     }
   }
   a {
     display: block;
-    color: ${neutral1000};
+    color: ${({ theme }) => theme.neutral1000};
     margin: ${space[2]};
   }
   span {
     padding: ${space[2] + " " + space[3]};
-    color: ${neutral700};
+    color: ${({ theme }) => theme.neutral700};
     display: block;
     font-size: ${small};
   }
   ul {
-    border: solid ${neutral400};
+    border: solid ${({ theme }) => theme.neutral400};
     border-width: 1px 0;
     margin: 0;
     li {
@@ -75,8 +61,14 @@ const OrganizationList = styled.div`
       &:hover:not(.selected-organization) {
         cursor: pointer;
         transition: background-color 0.3s;
-        background-color: ${primaryLight100};
+        background-color: ${({ theme }) => theme.primaryLight100};
         color: white;
+        svg {
+          fill: ${({ theme }) => theme.neutral100};
+        }
+      }
+      svg {
+        fill: ${({ theme }) => theme.neutral1000};
       }
       a {
         margin: 0;
@@ -90,6 +82,7 @@ const OrganizationList = styled.div`
 const OrganizationSwitch = () => {
   const [state] = useContext(Context);
   const [OrgSwitchIsOpen, setOrgSwitchIsOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   return (
     <OrganizationSwitchContainer>
@@ -98,18 +91,27 @@ const OrganizationSwitch = () => {
           setOrgSwitchIsOpen(!OrgSwitchIsOpen);
         }}
       >
-        Organization
+        {}Organization
         <ArrowDown />
       </ContextOrgButton>
       {OrgSwitchIsOpen ? (
         <OrganizationList>
           <span>Select Organization</span>
           <ul>
-            <li className="selected-organization">username</li>
+            <li>
+              <Link to="/">username</Link>
+            </li>
             {state.fakeOrganizations.map((organization) => (
-              <li key={organization.publicKey}>
-                {organization.name}
-                <Link to="/editorganization">
+              <li
+                className={
+                  location.pathname === "/" + organization.name
+                    ? "selected-organization"
+                    : ""
+                }
+                key={organization.publicKey}
+              >
+                <Link to={"/" + organization.name}>{organization.name}</Link>
+                <Link to={"/" + organization.name + "/editorganization"}>
                   <SettingsIcon />
                 </Link>
               </li>

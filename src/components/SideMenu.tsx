@@ -2,9 +2,8 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
-import { defaultTheme, primaryFontBold, typescale } from "../utils";
+import { primaryFontBold, typescale } from "../utils";
 
-const { neutral100, neutral300, neutral400, primary } = defaultTheme;
 const { big } = typescale.desktop;
 
 const SideMenuContainer = styled.div`
@@ -14,8 +13,8 @@ const SideMenuContainer = styled.div`
   flex-direction: column;
   width: 20%;
   min-width: 210px;
-  border-right: 2px solid ${neutral300};
-  background-color: ${neutral100};
+  border-right: 1px solid ${({ theme }) => theme.neutral300};
+  background-color: ${({ theme }) => theme.neutral100};
   align-items: center;
   .sidemenu-textile-logo {
     margin: 40px 0;
@@ -31,7 +30,7 @@ const SideMenuNav = styled.ul`
   font-size: ${big};
   width: 100%;
   list-style-type: none;
-  border-top: 1px solid ${neutral400};
+  border-top: 1px solid ${({ theme }) => theme.neutral400};
   margin-top: 35px;
   padding-top: 35px;
   li {
@@ -41,7 +40,7 @@ const SideMenuNav = styled.ul`
     transition: all 0.3s linear;
     cursor: pointer;
     &:hover {
-      color: ${primary};
+      color: ${({ theme }) => theme.primary};
     }
     &::before {
       content: "◯";
@@ -53,14 +52,18 @@ const SideMenuNav = styled.ul`
 const SideMenu = () => {
   return (
     <SideMenuContainer>
-      <TextileLogo />
+      <Link to="/">
+        <TextileLogo />
+      </Link>
       <OrganizationSwitch />
       <SideMenuNav>
-        <li>Overview</li>
-        {/* <li>Buckets</li>
+        <li>
+          <Link to="/">Overview</Link>
+        </li>
+        <li>Buckets</li>
         <li>Threads</li>
         <li>Billing</li>
-        <li>Powergate</li> */}
+        <li>Powergate</li>
         <li>
           <Link to="/keys">API Keys</Link>
         </li>
