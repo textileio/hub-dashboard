@@ -21,21 +21,18 @@ const SignUpForm = () => {
           actions.clearError();
           actions.signUp(username, email, (_res, err) => {
             if (err) {
-              if (err.message.includes("exists")) {
-                actions.clearError();
-              } else {
-                return;
-              }
+              return;
             }
+            // Don't go to success if there was an error
             history.push("/success");
           });
         }
       }}
     >
-      <h1>Create your Account</h1>
+      <h1>Access your Account</h1>
       <p className="announcement">
-        Create encrypted, resilient, and cross-application data storage in
-        seconds.
+        Your gateway to encrypted, resilient, and cross-application data
+        storage.
       </p>
       {state.error && (
         <MessageBox type="error" message={state.error} title="Error" />
@@ -67,7 +64,7 @@ const SignUpForm = () => {
           </div>
         </div>
       ) : (
-        <PrimaryButton type="submit">Create Account</PrimaryButton>
+        <PrimaryButton type="submit">Access</PrimaryButton>
       )}
     </form>
   );
