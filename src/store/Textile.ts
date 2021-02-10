@@ -8,4 +8,4 @@ dotenv.config();
 // Return an admin client connected to localhost.
 const admin = new Admin(new Context(process.env.REACT_APP_HUB_HOST));
 
-export { admin };
+export { admin, Context };

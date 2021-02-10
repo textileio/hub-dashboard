@@ -1,14 +1,20 @@
 import type { Dispatch } from "react";
 
-import type { UserSessionInfo } from "./State";
+import type { UserSessionInfo, OrgInfo } from "./State";
 
 /**
  * InnerType are internal action types.
  */
 export enum InnerType {
-  // Real Textile APIs
-  StartSignUp = "START_SIGNUP",
-  FinishSignUp = "FINISH_SIGNUP",
+  // SignUp
+  StartSignUp = "START_SIGN_UP",
+  FinishSignUp = "FINISH_SIGN_UP",
+  // SignIn
+  StartSignIn = "START_SIGN_IN",
+  FinishSignIn = "FINISH_SIGN_IN",
+  // FetchOrgs
+  StartFetchOrgs = "START_FETCH_ORGS",
+  FinishFetchOrgs = "FINISH_FETCH_ORGS",
 }
 
 /**
@@ -23,7 +29,9 @@ export enum OuterType {
  * AsyncType are externally accessible action types.
  */
 export enum AsyncType {
-  SignUp = "SIGNUP",
+  SignUp = "SIGN_UP",
+  SignIn = "SIGN_IN",
+  FetchOrgs = "FETCH_ORGS",
 }
 
 /**
@@ -31,7 +39,19 @@ export enum AsyncType {
  */
 export type InnerAction =
   | { type: InnerType.StartSignUp }
-  | { type: InnerType.FinishSignUp; sessionInfo: UserSessionInfo };
+  | { type: InnerType.StartSignIn }
+  | {
+      type: InnerType.FinishSignUp;
+      sessionInfo: UserSessionInfo;
+      username: string;
+    }
+  | {
+      type: InnerType.FinishSignIn;
+      sessionInfo: UserSessionInfo;
+      username: string;
+    }
+  | { type: InnerType.StartFetchOrgs }
+  | { type: InnerType.FinishFetchOrgs; orgs: OrgInfo[] };
 
 /**
  * OuterAction are external sync actions.
@@ -49,13 +69,25 @@ type Callback<T = any> = (arg?: T, err?: Error) => void;
 
 /**
  * AsyncAction represents all possible async actions.
+ * TODO: This are joined as one because they are identical, this won't always be the case
  */
-export type AsyncAction = {
-  type: AsyncType.SignUp;
-  username: string;
-  email: string;
-  callback?: Callback<UserSessionInfo>;
-};
+export type AsyncAction =
+  | {
+      type: AsyncType.SignUp;
+      username: string;
+      email: string;
+      callback?: Callback<UserSessionInfo>;
+    }
+  | {
+      type: AsyncType.SignIn;
+      username: string;
+      email: string;
+      callback?: Callback<UserSessionInfo>;
+    }
+  | {
+      type: AsyncType.FetchOrgs;
+      callback?: Callback<OrgInfo[]>;
+    };
 
 /**
  * Actions defines the access patterns for actions on our store.
@@ -68,6 +100,12 @@ export interface Actions {
     email: string,
     callback?: Callback<UserSessionInfo>
   ): void;
+  signIn(
+    username: string,
+    email: string,
+    callback?: Callback<UserSessionInfo>
+  ): void;
+  fetchOrgs(callback?: Callback<OrgInfo[]>): void;
 }
 
 export function createActions(
@@ -84,5 +122,14 @@ export function createActions(
     callback?: Callback<UserSessionInfo>
   ) => dispatch({ type: AsyncType.SignUp, username, email, callback });
 
-  return { setError, clearError, signUp };
+  const signIn = (
+    username: string,
+    email: string,
+    callback?: Callback<UserSessionInfo>
+  ) => dispatch({ type: AsyncType.SignIn, username, email, callback });
+
+  const fetchOrgs = (callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.FetchOrgs, callback });
+
+  return { setError, clearError, signUp, signIn, fetchOrgs };
 }

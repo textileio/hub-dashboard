@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useContext } from "react";
+import Context from "../store/Context";
 import { typescale, primaryFontBold } from "../utils";
 
 const {
@@ -62,6 +64,7 @@ const UserPhoto = styled.div`
 `;
 
 const Header = () => {
+  const [state] = useContext(Context);
   return (
     <HeaderContainer>
       <div>{/* <HeaderTitle>activeSection</HeaderTitle> */}</div>
@@ -89,7 +92,7 @@ const Header = () => {
         </ul>
         <UserTag>
           <div>
-            <p>username</p>
+            <p>{state.user.username ?? "unknown"}</p>
           </div>
           <UserPhoto />
         </UserTag>

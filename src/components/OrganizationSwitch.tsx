@@ -99,16 +99,16 @@ const OrganizationSwitch = () => {
           <span>Select Organization</span>
           <ul>
             <li>
-              <Link to="/">username</Link>
+              <Link to="/">{state.user.username ?? "unknown"}</Link>
             </li>
-            {state.fakeOrganizations.map((organization) => (
+            {state.user.orgs?.map((organization) => (
               <li
                 className={
                   location.pathname === "/" + organization.name
                     ? "selected-organization"
                     : ""
                 }
-                key={organization.publicKey}
+                key={organization.slug}
               >
                 <Link to={"/" + organization.name}>{organization.name}</Link>
                 <Link to={"/" + organization.name + "/editorganization"}>

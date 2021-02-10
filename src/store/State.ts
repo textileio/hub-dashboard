@@ -1,7 +1,9 @@
+import type { OrgInfo } from "@textile/hub-admin/dist/cjs/api";
+
+export type { OrgInfo };
+
 /**
  * UserSessionInfo represents the live info of a hub session.
- * TODO: We don't really need to store it here, it can just be added to the
- * client's context...
  */
 export interface UserSessionInfo {
   key: string;
@@ -13,9 +15,8 @@ export interface UserSessionInfo {
  * Use it for things like UI settings and user options.
  */
 export interface User {
-  authorized?: boolean;
-  // TODO: We don't really need this here... see above
-  sessionInfo?: UserSessionInfo;
+  username?: string;
+  orgs?: OrgInfo[];
 }
 
 /**
@@ -31,7 +32,7 @@ export interface Hub {
  * Use it as the top-level access point for all state.
  */
 export interface State {
-  user?: User;
+  user: User;
   hub?: Hub;
   // Top-level state items, keep these to a minimum
   loading: boolean;
@@ -43,7 +44,7 @@ export interface State {
 
 // Initial state reflects an un-authorized, empty user/hub state.
 export const initialState: State = {
-  user: { authorized: true },
+  user: {},
   hub: { count: 0 },
   loading: false,
 

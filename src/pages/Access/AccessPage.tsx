@@ -1,15 +1,9 @@
-// import { FunctionComponent } from "react";
 import styled from "styled-components";
-// import { RouteProps } from "react-router-dom";
-import { Switch, Route, Redirect } from "react-router-dom";
-// import { useCookies } from "react-cookie";
-
 import SignUpForm from "./SignUpForm";
 import { ReactComponent as TextileLogo } from "../../assets/textile-logo-h.svg";
 import { fadeIn, hexOpacity } from "../../utils";
 
 import Loader from "../../components/Loader";
-import DashboardPage from "../DashboardPage";
 
 const AccessPageContainer = styled.div`
   display: flex;
@@ -66,25 +60,6 @@ const BackgroundContainer = styled.div`
   right: 50%;
 `;
 
-// const PrivateRoute = ({
-//   component: Component,
-// }: RouteProps & {
-//   component: FunctionComponent;
-// }) => {
-//   const [cookies] = useCookies();
-//   return (
-//     <Route
-//       render={(props) =>
-//         cookies.sessionInfo ? (
-//           <Component {...props} />
-//         ) : (
-//           <Redirect to={{ pathname: "./" }} />
-//         )
-//       }
-//     />
-//   );
-// };
-
 const AccessPage = () => {
   return (
     <AccessPageContainer>
@@ -135,12 +110,7 @@ const AccessPage = () => {
       <RightPanel>
         <div className="content">
           <TextileLogo />
-          <Switch>
-            <Route path="/success" component={DashboardPage} />
-            <Route exact path="/" component={SignUpForm} />
-            <Redirect from="*" to="/" />
-            {/* <PrivateRoute path="." component={SignUpForm} /> */}
-          </Switch>
+          <SignUpForm />
         </div>
       </RightPanel>
     </AccessPageContainer>
