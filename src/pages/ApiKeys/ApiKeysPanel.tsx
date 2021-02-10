@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../../store/Context";
+import { KeyType } from "../../store/State";
 import { PrimaryButton, DocsButton } from "../../components/Buttons";
 import KeyList from "./KeyList";
 
@@ -42,9 +43,9 @@ const ApiKeysPanel = () => {
       </Link>
       <hr />
       <h3>Account Keys</h3>
-      <KeyList keys={state.fakeKeys} typeFilter="usergroup" />
+      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
       <h3>User group Keys</h3>
-      <KeyList keys={state.fakeKeys} typeFilter="account" />
+      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.ACCOUNT} />
     </ApiKeysPanelContainer>
   );
 };

@@ -1,6 +1,11 @@
 import type { Dispatch } from "react";
 
-import type { UserSessionInfo, OrgInfo } from "./State";
+import type {
+  SessionInfoResponse,
+  OrgInfo,
+  KeyInfo,
+  SigninOrSignupResponse,
+} from "./State";
 
 /**
  * InnerType are internal action types.
@@ -15,6 +20,15 @@ export enum InnerType {
   // FetchOrgs
   StartFetchOrgs = "START_FETCH_ORGS",
   FinishFetchOrgs = "FINISH_FETCH_ORGS",
+  // FetchSessionInfo
+  StartFetchSessionInfo = "START_FETCH_SESSION_INFO",
+  FinishFetchSessionInfo = "FINISH_FETCH_SESSION_INFO",
+  // FetchKeys
+  StartFetchKeys = "START_FETCH_KEYS",
+  FinishFetchKeys = "FINISH_FETCH_KEYS",
+  // CreateOrg
+  StartCreateOrg = "START_CREATE_ORG",
+  FinishCreateOrg = "FINISH_CREATE_ORG",
 }
 
 /**
@@ -23,6 +37,8 @@ export enum InnerType {
 export enum OuterType {
   SetError = "SET_ERROR",
   ClearError = "CLEAR_ERROR",
+  SignOut = "SIGN_OUT",
+  SetCurrentOrg = "SET_CURRENT_ORG",
 }
 
 /**
@@ -32,6 +48,9 @@ export enum AsyncType {
   SignUp = "SIGN_UP",
   SignIn = "SIGN_IN",
   FetchOrgs = "FETCH_ORGS",
+  FetchKeys = "FETCH_KEYS",
+  FetchSessionInfo = "FETCH_SESSION_INFO",
+  CreateOrg = "CREATE_ORG",
 }
 
 /**
@@ -42,23 +61,37 @@ export type InnerAction =
   | { type: InnerType.StartSignIn }
   | {
       type: InnerType.FinishSignUp;
-      sessionInfo: UserSessionInfo;
+      sessionInfo: SigninOrSignupResponse;
       username: string;
     }
   | {
       type: InnerType.FinishSignIn;
-      sessionInfo: UserSessionInfo;
+      sessionInfo: SigninOrSignupResponse;
       username: string;
     }
   | { type: InnerType.StartFetchOrgs }
-  | { type: InnerType.FinishFetchOrgs; orgs: OrgInfo[] };
+  | { type: InnerType.FinishFetchOrgs; orgs: OrgInfo[] }
+  | { type: InnerType.StartFetchKeys }
+  | { type: InnerType.FinishFetchKeys; keys: KeyInfo[] }
+  | { type: InnerType.StartFetchSessionInfo }
+  | {
+      type: InnerType.FinishFetchSessionInfo;
+      sessionInfo: SessionInfoResponse;
+    }
+  | { type: InnerType.StartCreateOrg }
+  | {
+      type: InnerType.FinishCreateOrg;
+      org: OrgInfo;
+    };
 
 /**
  * OuterAction are external sync actions.
  */
 export type OuterAction =
   | { type: OuterType.SetError; message: string }
-  | { type: OuterType.ClearError };
+  | { type: OuterType.ClearError }
+  | { type: OuterType.SignOut }
+  | { type: OuterType.SetCurrentOrg; name?: string };
 
 /**
  * Action represents all possible sync actions.
@@ -76,17 +109,31 @@ export type AsyncAction =
       type: AsyncType.SignUp;
       username: string;
       email: string;
-      callback?: Callback<UserSessionInfo>;
+      callback?: Callback<SigninOrSignupResponse>;
     }
   | {
       type: AsyncType.SignIn;
       username: string;
       email: string;
-      callback?: Callback<UserSessionInfo>;
+      callback?: Callback<SigninOrSignupResponse>;
     }
   | {
       type: AsyncType.FetchOrgs;
       callback?: Callback<OrgInfo[]>;
+    }
+  | {
+      type: AsyncType.FetchKeys;
+      org: string;
+      callback?: Callback<KeyInfo[]>;
+    }
+  | {
+      type: AsyncType.FetchSessionInfo;
+      callback?: Callback<SessionInfoResponse>;
+    }
+  | {
+      type: AsyncType.CreateOrg;
+      name: string;
+      callback?: Callback<OrgInfo>;
     };
 
 /**
@@ -98,14 +145,19 @@ export interface Actions {
   signUp(
     username: string,
     email: string,
-    callback?: Callback<UserSessionInfo>
+    callback?: Callback<SigninOrSignupResponse>
   ): void;
   signIn(
     username: string,
     email: string,
-    callback?: Callback<UserSessionInfo>
+    callback?: Callback<SigninOrSignupResponse>
   ): void;
+  signOut(): void;
   fetchOrgs(callback?: Callback<OrgInfo[]>): void;
+  fetchKeys(org: string, callback?: Callback<KeyInfo[]>): void;
+  fetchSessionInfo(callback?: Callback<SessionInfoResponse>): void;
+  createOrg(name: string, callback?: Callback<OrgInfo>): void;
+  setCurrentOrg(name?: string): void;
 }
 
 export function createActions(
@@ -119,17 +171,42 @@ export function createActions(
   const signUp = (
     username: string,
     email: string,
-    callback?: Callback<UserSessionInfo>
+    callback?: Callback<SigninOrSignupResponse>
   ) => dispatch({ type: AsyncType.SignUp, username, email, callback });
+
+  const signOut = () => dispatch({ type: OuterType.SignOut });
 
   const signIn = (
     username: string,
     email: string,
-    callback?: Callback<UserSessionInfo>
+    callback?: Callback<SigninOrSignupResponse>
   ) => dispatch({ type: AsyncType.SignIn, username, email, callback });
 
-  const fetchOrgs = (callback?: Callback<any>) =>
+  const fetchOrgs = (callback?: Callback<OrgInfo[]>) =>
     dispatch({ type: AsyncType.FetchOrgs, callback });
 
-  return { setError, clearError, signUp, signIn, fetchOrgs };
+  const fetchKeys = (org: string, callback?: Callback<KeyInfo[]>) =>
+    dispatch({ type: AsyncType.FetchKeys, org, callback });
+
+  const fetchSessionInfo = (callback?: Callback<SessionInfoResponse>) =>
+    dispatch({ type: AsyncType.FetchSessionInfo, callback });
+
+  const createOrg = (name: string, callback?: Callback<OrgInfo>) =>
+    dispatch({ type: AsyncType.CreateOrg, name, callback });
+
+  const setCurrentOrg = (name?: string) =>
+    dispatch({ type: OuterType.SetCurrentOrg, name });
+
+  return {
+    setError,
+    clearError,
+    signUp,
+    signIn,
+    fetchOrgs,
+    fetchKeys,
+    fetchSessionInfo,
+    createOrg,
+    signOut,
+    setCurrentOrg,
+  };
 }

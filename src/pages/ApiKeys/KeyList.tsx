@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { space, typescale } from "../../utils/";
+import { KeyInfo, KeyType } from "../../store/State";
 import KeyItem from "./KeyItem";
 
 const KeyTable = styled.table`
@@ -27,8 +28,8 @@ const KeyTable = styled.table`
 `;
 
 interface KeyListProps {
-  typeFilter: "usergroup" | "account";
-  keys: any[];
+  typeFilter: KeyType;
+  keys: KeyInfo[];
 }
 
 const KeyList = ({ keys, typeFilter }: KeyListProps) => {
@@ -48,7 +49,7 @@ const KeyList = ({ keys, typeFilter }: KeyListProps) => {
         {keys
           .filter((element) => element.type === typeFilter)
           .map(({ ...props }) => (
-            <KeyItem {...props} key={props.publicKey} />
+            <KeyItem {...props} key={props.key} />
           ))}
       </tbody>
     </KeyTable>

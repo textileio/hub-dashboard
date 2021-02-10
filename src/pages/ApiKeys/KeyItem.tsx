@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { TertiarySmallButton } from "../../components/Buttons";
+import { KeyInfo } from "../../store/State";
 
 const HiddenKeyContainer = styled.div`
   filter: blur(4px);
@@ -13,26 +14,12 @@ const ActionsContainer = styled.td`
   }
 `;
 
-interface KeyItemProps {
-  publicKey: string;
-  secretKey: string;
-  secure: boolean;
-  valid: boolean;
-  threads: number;
-}
-
-const KeyItem = ({
-  publicKey,
-  secretKey,
-  secure,
-  valid,
-  threads,
-}: KeyItemProps) => {
+const KeyItem = ({ key, secret, secure, valid, threads }: KeyInfo) => {
   return (
     <tr>
-      <td>{publicKey}</td>
+      <td>{key}</td>
       <td>
-        <HiddenKeyContainer>{secretKey}</HiddenKeyContainer>
+        <HiddenKeyContainer>{secret}</HiddenKeyContainer>
       </td>
       <td>{secure.toString()}</td>
       <td>{valid.toString()}</td>

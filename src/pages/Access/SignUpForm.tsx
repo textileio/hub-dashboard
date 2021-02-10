@@ -24,7 +24,7 @@ const SignUpForm = () => {
               return;
             }
             // Don't go to success if there was an error
-            history.push("/success");
+            history.push("/");
           });
         }
       }}

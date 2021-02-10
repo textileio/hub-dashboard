@@ -21,17 +21,15 @@ class DashboardPage extends Component {
   //   if (newId !== oldId) this.fetchInvoice();
   // }
 
-  componentWillUnmount() {
-    // Allows us to ignore an inflight request
-    this.ignoreLastFetch = true;
-  }
-
   fetchOrgsAndUser() {
     const [, actions] = this.context;
-    actions.fetchOrgs((orgs) => {
-      if (!this.ignoreLastFetch) {
-        console.log(orgs);
+    actions.fetchSessionInfo((info, err) => {
+      if (err && err.message.includes("Invalid session")) {
+        actions.signOut();
       }
+    });
+    actions.fetchOrgs((orgs) => {
+      console.log(orgs);
     });
   }
 

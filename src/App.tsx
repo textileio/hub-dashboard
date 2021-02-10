@@ -24,11 +24,11 @@ function App() {
       >
         <GlobalStyles />
         <Switch>
-          <Route exact path="/signup" component={AccessPage} />
+          <Route exact path="/access" component={AccessPage} />
           <PrivateRoute
             path="/"
             component={DashboardPage}
-            to={{ pathname: "/signup" }}
+            to={{ pathname: "/access" }}
           />
         </Switch>
       </ThemeProvider>

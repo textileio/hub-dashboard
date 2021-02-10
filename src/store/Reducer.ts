@@ -2,7 +2,7 @@ import { Reducer } from "react";
 import { AsyncActionHandlers } from "use-reducer-async";
 import Cookies from "universal-cookie";
 
-import { State } from "./State";
+import { State, initialState } from "./State";
 import * as Actions from "./Actions";
 import { admin, Context } from "./Textile";
 
@@ -10,8 +10,10 @@ export const cookies = new Cookies();
 
 const maxAge = 60 * 60 * 24 * 7; // TODO: Pick a better time (1 week)
 
-const pickupCookies = (context: Context) => {
-  return context.withSession(cookies.get("sessionInfo").session);
+const withCookiesAndState = (context: Context, state?: State) => {
+  return context
+    .withSession(cookies.get("sessionInfo").session)
+    .withOrg(state?.user.currentOrg);
 };
 
 export const reducer: Reducer<State, Actions.Action> = (
@@ -19,6 +21,7 @@ export const reducer: Reducer<State, Actions.Action> = (
   action
 ): State => {
   switch (action.type) {
+    // Error handling
     case Actions.OuterType.SetError:
       return {
         ...state,
@@ -30,8 +33,17 @@ export const reducer: Reducer<State, Actions.Action> = (
         ...state,
         error: undefined,
       };
-
-    // Real Textile APIs
+    // SetCurrentOrg
+    case Actions.OuterType.SetCurrentOrg: {
+      const user = { ...state.user, currentOrg: action.name };
+      return { ...state, user };
+    }
+    // Signout
+    case Actions.OuterType.SignOut:
+      // TODO: This is bad, this should be a pure function...
+      cookies.remove("sessionInfo");
+      return { ...initialState };
+    // SignUp and SignIn
     case Actions.InnerType.StartSignUp:
     case Actions.InnerType.StartSignIn:
       return {
@@ -40,24 +52,67 @@ export const reducer: Reducer<State, Actions.Action> = (
       };
     case Actions.InnerType.FinishSignUp:
     case Actions.InnerType.FinishSignIn:
-      const { username } = action;
       return {
         ...state,
         loading: false,
-        user: { ...state.user, username },
       };
+    // FetchOrgs
     case Actions.InnerType.StartFetchOrgs:
       return {
         ...state,
         loading: true,
       };
-    case Actions.InnerType.FinishFetchOrgs:
+    case Actions.InnerType.FinishFetchOrgs: {
       const { orgs } = action;
       return {
         ...state,
         loading: false,
         user: { ...state.user, orgs },
       };
+    }
+    // FetchKeys
+    case Actions.InnerType.StartFetchKeys:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchKeys: {
+      const { keys } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, keys },
+      };
+    }
+    // FetchSessionInfo
+    case Actions.InnerType.StartFetchSessionInfo:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchSessionInfo: {
+      const { sessionInfo } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, sessionInfo },
+      };
+    }
+    // CreateOrg
+    case Actions.InnerType.StartCreateOrg:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishCreateOrg: {
+      const { org } = action;
+      const orgs = [...(state.user.orgs ?? []), org];
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, orgs, currentOrg: org.name },
+      };
+    }
     default:
       throw new Error("unknown action type");
   }
@@ -144,14 +199,72 @@ export const asyncActionHandlers: AsyncActionHandlers<
         if (callback) callback(undefined, e);
       });
   },
-  [Actions.AsyncType.FetchOrgs]: ({ dispatch }) => async ({ callback }) => {
-    dispatch({ type: Actions.InnerType.StartSignIn });
-    admin.context = pickupCookies(admin.context as Context);
+  [Actions.AsyncType.FetchOrgs]: ({ dispatch, getState }) => async ({
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartFetchOrgs });
+    admin.context = withCookiesAndState(admin.context as Context, getState());
     return admin
       .listOrgs()
       .then((orgs) => {
         dispatch({ type: Actions.InnerType.FinishFetchOrgs, orgs });
         if (callback) callback(orgs);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchKeys]: ({ dispatch, getState }) => async ({
+    org,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartFetchKeys });
+    admin.context = withCookiesAndState(admin.context as Context, getState());
+    return admin
+      .listKeys(org)
+      .then((keys) => {
+        dispatch({ type: Actions.InnerType.FinishFetchKeys, keys });
+        if (callback) callback(keys);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchSessionInfo]: ({ dispatch }) => async ({
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartFetchKeys });
+    admin.context = withCookiesAndState(admin.context as Context);
+    return admin
+      .getSessionInfo()
+      .then((sessionInfo) => {
+        dispatch({
+          type: Actions.InnerType.FinishFetchSessionInfo,
+          sessionInfo,
+        });
+        if (callback) callback(sessionInfo);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.CreateOrg]: ({ dispatch }) => async ({
+    name,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartCreateOrg });
+    admin.context = withCookiesAndState(admin.context as Context);
+    return admin
+      .createOrg(name)
+      .then((org) => {
+        dispatch({
+          type: Actions.InnerType.FinishCreateOrg,
+          org,
+        });
+        if (callback) callback(org);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });
