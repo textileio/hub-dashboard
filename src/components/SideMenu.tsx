@@ -2,8 +2,8 @@ import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
-import { primaryFontBold, typescale } from "../utils";
-
+import { primaryFontBold, typescale, space } from "../utils";
+import { TertiarySmallButton } from "../components/Buttons";
 const { big } = typescale.desktop;
 
 const SideMenuContainer = styled.div`
@@ -19,6 +19,13 @@ const SideMenuContainer = styled.div`
   .sidemenu-textile-logo {
     margin: 40px 0;
   }
+`;
+
+const SignOutButton = styled(TertiarySmallButton)`
+  border: 1px solid ${({ theme }) => theme.neutral300};
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: ${space[4]};
 `;
 
 const TextileLogo = styled(TextileLogoVertical)`
@@ -73,6 +80,7 @@ const SideMenu = () => {
           </Link>
         </li>
       </SideMenuNav>
+      <SignOutButton>Sign Out</SignOutButton>
     </SideMenuContainer>
   );
 };

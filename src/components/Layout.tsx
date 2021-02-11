@@ -5,6 +5,7 @@ import OverviewPage from "../pages/Overview/OverviewPage";
 import EditOrganization from "../pages/Organizations/EditOrganization";
 import EditApiKey from "../pages/ApiKeys/EditApiKey";
 import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
+import NotFoundPage from "../pages/404";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const LayoutContainer = styled.div`
@@ -34,6 +35,7 @@ const Layout = () => {
           <Header />
           <ActiveSection>
             <Switch>
+              <Route path="/notfound" component={NotFoundPage} />
               <Route
                 exact
                 path="/:currentOrganization/"
