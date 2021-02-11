@@ -129,7 +129,7 @@ const OrganizationSwitch = () => {
               </li>
             ))}
           </ul>
-          <Link to={`/${state.user.sessionInfo?.username}/editorganization`}>
+          <Link to={`/${state.user.sessionInfo?.username}/addorganization`}>
             Add Organization +
           </Link>
         </OrganizationList>

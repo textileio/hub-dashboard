@@ -7,12 +7,16 @@ const DashboardPage = () => {
 
   useEffect(() => {
     actions.fetchSessionInfo((_info, err) => {
-      if (err && err.message.includes("Invalid session")) {
-        actions.signOut();
+      if (err) {
+        if (err.message.includes("Invalid session")) {
+          actions.signOut();
+        } else {
+          console.error(err);
+        }
       }
     });
     actions.fetchOrgs((_orgs, err) => {
-      console.log(_orgs, err);
+      if (err) console.error(err);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

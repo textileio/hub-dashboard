@@ -22,9 +22,10 @@ const EditApiKey = () => {
         ? ""
         : currentOrganization;
     actions.createKey(type, secure, org, (_keyInfo, err) => {
-      console.log(_keyInfo, err);
-      // Don't go to success if there was an error
-      if (err) return;
+      if (err) {
+        console.error(err);
+        return;
+      }
       history.push("keys");
     });
   };

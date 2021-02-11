@@ -101,7 +101,7 @@ const OverviewPage = () => {
           <h2>Organization Members</h2>
           <MemberList>
             {filteredOrg.members.map((member) => (
-              <li>{member.username}</li>
+              <li key={member.key}>{member.username}</li>
             ))}
           </MemberList>
         </div>
