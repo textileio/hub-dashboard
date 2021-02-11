@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../../store/Context";
+import { OrgInterface } from "../../components/Utils";
 
 const OverviewContainer = styled.div``;
 
@@ -50,13 +51,11 @@ const MemberList = styled.ul`
   }
 `;
 
-interface ParamTypes {
-  currentOrganization: string;
-}
-
 const OverviewPage = () => {
   const [state] = useContext(Context);
-  const { currentOrganization } = useParams<ParamTypes>();
+  const { currentOrganization } = useParams<OrgInterface>();
+  const [filteredOrg] =
+    state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
   return (
     <OverviewContainer>
       <OverviewTitle>
@@ -97,13 +96,16 @@ const OverviewPage = () => {
           </div>
         </li>
       </UsefulLinks>
-      <h2>Organization Members</h2>
-      <MemberList>
-        <li>email-malio@email.com</li>
-        <li>email-malio@email.com</li>
-        <li>email-malio@email.com</li>
-        <li>email-malio@email.com</li>
-      </MemberList>
+      {filteredOrg && (
+        <div>
+          <h2>Organization Members</h2>
+          <MemberList>
+            {filteredOrg.members.map((member) => (
+              <li>{member.username}</li>
+            ))}
+          </MemberList>
+        </div>
+      )}
     </OverviewContainer>
   );
 };
