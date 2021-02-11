@@ -18,6 +18,10 @@ const baseStyles = css`
     background-color: ${({ theme }) => theme.neutral100};
   }
 
+  *:focus {
+    outline: 0 !important;
+  }
+
   hr {
     border: 1px solid ${({ theme }) => theme.neutral200};
     margin: 40px 0 30px 0;

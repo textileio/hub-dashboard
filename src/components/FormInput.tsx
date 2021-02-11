@@ -11,6 +11,7 @@ const FormInputGoup = styled.div`
     font-size: ${big};
     padding: 6px;
     color: ${({ theme }) => theme.neutral1000};
+    box-sizing: border-box;
   }
   .form-input {
     width: 100%;
