@@ -5,7 +5,7 @@ import { CookiesProvider } from "react-cookie";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Provider from "./store/Provider";
 import { cookies } from "./store/Reducer";
 
@@ -13,9 +13,9 @@ ReactDOM.render(
   <StrictMode>
     <CookiesProvider cookies={cookies}>
       <Provider>
-        <HashRouter>
+        <Router>
           <App />
-        </HashRouter>
+        </Router>
       </Provider>
     </CookiesProvider>
   </StrictMode>,

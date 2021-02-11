@@ -84,6 +84,11 @@ const OrganizationSwitch = () => {
   const [OrgSwitchIsOpen, setOrgSwitchIsOpen] = useState<boolean>(false);
   const location = useLocation();
 
+  const username =
+    state.user.sessionInfo?.username ??
+    state.user.sessionInfo?.email ??
+    "unknown";
+
   return (
     <OrganizationSwitchContainer>
       <ContextOrgButton
@@ -98,13 +103,20 @@ const OrganizationSwitch = () => {
         <OrganizationList>
           <span>Select Organization</span>
           <ul>
-            <li>
-              <Link to="/">{state.user.username ?? "unknown"}</Link>
+            <li
+              className={
+                location.pathname.startsWith("/" + username)
+                  ? "selected-organization"
+                  : ""
+              }
+              key={username}
+            >
+              <Link to={"/" + username}>{username}</Link>
             </li>
             {state.user.orgs?.map((organization) => (
               <li
                 className={
-                  location.pathname === "/" + organization.name
+                  location.pathname.startsWith("/" + organization.name)
                     ? "selected-organization"
                     : ""
                 }
@@ -117,7 +129,9 @@ const OrganizationSwitch = () => {
               </li>
             ))}
           </ul>
-          <Link to="/editorganization">Add Organization +</Link>
+          <Link to={`/${state.user.sessionInfo?.username}/editorganization`}>
+            Add Organization +
+          </Link>
         </OrganizationList>
       ) : null}
     </OrganizationSwitchContainer>

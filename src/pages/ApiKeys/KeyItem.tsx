@@ -1,5 +1,8 @@
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { TertiarySmallButton } from "../../components/Buttons";
+import { KeyInfo } from "../../store/State";
+import Context from "../../store/Context";
 
 const HiddenKeyContainer = styled.div`
   filter: blur(4px);
@@ -13,34 +16,42 @@ const ActionsContainer = styled.td`
   }
 `;
 
-interface KeyItemProps {
-  publicKey: string;
-  secretKey: string;
-  secure: boolean;
-  valid: boolean;
-  threads: number;
-}
-
 const KeyItem = ({
-  publicKey,
-  secretKey,
+  pubKey,
+  secret,
   secure,
   valid,
   threads,
-}: KeyItemProps) => {
+}: Omit<KeyInfo, "key"> & { pubKey: string }) => {
+  const [visible, setVisible] = useState(false);
+  const [, actions] = useContext(Context);
+  // TODO: Handle getting current org info
+  const handleRevoke = (key: string) => {
+    return actions.revokeKey(key, "", (_str, err) => {
+      if (err) console.log(err);
+    });
+  };
   return (
     <tr>
-      <td>{publicKey}</td>
+      <td>{pubKey}</td>
       <td>
-        <HiddenKeyContainer>{secretKey}</HiddenKeyContainer>
+        {visible ? (
+          <span>{secret}</span>
+        ) : (
+          <HiddenKeyContainer>{secret}</HiddenKeyContainer>
+        )}
       </td>
       <td>{secure.toString()}</td>
       <td>{valid.toString()}</td>
       <td>{threads}</td>
       <ActionsContainer>
-        <TertiarySmallButton>Reveal</TertiarySmallButton>
-        <TertiarySmallButton>Revoke</TertiarySmallButton>
-        <TertiarySmallButton>Export</TertiarySmallButton>
+        <TertiarySmallButton onClick={() => setVisible(!visible)}>
+          {visible ? "Hide" : "Show"}
+        </TertiarySmallButton>
+        <TertiarySmallButton onClick={() => handleRevoke(pubKey)}>
+          Revoke
+        </TertiarySmallButton>
+        {/* <TertiarySmallButton>Export</TertiarySmallButton> */}
       </ActionsContainer>
     </tr>
   );

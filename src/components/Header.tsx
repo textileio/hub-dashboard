@@ -92,7 +92,11 @@ const Header = () => {
         </ul>
         <UserTag>
           <div>
-            <p>{state.user.username ?? "unknown"}</p>
+            <p>
+              {state.user.sessionInfo?.username ??
+                state.user.sessionInfo?.email ??
+                "unknown"}
+            </p>
           </div>
           <UserPhoto />
         </UserTag>

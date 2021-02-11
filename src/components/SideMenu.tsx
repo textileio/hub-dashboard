@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
@@ -50,6 +50,9 @@ const SideMenuNav = styled.ul`
 `;
 
 const SideMenu = () => {
+  const match = useRouteMatch<{ currentOrganization: string }>(
+    "/:currentOrganization"
+  );
   return (
     <SideMenuContainer>
       <Link to="/">
@@ -58,14 +61,16 @@ const SideMenu = () => {
       <OrganizationSwitch />
       <SideMenuNav>
         <li>
-          <Link to="./">Overview</Link>
+          <Link to={`/${match?.params.currentOrganization}`}>Overview</Link>
         </li>
         {/* <li>Buckets</li> */}
         {/* <li>Threads</li> */}
         {/* <li>Billing</li> */}
         {/* <li>Powergate</li> */}
         <li>
-          <Link to="./keys">API Keys</Link>
+          <Link to={`/${match?.params.currentOrganization}/keys`}>
+            API Keys
+          </Link>
         </li>
       </SideMenuNav>
     </SideMenuContainer>
