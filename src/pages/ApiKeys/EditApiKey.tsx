@@ -5,8 +5,6 @@ import { OrgInterface } from "../../components/Utils";
 import { useHistory } from "react-router";
 import { PrimaryButton } from "../../components/Buttons";
 import { KeyType } from "../../store/State";
-import userEvent from "@testing-library/user-event";
-import OrganizationsPanel from "../Organizations/OrganizationsPanel";
 
 const EditApiKey = () => {
   const [keyType, setKeyType] = useState<string>("account");

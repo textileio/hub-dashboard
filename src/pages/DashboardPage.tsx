@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 import Context from "../store/Context";
 
 const DashboardPage = () => {
-  const [state, actions] = useContext(Context);
+  const [, actions] = useContext(Context);
 
   useEffect(() => {
     actions.fetchSessionInfo((_info, err) => {
