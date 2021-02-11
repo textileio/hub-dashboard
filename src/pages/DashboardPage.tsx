@@ -1,38 +1,27 @@
-import React, { Component } from "react";
+import { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import Context from "../store/Context";
 
-class DashboardPage extends Component {
-  static contextType = Context;
-  // For TS pre-3.7:
-  context!: React.ContextType<typeof Context>;
-  // For TS 3.7 and above:
-  // declare context: React.ContextType<typeof MyContext>;
+const DashboardPage = () => {
+  const [state, actions] = useContext(Context);
 
-  componentDidMount() {
-    // Fetch data initially
-    this.fetchOrgsAndUser();
-  }
-
-  fetchOrgsAndUser() {
-    const [, actions] = this.context;
+  useEffect(() => {
     actions.fetchSessionInfo((_info, err) => {
       if (err && err.message.includes("Invalid session")) {
         actions.signOut();
       }
     });
-    actions.fetchOrgs((orgs) => {
-      console.log(orgs);
+    actions.fetchOrgs((_orgs, err) => {
+      console.log(_orgs, err);
     });
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  render() {
-    return (
-      <div>
-        <Layout />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Layout />
+    </div>
+  );
+};
 
 export default DashboardPage;

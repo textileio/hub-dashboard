@@ -20,10 +20,8 @@ const SignUpForm = () => {
         if (username && email) {
           actions.clearError();
           actions.signUp(username, email, (_res, err) => {
-            if (err) {
-              return;
-            }
             // Don't go to success if there was an error
+            if (err) return;
             history.push("/");
           });
         }

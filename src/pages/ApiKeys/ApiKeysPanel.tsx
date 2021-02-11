@@ -18,7 +18,11 @@ const ApiKeysPanel = () => {
   const [state, actions] = useContext(Context);
   useEffect(() => {
     const username = state.user.sessionInfo?.username;
-    const org = currentOrganization === username ? "" : currentOrganization;
+    const org =
+      currentOrganization === username || username === undefined
+        ? ""
+        : currentOrganization;
+    console.log(org);
     actions.fetchKeys(org, (_keys, err) => {
       if (err && err.message.includes("Invalid session")) {
         actions.signOut();
@@ -54,9 +58,9 @@ const ApiKeysPanel = () => {
       </Link>
       <hr />
       <h3>Account Keys</h3>
-      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
-      <h3>User group Keys</h3>
       <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.ACCOUNT} />
+      <h3>User group Keys</h3>
+      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
     </ApiKeysPanelContainer>
   );
 };

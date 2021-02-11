@@ -5,10 +5,10 @@ import {
   DocsButton,
   TertiarySmallButton,
 } from "../../components/Buttons";
-import { useContext } from "react";
-import Context from "../../store/Context";
-import { useParams } from "react-router";
-import { OrgInterface } from "../../components/Utils";
+// import { useContext } from "react";
+// import Context from "../../store/Context";
+// import { useParams } from "react-router";
+// import { OrgInterface } from "../../components/Utils";
 import { borderRadius, space } from "../../utils";
 import { ReactComponent as DocsIcon } from "../../assets/icons/docs-icon.svg";
 
@@ -50,10 +50,10 @@ const MemberList = styled.table`
 `;
 
 const EditOrganization = () => {
-  const [state] = useContext(Context);
-  const { currentOrganization } = useParams<OrgInterface>();
-  const [filteredOrg] =
-    state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
+  // const [state] = useContext(Context);
+  // const { currentOrganization } = useParams<OrgInterface>();
+  // const [filteredOrg] =
+  //   state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
   return (
     <EditOrganizationContainer>
       <h1>Edit Organizations</h1>
