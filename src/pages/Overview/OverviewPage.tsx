@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../../store/Context";
 
+const OverviewContainer = styled.div``;
+
 const OverviewTitle = styled.h1`
   span {
     color: ${({ theme }) => theme.primary};
@@ -41,6 +43,13 @@ const UsefulLinks = styled.ol`
   }
 `;
 
+const MemberList = styled.ul`
+  li {
+    margin: 20px;
+    list-style-type: initial;
+  }
+`;
+
 interface ParamTypes {
   currentOrganization: string;
 }
@@ -49,7 +58,7 @@ const OverviewPage = () => {
   const [state] = useContext(Context);
   const { currentOrganization } = useParams<ParamTypes>();
   return (
-    <div>
+    <OverviewContainer>
       <OverviewTitle>
         <span>{currentOrganization ?? state.user.sessionInfo?.username}</span>{" "}
         Overview
@@ -88,7 +97,14 @@ const OverviewPage = () => {
           </div>
         </li>
       </UsefulLinks>
-    </div>
+      <h2>Organization Members</h2>
+      <MemberList>
+        <li>email-malio@email.com</li>
+        <li>email-malio@email.com</li>
+        <li>email-malio@email.com</li>
+        <li>email-malio@email.com</li>
+      </MemberList>
+    </OverviewContainer>
   );
 };
 
