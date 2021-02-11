@@ -20,10 +20,6 @@ export interface User {
    */
   sessionInfo?: SessionInfoResponse;
   /**
-   * The name of the active org or undefined if not in an org.
-   */
-  currentOrg?: string;
-  /**
    * The set of orgs available to the session user.
    */
   orgs?: OrgInfo[];

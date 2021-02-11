@@ -49,7 +49,7 @@ const KeyList = ({ keys, typeFilter }: KeyListProps) => {
         {keys
           .filter((element) => element.type === typeFilter)
           .map(({ ...props }) => (
-            <KeyItem {...props} key={props.key} />
+            <KeyItem {...props} pubKey={props.key} key={props.key} />
           ))}
       </tbody>
     </KeyTable>

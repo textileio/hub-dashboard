@@ -3,13 +3,15 @@ import { ThemeProvider } from "styled-components";
 import { Switch, Route } from "react-router-dom";
 import AccessPage from "./pages/Access/AccessPage";
 import DashboardPage from "./pages/DashboardPage";
-import PrivateRoute from "./components/PrivateRoute";
+import ProtectedRoute from "./components/PrivateRoute";
+import { useCookies } from "react-cookie";
 
 import { blueTheme, GlobalStyles } from "./utils";
 import { defaultTheme, darkTheme } from "./utils";
 
 function App() {
   const [theme] = useState("");
+  const [cookies] = useCookies();
 
   return (
     <div>
@@ -25,9 +27,10 @@ function App() {
         <GlobalStyles />
         <Switch>
           <Route exact path="/access" component={AccessPage} />
-          <PrivateRoute
+          <ProtectedRoute
             path="/"
             component={DashboardPage}
+            validator={() => cookies.sessionInfo != null}
             to={{ pathname: "/access" }}
           />
         </Switch>

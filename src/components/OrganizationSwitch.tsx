@@ -80,7 +80,7 @@ const OrganizationList = styled.div`
 `;
 
 const OrganizationSwitch = () => {
-  const [state, actions] = useContext(Context);
+  const [state] = useContext(Context);
   const [OrgSwitchIsOpen, setOrgSwitchIsOpen] = useState<boolean>(false);
   const location = useLocation();
 
@@ -103,15 +103,15 @@ const OrganizationSwitch = () => {
         <OrganizationList>
           <span>Select Organization</span>
           <ul>
-            <li key={username}>
-              <Link
-                to={"/"}
-                onClick={() => {
-                  actions.setCurrentOrg(undefined);
-                }}
-              >
-                {username}
-              </Link>
+            <li
+              className={
+                location.pathname.startsWith("/" + username)
+                  ? "selected-organization"
+                  : ""
+              }
+              key={username}
+            >
+              <Link to={"/" + username}>{username}</Link>
             </li>
             {state.user.orgs?.map((organization) => (
               <li
@@ -122,19 +122,16 @@ const OrganizationSwitch = () => {
                 }
                 key={organization.slug}
               >
-                <Link
-                  onClick={() => actions.setCurrentOrg(organization.name)}
-                  to={"/" + organization.name}
-                >
-                  {organization.name}
-                </Link>
+                <Link to={"/" + organization.name}>{organization.name}</Link>
                 <Link to={"/" + organization.name + "/editorganization"}>
                   <SettingsIcon />
                 </Link>
               </li>
             ))}
           </ul>
-          <Link to="/editorganization">Add Organization +</Link>
+          <Link to={`/${state.user.sessionInfo?.username}/editorganization`}>
+            Add Organization +
+          </Link>
         </OrganizationList>
       ) : null}
     </OrganizationSwitchContainer>
