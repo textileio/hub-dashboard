@@ -1,9 +1,13 @@
+import { useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
 import { primaryFontBold, typescale, space } from "../utils";
 import { TertiarySmallButton } from "../components/Buttons";
+import Context from "../store/Context";
+import { OrgInterface } from "./Utils";
+
 const { big } = typescale.desktop;
 
 const SideMenuContainer = styled.div`
@@ -57,9 +61,8 @@ const SideMenuNav = styled.ul`
 `;
 
 const SideMenu = () => {
-  const match = useRouteMatch<{ currentOrganization: string }>(
-    "/:currentOrganization"
-  );
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+  const [, actions] = useContext(Context);
   return (
     <SideMenuContainer>
       <Link to="/">
@@ -80,7 +83,7 @@ const SideMenu = () => {
           </Link>
         </li>
       </SideMenuNav>
-      <SignOutButton>Sign Out</SignOutButton>
+      <SignOutButton onClick={() => actions.signOut()}>Sign Out</SignOutButton>
     </SideMenuContainer>
   );
 };

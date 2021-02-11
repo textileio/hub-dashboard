@@ -5,6 +5,10 @@ import {
   DocsButton,
   TertiarySmallButton,
 } from "../../components/Buttons";
+// import { useContext } from "react";
+// import Context from "../../store/Context";
+// import { useParams } from "react-router";
+// import { OrgInterface } from "../../components/Utils";
 import { borderRadius, space } from "../../utils";
 import { ReactComponent as DocsIcon } from "../../assets/icons/docs-icon.svg";
 
@@ -46,6 +50,10 @@ const MemberList = styled.table`
 `;
 
 const EditOrganization = () => {
+  // const [state] = useContext(Context);
+  // const { currentOrganization } = useParams<OrgInterface>();
+  // const [filteredOrg] =
+  //   state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
   return (
     <EditOrganizationContainer>
       <h1>Edit Organizations</h1>
@@ -69,7 +77,7 @@ const EditOrganization = () => {
         <Panel>
           <h2>General Information</h2>
           <FormInput name="orgName" type="text" label="Organization Name" />
-          <FormInput name="orgName" type="text" label="Description" />
+          <FormInput name="orgName" type="text" label="Description" disabled />
           <h3>Add Member</h3>
           <p>Manage Team Members edit team information and permissions</p>
           <FormInput name="newMember" type="text" label="Email Address" />

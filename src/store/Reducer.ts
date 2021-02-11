@@ -231,6 +231,7 @@ export const asyncActionHandlers: AsyncActionHandlers<
     return admin
       .listKeys(org)
       .then((keys) => {
+        keys = keys.filter((key) => key.valid);
         dispatch({ type: Actions.InnerType.FinishFetchKeys, keys });
         if (callback) callback(keys);
       })
@@ -281,6 +282,7 @@ export const asyncActionHandlers: AsyncActionHandlers<
   }) => {
     dispatch({ type: Actions.InnerType.StartFetchKeys });
     admin.context = withCookiesAndState(admin.context as Context);
+    admin.context.withOrg("");
     return admin
       .getSessionInfo()
       .then((sessionInfo) => {

@@ -1,14 +1,32 @@
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useContext } from "react";
+import Context from "../../store/Context";
+import { useParams } from "react-router";
+import { OrgInterface } from "../../components/Utils";
+import { useHistory } from "react-router";
 import { PrimaryButton } from "../../components/Buttons";
+import { KeyType } from "../../store/State";
 
 const EditApiKey = () => {
   const [keyType, setKeyType] = useState<string>("account");
   const [keySecurity, setKeySecurity] = useState<string>("insecure");
+  const [state, actions] = useContext(Context);
+  const { currentOrganization } = useParams<OrgInterface>();
+  const history = useHistory();
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO
-    console.log("key should be" + keyType, keySecurity);
+    const type = keyType === "account" ? KeyType.ACCOUNT : KeyType.USER;
+    const secure = keySecurity === "secure";
+    const org =
+      currentOrganization === state.user.sessionInfo?.username
+        ? ""
+        : currentOrganization;
+    actions.createKey(type, secure, org, (_keyInfo, err) => {
+      console.log(_keyInfo, err);
+      // Don't go to success if there was an error
+      if (err) return;
+      history.push("keys");
+    });
   };
 
   return (
