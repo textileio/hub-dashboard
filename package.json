@@ -31,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "deploy": "buck-util push build"
   },
   "browserslist": {
     "production": [
@@ -46,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@textile/buck-util": "1.0.4",
     "@types/jest": "^26.0.20",
     "@types/react-router-dom": "^5.1.6",
     "@types/styled-components": "^5.1.7",
