@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
+import { useClickOutside } from "../hooks/ClickOutside";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../store/Context";
@@ -33,6 +34,7 @@ const OrganizationList = styled.div`
     color: ${({ theme }) => theme.primary};
     &::before {
       content: "✓  ";
+      position: absolute;
       color: ${({ theme }) => theme.primary};
       margin-right: ${space[1]};
     }
@@ -54,9 +56,10 @@ const OrganizationList = styled.div`
     margin: 0;
     li {
       padding: ${space[2] + " " + space[3]};
-      display: flex;
       height: 52px;
       box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
       &:hover:not(.selected-organization) {
         cursor: pointer;
@@ -73,7 +76,7 @@ const OrganizationList = styled.div`
       a {
         margin: 0;
         display: inline-block;
-        margin-left: auto;
+        margin-left: 30px;
       }
     }
   }
@@ -81,8 +84,13 @@ const OrganizationList = styled.div`
 
 const OrganizationSwitch = () => {
   const [state] = useContext(Context);
-  const [OrgSwitchIsOpen, setOrgSwitchIsOpen] = useState<boolean>(false);
   const location = useLocation();
+  const { visible, setVisible, ref } = useClickOutside(false);
+
+  const handleClick = () => {
+    setVisible((prevState: any) => !prevState);
+    console.log("cleeek");
+  };
 
   const username =
     state.user.sessionInfo?.username ??
@@ -91,16 +99,12 @@ const OrganizationSwitch = () => {
 
   return (
     <OrganizationSwitchContainer>
-      <ContextOrgButton
-        onClick={() => {
-          setOrgSwitchIsOpen(!OrgSwitchIsOpen);
-        }}
-      >
-        {}Organization
+      <ContextOrgButton onClick={handleClick}>
+        Organization
         <ArrowDown />
       </ContextOrgButton>
-      {OrgSwitchIsOpen ? (
-        <OrganizationList>
+      {visible ? (
+        <OrganizationList ref={ref}>
           <span>Select Organization</span>
           <ul>
             <li
@@ -122,7 +126,9 @@ const OrganizationSwitch = () => {
                 }
                 key={organization.slug}
               >
-                <Link to={"/" + organization.name}>{organization.name}</Link>
+                <Link to={"/" + organization.name} onClick={handleClick}>
+                  {organization.name}
+                </Link>
                 <Link to={"/" + organization.name + "/editorganization"}>
                   <SettingsIcon />
                 </Link>
