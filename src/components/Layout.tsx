@@ -2,7 +2,10 @@ import Header from "./Header";
 import SideMenu from "./SideMenu";
 import styled from "styled-components";
 import OverviewPage from "../pages/Overview/OverviewPage";
-import EditOrganization from "../pages/Organizations/EditOrganization";
+import {
+  EditOrganization,
+  AddOrganization,
+} from "../pages/Organizations/EditOrganization";
 import EditApiKey from "../pages/ApiKeys/EditApiKey";
 import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
 import NotFoundPage from "../pages/404";
@@ -44,6 +47,10 @@ const Layout = () => {
               <Route
                 path="/:currentOrganization/editorganization"
                 component={EditOrganization}
+              />
+              <Route
+                path="/:currentOrganization/addorganization"
+                component={AddOrganization}
               />
               <Route
                 path="/:currentOrganization/keys"

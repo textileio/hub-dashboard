@@ -136,6 +136,18 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, orgs },
       };
     }
+    // InviteToOrg
+    case Actions.InnerType.StartInviteToOrg:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishInviteToOrg: {
+      return {
+        ...state,
+        loading: false,
+      };
+    }
     default:
       throw new Error("Unknown action type");
   }

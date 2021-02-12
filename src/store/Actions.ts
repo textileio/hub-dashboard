@@ -252,8 +252,8 @@ export function createActions(
     dispatch({ type: AsyncType.LeaveOrg, name, callback });
 
   const inviteToOrg = (
-    name: string,
     email: string,
+    name: string,
     callback?: Callback<string>
   ) => dispatch({ type: AsyncType.InviteToOrg, email, name, callback });
 

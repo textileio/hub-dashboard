@@ -22,7 +22,6 @@ const ApiKeysPanel = () => {
       currentOrganization === username || username === undefined
         ? ""
         : currentOrganization;
-    console.log(org);
     actions.fetchKeys(org, (_keys, err) => {
       if (err && err.message.includes("Invalid session")) {
         actions.signOut();
@@ -57,10 +56,14 @@ const ApiKeysPanel = () => {
         <PrimaryButton>Create Key +</PrimaryButton>
       </Link>
       <hr />
-      <h3>Account Keys</h3>
-      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.ACCOUNT} />
-      <h3>User group Keys</h3>
-      <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
+      {state.user.keys?.length ? (
+        <div>
+          <h3>Account Keys</h3>
+          <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.ACCOUNT} />
+          <h3>User group Keys</h3>
+          <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
+        </div>
+      ) : null}
     </ApiKeysPanelContainer>
   );
 };

@@ -1,8 +1,10 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { TertiarySmallButton } from "../../components/Buttons";
 import { KeyInfo } from "../../store/State";
 import Context from "../../store/Context";
+import { OrgInterface } from "../../components/Utils";
 
 const HiddenKeyContainer = styled.div`
   filter: blur(4px);
@@ -24,10 +26,15 @@ const KeyItem = ({
   threads,
 }: Omit<KeyInfo, "key"> & { pubKey: string }) => {
   const [visible, setVisible] = useState(false);
-  const [, actions] = useContext(Context);
-  // TODO: Handle getting current org info
+  const [state, actions] = useContext(Context);
+  const { currentOrganization } = useParams<OrgInterface>();
+  const username = state.user.sessionInfo?.username;
+  const org =
+    currentOrganization === username || username === undefined
+      ? ""
+      : currentOrganization;
   const handleRevoke = (key: string) => {
-    return actions.revokeKey(key, "", (_str, err) => {
+    return actions.revokeKey(key, org, (_str, err) => {
       if (err) console.log(err);
     });
   };

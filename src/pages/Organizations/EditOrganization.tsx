@@ -1,14 +1,11 @@
+import { useState, FormEvent } from "react";
 import styled from "styled-components";
 import FormInput from "../../components/FormInput";
-import {
-  PrimaryButton,
-  DocsButton,
-  TertiarySmallButton,
-} from "../../components/Buttons";
-// import { useContext } from "react";
-// import Context from "../../store/Context";
-// import { useParams } from "react-router";
-// import { OrgInterface } from "../../components/Utils";
+import { PrimaryButton, DocsButton } from "../../components/Buttons";
+import { useContext } from "react";
+import Context from "../../store/Context";
+import { useHistory, useParams } from "react-router";
+import { OrgInterface } from "../../components/Utils";
 import { borderRadius, space } from "../../utils";
 import { ReactComponent as DocsIcon } from "../../assets/icons/docs-icon.svg";
 
@@ -49,14 +46,25 @@ const MemberList = styled.table`
   }
 `;
 
-const EditOrganization = () => {
-  // const [state] = useContext(Context);
-  // const { currentOrganization } = useParams<OrgInterface>();
-  // const [filteredOrg] =
-  //   state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
+export const AddOrganization = () => {
+  const [orgName, setOrgName] = useState<string>("");
+  const [, actions] = useContext(Context);
+  const history = useHistory();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    actions.createOrg(orgName, (_orgInfo, err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      history.push(`../${orgName}`);
+    });
+  };
+
   return (
     <EditOrganizationContainer>
-      <h1>Edit Organizations</h1>
+      <h1>Add Organization</h1>
       <a
         href="https://docs.textile.io/hub/accounts/#organizations"
         target="_blank"
@@ -75,54 +83,89 @@ const EditOrganization = () => {
       <hr />
       <OrganizationOptions>
         <Panel>
+          <h2>Settings</h2>
+          <form onSubmit={handleSubmit}>
+            <FormInput
+              name="orgName"
+              type="text"
+              label="Organization Name"
+              value={orgName}
+              onChange={(e) => setOrgName(e.target.value)}
+            />
+            {/* <FormInput
+              name="orgDescription"
+              type="text"
+              label="Description"
+              disabled
+            /> */}
+            <PrimaryButton type="submit">Add Organization</PrimaryButton>
+          </form>
+        </Panel>
+      </OrganizationOptions>
+    </EditOrganizationContainer>
+  );
+};
+
+export const EditOrganization = () => {
+  const [state, actions] = useContext(Context);
+  const [emailAddress, setEmailAddress] = useState<string>("");
+  const { currentOrganization } = useParams<OrgInterface>();
+  const [filteredOrg] =
+    state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    actions.inviteToOrg(emailAddress, currentOrganization, (_invite, err) => {
+      console.log(_invite);
+      if (err) {
+        console.error(err);
+        return;
+      }
+    });
+  };
+  return (
+    <EditOrganizationContainer>
+      <h1>Edit Organization</h1>
+      <hr />
+      <OrganizationOptions>
+        <Panel>
           <h2>General Information</h2>
-          <FormInput name="orgName" type="text" label="Organization Name" />
-          <FormInput name="orgName" type="text" label="Description" disabled />
+          {/* <FormInput
+            name="orgName"
+            type="text"
+            label="Organization Name"
+            value={filteredOrg.name}
+          /> */}
+          {filteredOrg && filteredOrg.name}
+          {/* <FormInput name="orgName" type="text" label="Description" disabled /> */}
           <h3>Add Member</h3>
           <p>Manage Team Members edit team information and permissions</p>
-          <FormInput name="newMember" type="text" label="Email Address" />
-          <PrimaryButton>Send Invite</PrimaryButton>
+          <form onSubmit={handleSubmit}>
+            <FormInput
+              name="newMember"
+              type="text"
+              label="Email Address"
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
+            />
+            <PrimaryButton>Send Invite</PrimaryButton>
+          </form>
         </Panel>
         <RightPanel>
           <h3>Current Members</h3>
           <MemberList>
-            <thead>
-              <tr>
-                <th>name</th>
-                <th>actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>email-malio@email.com</td>
-                <td>
-                  <TertiarySmallButton>Remove</TertiarySmallButton>
-                </td>
-              </tr>
-              <tr>
-                <td>email-malio@email.com</td>
-                <td>
-                  <TertiarySmallButton>Remove</TertiarySmallButton>
-                </td>
-              </tr>
-              <tr>
-                <td>email-malio@email.com</td>
-                <td>
-                  <TertiarySmallButton>Remove</TertiarySmallButton>
-                </td>
-              </tr>
-              <tr>
-                <td>email-malio@email.com</td>
-                <td>
-                  <TertiarySmallButton>Remove</TertiarySmallButton>
-                </td>
-              </tr>
-            </tbody>
+            {filteredOrg && (
+              <tbody>
+                {filteredOrg.members.map((member) => (
+                  <tr key={member.key}>
+                    <td>{member.username}</td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
           </MemberList>
         </RightPanel>
       </OrganizationOptions>
     </EditOrganizationContainer>
   );
 };
-
-export default EditOrganization;
