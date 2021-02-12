@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../../store/Context";
 import { OrgInterface } from "../../components/Utils";
+import { Redirect } from "react-router";
+
+import Toast from "../../components/Toast";
 
 const OverviewContainer = styled.div``;
 
@@ -58,6 +61,10 @@ const OverviewPage = () => {
     state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
   return (
     <OverviewContainer>
+      <Toast
+        message={"Welcome to " + currentOrganization + " 's organization panel"}
+        kind="default"
+      />
       <OverviewTitle>
         <span>{currentOrganization ?? state.user.sessionInfo?.username}</span>{" "}
         Overview
@@ -96,7 +103,7 @@ const OverviewPage = () => {
           </div>
         </li>
       </UsefulLinks>
-      {filteredOrg && (
+      {filteredOrg ? (
         <div>
           <h2>Organization Members</h2>
           <MemberList>
@@ -105,6 +112,10 @@ const OverviewPage = () => {
             ))}
           </MemberList>
         </div>
+      ) : state.user.sessionInfo?.username ? (
+        ""
+      ) : (
+        <Redirect to="/notfound" />
       )}
     </OverviewContainer>
   );

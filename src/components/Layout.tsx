@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import Context from "../store/Context";
 import Header from "./Header";
 import SideMenu from "./SideMenu";
 import styled from "styled-components";
@@ -9,7 +11,12 @@ import {
 import EditApiKey from "../pages/ApiKeys/EditApiKey";
 import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
 import NotFoundPage from "../pages/404";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -30,6 +37,8 @@ const Content = styled.div`
 `;
 
 const Layout = () => {
+  const [state] = useContext(Context);
+
   return (
     <LayoutContainer>
       <Router>
@@ -38,17 +47,26 @@ const Layout = () => {
           <Header />
           <ActiveSection>
             <Switch>
-              <Route path="/notfound" component={NotFoundPage} />
+              {state.user.sessionInfo?.username ? (
+                <Route exact path="/">
+                  <Redirect to={"/" + state.user.sessionInfo?.username} />
+                </Route>
+              ) : null}
+
+              <Route exact path="/notfound" component={NotFoundPage} />
+              <Route exact path="/notfound/*" component={NotFoundPage} />
               <Route
                 exact
                 path="/:currentOrganization/"
                 component={OverviewPage}
               />
               <Route
+                exact
                 path="/:currentOrganization/editorganization"
                 component={EditOrganization}
               />
               <Route
+                exact
                 path="/:currentOrganization/addorganization"
                 component={AddOrganization}
               />
@@ -60,6 +78,7 @@ const Layout = () => {
                 path="/:currentOrganization/editapikey"
                 component={EditApiKey}
               />
+              {/* <Route component={NotFoundPage} /> */}
             </Switch>
           </ActiveSection>
         </Content>
