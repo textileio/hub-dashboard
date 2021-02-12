@@ -29,5 +29,8 @@ jobs:
       - name: Install
         run: npm install
 
+      - name: Build
+        run: npm run build
+
       - name: Deploy
         run: npm run deploy -- -n hub.dash.staging -t ${{ secrets.TEXTILE_ORG_STAGING_THREAD }} -k ${{ secrets.TEXTILE_ORG_ACCOUNT_KEY }} -s ${{ secrets.TEXTILE_ORG_ACCOUNT_SECRET }}
