@@ -179,33 +179,8 @@ export const asyncActionHandlers: AsyncActionHandlers<
         if (callback) callback(sessionInfo);
       })
       .catch((e) => {
-        // If we have an "exists" error, we'll just log the user in instead
-        if (e.message.includes("Account exists")) {
-          return admin
-            .signIn(username || email)
-            .then((sessionInfo) => {
-              cookies.set("sessionInfo", sessionInfo, {
-                path: "/",
-                maxAge,
-              });
-              dispatch({
-                type: Actions.InnerType.FinishSignUp,
-                sessionInfo,
-                username: username || email,
-              });
-              if (callback) callback(sessionInfo);
-            })
-            .catch((e) => {
-              dispatch({
-                type: Actions.OuterType.SetError,
-                message: e.message,
-              });
-              if (callback) callback(undefined, e);
-            });
-        } else {
-          dispatch({ type: Actions.OuterType.SetError, message: e.message });
-          if (callback) callback(undefined, e);
-        }
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
       });
   },
   [Actions.AsyncType.SignIn]: ({ dispatch }) => async ({
@@ -216,7 +191,7 @@ export const asyncActionHandlers: AsyncActionHandlers<
     dispatch({ type: Actions.InnerType.StartSignIn });
     // This will sit here, waiting until we get a confirmation email click
     return admin
-      .signUp(username, email)
+      .signIn(email ?? username)
       .then((sessionInfo) => {
         cookies.set("sessionInfo", sessionInfo, {
           path: "/",

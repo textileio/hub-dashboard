@@ -20,6 +20,7 @@ const ButtonsContainer = styled.div`
 const SignUpForm = () => {
   const [state, actions] = useContext(Context);
   const [username, setUsername] = useState<string | undefined>();
+  const [type, setType] = useState<string>("signin");
   const [email, setEmail] = useState<string | undefined>();
   const history = useHistory();
 
@@ -27,15 +28,29 @@ const SignUpForm = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        if (username && email) {
-          actions.clearError();
-          actions.signUp(username, email, (_res, err) => {
-            if (err) {
-              console.error(err);
-              return;
+        actions.clearError();
+        console.log(type);
+        switch (type) {
+          case "signup":
+            if (username && email) {
+              actions.signUp(username, email, (_res, err) => {
+                if (err) {
+                  return;
+                }
+                history.push("/");
+              });
             }
-            history.push("/");
-          });
+            break;
+          case "signin":
+            if (username && email) {
+              actions.signIn(username, email, (_res, err) => {
+                if (err) {
+                  return;
+                }
+                history.push("/");
+              });
+            }
+            break;
         }
       }}
     >
@@ -75,8 +90,15 @@ const SignUpForm = () => {
         </div>
       ) : (
         <ButtonsContainer>
-          <PrimaryButton type="submit">Sign In</PrimaryButton>
-          <PrimaryButtonInverted type="submit">Sign Up</PrimaryButtonInverted>
+          <PrimaryButton type="submit" onClick={() => setType("signin")}>
+            Sign In
+          </PrimaryButton>
+          <PrimaryButtonInverted
+            type="submit"
+            onClick={() => setType("signup")}
+          >
+            Sign Up
+          </PrimaryButtonInverted>
         </ButtonsContainer>
       )}
     </form>
