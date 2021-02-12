@@ -1,11 +1,21 @@
 import { useState, useContext } from "react";
 import { useHistory } from "react-router";
-
+import styled from "styled-components";
 import FormInput from "../../components/FormInput";
-import { PrimaryButton } from "../../components/Buttons";
+import { PrimaryButton, PrimaryButtonInverted } from "../../components/Buttons";
 import Context from "../../store/Context";
 import Loader from "../../components/Loader";
 import MessageBox from "../../components/MessageBox";
+
+const ButtonsContainer = styled.div`
+  display: flex;
+  button {
+    width: 100%;
+    &:first-child {
+      margin-right: 20px;
+    }
+  }
+`;
 
 const SignUpForm = () => {
   const [state, actions] = useContext(Context);
@@ -64,7 +74,10 @@ const SignUpForm = () => {
           </div>
         </div>
       ) : (
-        <PrimaryButton type="submit">Access</PrimaryButton>
+        <ButtonsContainer>
+          <PrimaryButton type="submit">Sign In</PrimaryButton>
+          <PrimaryButtonInverted type="submit">Sign Up</PrimaryButtonInverted>
+        </ButtonsContainer>
       )}
     </form>
   );

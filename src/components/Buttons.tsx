@@ -35,6 +35,17 @@ export const PrimaryButton = styled(Button)`
   padding: 12px 18px;
   font-size: ${announcement};
 `;
+export const PrimaryButtonInverted = styled(Button)`
+  margin-top: 20px;
+  padding: 12px 18px;
+  font-size: ${announcement};
+  color: ${({ theme }) => theme.primary};
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 2px solid ${({ theme }) => theme.primary};
+  &:hover {
+    background-color: ${({ theme }) => theme.primaryLight300};
+  }
+`;
 
 export const ContextOrgButton = styled(PrimaryButton)`
   color: ${({ theme }) => theme.neutral1000};
