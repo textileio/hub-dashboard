@@ -73,10 +73,6 @@ const SideMenu = () => {
         <li>
           <Link to={`/${match?.params.currentOrganization}`}>Overview</Link>
         </li>
-        {/* <li>Buckets</li> */}
-        {/* <li>Threads</li> */}
-        {/* <li>Billing</li> */}
-        {/* <li>Powergate</li> */}
         <li>
           <Link to={`/${match?.params.currentOrganization}/keys`}>
             API Keys
