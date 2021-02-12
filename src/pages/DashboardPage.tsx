@@ -1,17 +1,16 @@
 import { useContext, useEffect } from "react";
 import Layout from "../components/Layout";
 import Context from "../store/Context";
+import Toast from "../components/Toast";
 
 const DashboardPage = () => {
-  const [, actions] = useContext(Context);
+  const [state, actions] = useContext(Context);
 
   useEffect(() => {
     actions.fetchSessionInfo((_info, err) => {
       if (err) {
         if (err.message.includes("Invalid session")) {
           actions.signOut();
-        } else {
-          console.error(err);
         }
       }
     });
@@ -23,6 +22,7 @@ const DashboardPage = () => {
 
   return (
     <div>
+      {state.error && <Toast message={"Error:" + state.error} kind="error" />}
       <Layout />
     </div>
   );

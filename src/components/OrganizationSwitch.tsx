@@ -89,7 +89,6 @@ const OrganizationSwitch = () => {
 
   const handleClick = () => {
     setVisible((prevState: any) => !prevState);
-    console.log("cleeek");
   };
 
   const username =
