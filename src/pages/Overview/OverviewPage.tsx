@@ -57,8 +57,10 @@ const MemberList = styled.ul`
 const OverviewPage = () => {
   const [state] = useContext(Context);
   const { currentOrganization } = useParams<OrgInterface>();
+  const username = state.user.sessionInfo?.username;
   const [filteredOrg] =
     state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
+  console.log(username, currentOrganization);
   return (
     <OverviewContainer>
       <Toast
@@ -66,8 +68,7 @@ const OverviewPage = () => {
         kind="default"
       />
       <OverviewTitle>
-        <span>{currentOrganization ?? state.user.sessionInfo?.username}</span>{" "}
-        Overview
+        <span>{currentOrganization ?? username}</span> Overview
       </OverviewTitle>
       <p className="announcement">
         <b>Next Steps:</b>
@@ -89,7 +90,7 @@ const OverviewPage = () => {
         <li>
           <Step>2</Step>
           <div>
-            use <Command>hub login</Command> to get started.
+            use <Command>hub login</Command> to get started.ac
           </div>
         </li>
         <li>
@@ -103,7 +104,7 @@ const OverviewPage = () => {
           </div>
         </li>
       </UsefulLinks>
-      {filteredOrg ? (
+      {username && filteredOrg ? (
         <div>
           <h2>Organization Members</h2>
           <MemberList>
@@ -112,11 +113,10 @@ const OverviewPage = () => {
             ))}
           </MemberList>
         </div>
-      ) : state.user.sessionInfo?.username ? (
-        ""
-      ) : (
+      ) : username === undefined ? null : username !== currentOrganization &&
+        state.user.orgs ? (
         <Redirect to="/notfound" />
-      )}
+      ) : null}
     </OverviewContainer>
   );
 };
