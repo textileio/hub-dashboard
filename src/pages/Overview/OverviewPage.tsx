@@ -64,7 +64,7 @@ const OverviewPage = () => {
   return (
     <OverviewContainer>
       <Toast
-        message={"Welcome to " + currentOrganization + " 's organization panel"}
+        message={"Welcome to " + currentOrganization + "'s organization panel"}
         kind="default"
       />
       <OverviewTitle>
@@ -90,7 +90,7 @@ const OverviewPage = () => {
         <li>
           <Step>2</Step>
           <div>
-            use <Command>hub login</Command> to get started.ac
+            Use <Command>hub login</Command> to get started.ac
           </div>
         </li>
         <li>
