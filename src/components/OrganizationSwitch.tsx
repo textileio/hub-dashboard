@@ -119,16 +119,16 @@ const OrganizationSwitch = () => {
             {state.user.orgs?.map((organization) => (
               <li
                 className={
-                  location.pathname.startsWith("/" + organization.name)
+                  location.pathname.startsWith("/" + organization.slug)
                     ? "selected-organization"
                     : ""
                 }
-                key={organization.slug}
+                key={organization.name}
               >
-                <Link to={"/" + organization.name} onClick={handleClick}>
+                <Link to={"/" + organization.slug} onClick={handleClick}>
                   {organization.name}
                 </Link>
-                <Link to={"/" + organization.name + "/editorganization"}>
+                <Link to={"/" + organization.slug + "/editorganization"}>
                   <SettingsIcon />
                 </Link>
               </li>

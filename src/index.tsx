@@ -5,7 +5,7 @@ import { CookiesProvider } from "react-cookie";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
 import Provider from "./store/Provider";
 import { cookies } from "./store/Reducer";
 

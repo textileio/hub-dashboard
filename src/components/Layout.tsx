@@ -12,11 +12,13 @@ import EditApiKey from "../pages/ApiKeys/EditApiKey";
 import ApiKeysPanel from "../pages/ApiKeys/ApiKeysPanel";
 import NotFoundPage from "../pages/404";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   Redirect,
+  useParams,
 } from "react-router-dom";
+import { OrgInterface } from "../components/Utils";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -38,6 +40,8 @@ const Content = styled.div`
 
 const Layout = () => {
   const [state] = useContext(Context);
+  const { currentOrganization } = useParams<OrgInterface>();
+  console.log(currentOrganization);
 
   return (
     <LayoutContainer>
