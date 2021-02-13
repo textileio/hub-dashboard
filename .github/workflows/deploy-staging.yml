@@ -32,7 +32,7 @@ jobs:
         run: npm install
 
       - name: Build
-        run: npm run build
+        run: REACT_APP_HUB_HOST=https://webapi.hub.staging.textile.io npm run build
 
       - name: Deploy
-        run: REACT_APP_HUB_HOST=https://webapi.hub.staging.textile.io npm run deploy -- -n hub.dash.staging -t ${{ secrets.TEXTILE_ORG_STAGING_THREAD }} -k ${{ secrets.TEXTILE_ORG_ACCOUNT_KEY }} -s ${{ secrets.TEXTILE_ORG_ACCOUNT_SECRET }}
+        run: npm run deploy -- -n hub.dash.staging -t ${{ secrets.TEXTILE_ORG_STAGING_THREAD }} -k ${{ secrets.TEXTILE_ORG_ACCOUNT_KEY }} -s ${{ secrets.TEXTILE_ORG_ACCOUNT_SECRET }}
