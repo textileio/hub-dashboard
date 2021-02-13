@@ -55,7 +55,7 @@ const EditApiKey = () => {
           />
           <label htmlFor="usergroup">User Group</label>
         </div>
-        <p>Select Security:</p>
+        <p>Select security:</p>
         <div>
           <input
             type="radio"

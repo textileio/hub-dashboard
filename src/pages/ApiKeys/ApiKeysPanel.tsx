@@ -43,7 +43,7 @@ const ApiKeysPanel = () => {
         </DocsButton>
       </a>
       <p>
-        You can access the Hub APIs through the use of API keys:
+        You can access the Hub APIs through the use of API keys.
         <br />
         <b>Account keys</b> grant access to the developer's resources.
         <br />
@@ -60,7 +60,7 @@ const ApiKeysPanel = () => {
         <div>
           <h3>Account Keys</h3>
           <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.ACCOUNT} />
-          <h3>User group Keys</h3>
+          <h3>User Group Keys</h3>
           <KeyList keys={state.user.keys ?? []} typeFilter={KeyType.USER} />
         </div>
       ) : null}
