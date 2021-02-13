@@ -59,7 +59,7 @@ const OverviewPage = () => {
   const { currentOrganization } = useParams<OrgInterface>();
   const username = state.user.sessionInfo?.username;
   const [filteredOrg] =
-    state.user.orgs?.filter((org) => org.name === currentOrganization) ?? [];
+    state.user.orgs?.filter((org) => org.slug === currentOrganization) ?? [];
   console.log(username, currentOrganization);
   return (
     <OverviewContainer>
