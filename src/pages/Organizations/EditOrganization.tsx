@@ -139,7 +139,7 @@ export const EditOrganization = () => {
           {filteredOrg && filteredOrg.name}
           {/* <FormInput name="orgName" type="text" label="Description" disabled /> */}
           <h3>Add Member</h3>
-          <p>Enter email to send a new invite.</p>
+          <p>Enter your team member's email to send them a new invite.</p>
           <form onSubmit={handleSubmit}>
             <FormInput
               name="newMember"
