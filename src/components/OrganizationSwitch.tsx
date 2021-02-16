@@ -134,7 +134,10 @@ const OrganizationSwitch = () => {
               </li>
             ))}
           </ul>
-          <Link to={`/${state.user.sessionInfo?.username}/addorganization`}>
+          <Link
+            onClick={handleClick}
+            to={`/${state.user.sessionInfo?.username}/addorganization`}
+          >
             Add Organization +
           </Link>
         </OrganizationList>

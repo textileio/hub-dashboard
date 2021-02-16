@@ -116,11 +116,10 @@ export const EditOrganization = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     actions.inviteToOrg(emailAddress, currentOrganization, (_invite, err) => {
-      console.log(_invite);
       if (err) {
-        console.error(err);
         return;
       }
+      setEmailAddress("");
     });
   };
   return (
