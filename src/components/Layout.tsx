@@ -16,9 +16,9 @@ import {
   Switch,
   Route,
   Redirect,
-  useParams,
+  // useParams,
 } from "react-router-dom";
-import { OrgInterface } from "../components/Utils";
+// import { OrgInterface } from "../components/Utils";
 
 const LayoutContainer = styled.div`
   display: flex;
@@ -40,8 +40,7 @@ const Content = styled.div`
 
 const Layout = () => {
   const [state] = useContext(Context);
-  const { currentOrganization } = useParams<OrgInterface>();
-  console.log(currentOrganization);
+  // const { currentOrganization } = useParams<OrgInterface>();
 
   return (
     <LayoutContainer>

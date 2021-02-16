@@ -8,6 +8,8 @@ import type {
   SigninOrSignupResponse,
 } from "./State";
 
+import { cookies } from "./Reducer";
+
 /**
  * InnerType are internal action types.
  */
@@ -234,7 +236,10 @@ export function createActions(
     callback?: Callback<SigninOrSignupResponse>
   ) => dispatch({ type: AsyncType.SignUp, username, email, callback });
 
-  const signOut = () => dispatch({ type: OuterType.SignOut });
+  const signOut = () => {
+    cookies.remove("sessionInfo");
+    dispatch({ type: OuterType.SignOut });
+  };
 
   const signIn = (
     username: string,

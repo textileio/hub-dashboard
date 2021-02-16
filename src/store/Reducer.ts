@@ -33,8 +33,6 @@ export const reducer: Reducer<State, Actions.Action> = (
       };
     // Signout
     case Actions.OuterType.SignOut:
-      // TODO: This is bad, this should be a pure function...
-      cookies.remove("sessionInfo");
       return { ...initialState };
     // SignUp and SignIn
     case Actions.InnerType.StartSignUp:
