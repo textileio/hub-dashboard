@@ -1,66 +1,79 @@
 import styled from "styled-components";
 import { useContext } from "react";
 import Context from "../store/Context";
-import { typescale, primaryFontBold } from "../utils";
-
-const {
-  // heading4,
-  medium,
-} = typescale.desktop;
+import { typescale, primaryFontBold, borderRadius } from "../utils";
+import {
+  UserCircle,
+  ChatAlt,
+  DocumentText,
+  Bookmark,
+} from "@styled-icons/heroicons-solid/";
 
 const HeaderContainer = styled.div`
-  font-size: ${medium};
   display: flex;
-  border-bottom: 1px solid ${({ theme }) => theme.neutral300};
-  justify-content: space-between;
+  position: sticky;
+  top: 0;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 20px;
+  font-size: ${typescale.desktop.medium};
   background-color: ${({ theme }) => theme.neutral100};
+  border-bottom: 1px solid ${({ theme }) => theme.neutral300};
+  z-index: 1;
 `;
 
-// const HeaderTitle = styled.span`
-//   font-family: ${primaryFontBold};
-//   font-size: ${heading4};
-// `;
-
-const HeaderMenu = styled.div`
+const HeaderMenu = styled.ul`
   display: flex;
-  ul {
-    align-items: center;
-    list-style-type: none;
+  align-items: center;
+  list-style-type: none;
+  margin: 0;
+`;
+
+const HeaderMenuItem = styled.li`
+  a {
     display: flex;
-    margin: 0;
-    li {
-      margin: 0 10px;
+    align-items: center;
+    margin: 0 4px;
+    padding: 4px 12px;
+    color: ${({ theme }) => theme.neutral1000};
+    border-radius: ${borderRadius.default};
+    transition: all 0.2s linear;
+    svg {
+      margin-right: 4px;
+      max-height: 20px;
+      max-width: 20px;
+      color: ${({ theme }) => theme.neutral300};
+    }
+  }
+  :hover {
+    svg,
+    a {
+      color: ${({ theme }) => theme.neutral100};
+    }
+    a {
+      background-color: ${({ theme }) => theme.primaryLight200};
     }
   }
 `;
 
 const UserTag = styled.div`
   border-left: 1px solid ${({ theme }) => theme.neutral400};
-  margin: 0 40px;
+  margin: 0 0 0 40px;
   align-items: center;
   padding-left: 20px;
   text-align: right;
   display: flex;
+  font-family: ${primaryFontBold};
   svg {
     margin-right: 15px;
-    cursor: pointer;
-  }
-  p {
-    margin: 0 0 0 40px;
-    &:first-child {
-      font-family: ${primaryFontBold};
-    }
   }
 `;
 
-const UserPhoto = styled.div`
-  margin-left: 10px;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.primary};
+const UserPhoto = styled(UserCircle)`
   width: 35px;
   height: 35px;
+  margin-left: 10px;
+  color: ${({ theme }) => theme.primary};
 `;
 
 const Header = () => {
@@ -69,35 +82,29 @@ const Header = () => {
     <HeaderContainer>
       <div>{/* <HeaderTitle>activeSection</HeaderTitle> */}</div>
       <HeaderMenu>
-        <ul>
-          <li>
-            <a href="https://blog.textile.io/" target="_blank" rel="noreferrer">
-              Blog
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://slack.textile.io/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Support
-            </a>
-          </li>
-          <li>
-            <a href="https://docs.textile.io/" target="_blank" rel="noreferrer">
-              Documentation
-            </a>
-          </li>
-        </ul>
+        <HeaderMenuItem>
+          <a href="https://blog.textile.io/" target="_blank" rel="noreferrer">
+            <Bookmark />
+            Blog
+          </a>
+        </HeaderMenuItem>
+        <HeaderMenuItem>
+          <a href="https://slack.textile.io/" target="_blank" rel="noreferrer">
+            <ChatAlt />
+            Support
+          </a>
+        </HeaderMenuItem>
+        <HeaderMenuItem>
+          <a href="https://docs.textile.io/" target="_blank" rel="noreferrer">
+            <DocumentText />
+            Documentation
+          </a>
+        </HeaderMenuItem>
+
         <UserTag>
-          <div>
-            <p>
-              {state.user.sessionInfo?.username ??
-                state.user.sessionInfo?.email ??
-                "unknown"}
-            </p>
-          </div>
+          {state.user.sessionInfo?.username ??
+            state.user.sessionInfo?.email ??
+            "unknown"}
           <UserPhoto />
         </UserTag>
       </HeaderMenu>
