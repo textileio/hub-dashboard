@@ -74,3 +74,5 @@ export const blueTheme = {
   errorDefault: error.default,
   errorDark: error.dark,
 };
+
+export type ThemeProps = typeof defaultTheme;
