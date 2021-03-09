@@ -1,10 +1,11 @@
+import { ThreadID } from "@textile/hub";
 import { Reducer } from "react";
-import { AsyncActionHandlers } from "use-reducer-async";
 import Cookies from "universal-cookie";
-
-import { State, initialState } from "./State";
+import { AsyncActionHandlers } from "use-reducer-async";
 import * as Actions from "./Actions";
-import { admin, Context } from "./Textile";
+import { initialState, State } from "./State";
+
+import { admin, buckets, Context, client } from "./Textile";
 
 export const cookies = new Cookies();
 
@@ -144,6 +145,48 @@ export const reducer: Reducer<State, Actions.Action> = (
       return {
         ...state,
         loading: false,
+      };
+    }
+    // buckets
+    case Actions.InnerType.StartFetchBuckets:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchBuckets: {
+      const { buckets } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, buckets },
+      };
+    }
+    // All threads
+    case Actions.InnerType.StartFetchThreads:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchThreads: {
+      const { threads } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, threads },
+      };
+    }
+    // Single Thread
+    case Actions.InnerType.StartFetchThread:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchThread: {
+      const { threads } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, threads },
       };
     }
     default:
@@ -353,6 +396,53 @@ export const asyncActionHandlers: AsyncActionHandlers<
           invite,
         });
         if (callback) callback(invite);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchBuckets]: ({ dispatch }) => async ({ callback }) => {
+    dispatch({ type: Actions.InnerType.StartFetchBuckets });
+    buckets.context = withCookiesAndState(admin.context as Context);
+    //TODO: listing all buckets- should instead list all from currentOrg
+    return buckets
+      .existing()
+      .then((buckets) => {
+        dispatch({ type: Actions.InnerType.FinishFetchBuckets, buckets });
+        if (callback) callback(buckets);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchThreads]: ({ dispatch }) => async ({ callback }) => {
+    dispatch({ type: Actions.InnerType.StartFetchThreads });
+    client.context = withCookiesAndState(admin.context as Context);
+    //TODO: listing all threads - should instead list all from currentOrg
+    return client
+      .listThreads()
+      .then((threads) => {
+        dispatch({ type: Actions.InnerType.FinishFetchThreads, threads });
+        if (callback) callback(threads);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchThread]: ({ dispatch }) => async ({
+    threadID,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartFetchThread });
+    client.context = withCookiesAndState(admin.context as Context);
+    return client
+      .listCollections(ThreadID.fromString(threadID))
+      .then((threads) => {
+        dispatch({ type: Actions.InnerType.FinishFetchThread, threads });
+        if (callback) callback(threads);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });

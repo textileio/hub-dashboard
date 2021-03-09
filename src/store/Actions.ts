@@ -6,6 +6,8 @@ import type {
   KeyInfo,
   KeyType,
   SigninOrSignupResponse,
+  GetThreadResponse,
+  Root,
 } from "./State";
 
 import { cookies } from "./Reducer";
@@ -44,6 +46,15 @@ export enum InnerType {
   // InviteToOrg
   StartInviteToOrg = "START_INVITE_TO_ORG",
   FinishInviteToOrg = "FINISH_INVITE_TO_ORG",
+  //FetchBuckets
+  StartFetchBuckets = "START_FETCH_BUCKETS",
+  FinishFetchBuckets = "FINISH_FETCH_BUCKETS",
+  //FetchThreads
+  StartFetchThreads = "START_FETCH_THREADS",
+  FinishFetchThreads = "FINISH_FETCH_THREADS",
+  //FetchThreads
+  StartFetchThread = "START_FETCH_THREAD",
+  FinishFetchThread = "FINISH_FETCH_THREAD",
 }
 
 /**
@@ -69,6 +80,9 @@ export enum AsyncType {
   LeaveOrg = "LEAVE_ORG",
   InviteToOrg = "INVITE_TO_ORG",
   FetchSessionInfo = "FETCH_SESSION_INFO",
+  FetchBuckets = "FETCH_BUCKETS",
+  FetchThreads = "FETCH_THREADS",
+  FetchThread = "FETCH_THREAD",
 }
 
 /**
@@ -114,6 +128,23 @@ export type InnerAction =
   | {
       type: InnerType.FinishFetchSessionInfo;
       sessionInfo: SessionInfoResponse;
+    }
+  // FetchBuckets
+  | { type: InnerType.StartFetchBuckets }
+  | {
+      type: InnerType.FinishFetchBuckets;
+      buckets: Root[];
+    }
+  // FetchThreads
+  | { type: InnerType.StartFetchThreads }
+  | {
+      type: InnerType.FinishFetchThreads;
+      threads: GetThreadResponse[];
+    }
+  | { type: InnerType.StartFetchThread }
+  | {
+      type: InnerType.FinishFetchThread;
+      threads: any;
     };
 
 /**
@@ -188,43 +219,27 @@ export type AsyncAction =
   | {
       type: AsyncType.FetchSessionInfo;
       callback?: Callback<SessionInfoResponse>;
+    }
+  | {
+      type: AsyncType.FetchBuckets;
+      callback?: Callback<Root[]>;
+    }
+  | {
+      type: AsyncType.FetchThreads;
+      callback?: Callback<GetThreadResponse[]>;
+    }
+  | {
+      type: AsyncType.FetchThread;
+      threadID: string;
+      callback?: Callback<any>;
     };
 
 /**
  * Actions defines the access patterns for actions on our store.
  */
-export interface Actions {
-  setError: (message: string) => void;
-  clearError: () => void;
-  signUp(
-    username: string,
-    email: string,
-    callback?: Callback<SigninOrSignupResponse>
-  ): void;
-  signIn(
-    username: string,
-    email: string,
-    callback?: Callback<SigninOrSignupResponse>
-  ): void;
-  signOut(): void;
-  fetchOrgs(callback?: Callback<OrgInfo[]>): void;
-  createOrg(name: string, callback?: Callback<OrgInfo>): void;
-  leaveOrg(name: string, callback?: Callback<string>): void;
-  inviteToOrg(email: string, name: string, callback?: Callback<string>): void;
-  fetchKeys(org: string, callback?: Callback<KeyInfo[]>): void;
-  createKey(
-    keyType: KeyType,
-    secure: boolean,
-    org: string,
-    callback?: Callback<KeyInfo>
-  ): void;
-  revokeKey(key: string, org: string, callback?: Callback<string>): void;
-  fetchSessionInfo(callback?: Callback<SessionInfoResponse>): void;
-}
+export type Actions = ReturnType<typeof createActions>;
 
-export function createActions(
-  dispatch: Dispatch<OuterAction | AsyncAction>
-): Actions {
+export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
   const setError = (message: string) =>
     dispatch({ type: OuterType.SetError, message });
 
@@ -278,6 +293,15 @@ export function createActions(
   const fetchSessionInfo = (callback?: Callback<SessionInfoResponse>) =>
     dispatch({ type: AsyncType.FetchSessionInfo, callback });
 
+  const fetchBuckets = (callback?: Callback<Root[]>) =>
+    dispatch({ type: AsyncType.FetchBuckets, callback });
+
+  const fetchThreads = (callback?: Callback<GetThreadResponse[]>) =>
+    dispatch({ type: AsyncType.FetchThreads, callback });
+
+  const fetchThread = (threadID: string, callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.FetchThread, threadID, callback });
+
   return {
     setError,
     clearError,
@@ -292,5 +316,8 @@ export function createActions(
     createKey,
     revokeKey,
     fetchSessionInfo,
+    fetchBuckets,
+    fetchThreads,
+    fetchThread,
   };
 }

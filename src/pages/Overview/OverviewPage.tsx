@@ -1,11 +1,11 @@
-import { useParams } from "react-router";
-import styled from "styled-components";
 import { useContext } from "react";
-import Context from "../../store/Context";
-import { OrgInterface } from "../../components/Utils";
-import { Redirect } from "react-router";
-
+import { Redirect, useParams } from "react-router";
+import styled from "styled-components";
 import Toast from "../../components/Toast";
+import { OrgInterface } from "../../components/Utils";
+import Context from "../../store/Context";
+import { Card } from "../../components/Card";
+import { DefaultButton } from "../../components/Buttons";
 
 const OverviewContainer = styled.div``;
 
@@ -60,13 +60,22 @@ const OverviewPage = () => {
   const username = state.user.sessionInfo?.username;
   const [filteredOrg] =
     state.user.orgs?.filter((org) => org.slug === currentOrganization) ?? [];
-  console.log(username, currentOrganization);
+
   return (
     <OverviewContainer>
       <Toast
         message={"Welcome to " + currentOrganization + "'s organization panel"}
         kind="default"
       />
+      <Card>
+        <h3>New to textile?</h3>
+        <p>
+          Textile is a set of open source tools that provide a decentralized
+          database, IPFS-based storage, content hosting, and more over Libp2p,
+          IPFS, and Filecoin.
+        </p>
+        <DefaultButton>Follow the Docs</DefaultButton>
+      </Card>
       <OverviewTitle>
         <span>{currentOrganization ?? username}</span> Overview
       </OverviewTitle>
