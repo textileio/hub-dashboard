@@ -1,22 +1,26 @@
+// import { Bucket } from "@styled-icons/entypo";
+import { Collection, Key } from "@styled-icons/heroicons-solid/";
 import { useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
-import OrganizationSwitch from "../components/OrganizationSwitch";
 import { ReactComponent as TextileLogoVertical } from "../assets/textile-logo-v.svg";
-import { primaryFontBold, typescale, space } from "../utils";
 import { TertiarySmallButton } from "../components/Buttons";
+import OrganizationSwitch from "../components/OrganizationSwitch";
 import Context from "../store/Context";
+import { borderRadius, space, typescale } from "../utils";
 import { OrgInterface } from "./Utils";
 
 const { big } = typescale.desktop;
 
 const SideMenuContainer = styled.div`
+  position: sticky;
+  top: 0;
   height: 100vh;
   padding: 20px;
   display: flex;
   flex-direction: column;
   width: 20%;
-  min-width: 210px;
+  min-width: 280px;
   border-right: 1px solid ${({ theme }) => theme.neutral300};
   background-color: ${({ theme }) => theme.neutral100};
   align-items: center;
@@ -44,18 +48,25 @@ const SideMenuNav = styled.ul`
   border-top: 1px solid ${({ theme }) => theme.neutral400};
   margin-top: 35px;
   padding-top: 35px;
-  li {
+`;
+
+const SideMenuNavItem = styled.li`
+  a {
+    display: flex;
+    align-items: center;
     padding: 10px 30px;
     margin-bottom: 5px;
-    font-family: ${primaryFontBold};
-    transition: all 0.3s linear;
-    cursor: pointer;
-    &:hover {
+    border-radius: ${borderRadius.default};
+    transition: all 0.4s linear;
+    color: ${({ theme }) => theme.neutral1000};
+    :hover {
+      background-color: ${({ theme }) => theme.neutral200};
       color: ${({ theme }) => theme.primary};
     }
-    &::before {
-      content: "◯";
-      margin-right: 10px;
+    svg {
+      max-width: 18px;
+      max-height: 20px;
+      margin-right: 4px;
     }
   }
 `;
@@ -70,14 +81,36 @@ const SideMenu = () => {
       </Link>
       <OrganizationSwitch />
       <SideMenuNav>
-        <li>
-          <Link to={`/${match?.params.currentOrganization}`}>Overview</Link>
-        </li>
-        <li>
+        <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}`}>
+            <Collection />
+            Overview
+          </Link>
+        </SideMenuNavItem>
+        <SideMenuNavItem>
           <Link to={`/${match?.params.currentOrganization}/keys`}>
+            <Key />
             API Keys
           </Link>
-        </li>
+        </SideMenuNavItem>
+        {/* <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/threads`}>
+            <Database />
+            ThreadDB
+          </Link>
+        </SideMenuNavItem>
+        <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/buckets`}>
+            <Bucket />
+            Buckets
+          </Link>
+        </SideMenuNavItem>
+        <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/billing`}>
+            <CreditCard />
+            Billing
+          </Link>
+        </SideMenuNavItem> */}
       </SideMenuNav>
       <SignOutButton onClick={() => actions.signOut()}>Sign Out</SignOutButton>
     </SideMenuContainer>

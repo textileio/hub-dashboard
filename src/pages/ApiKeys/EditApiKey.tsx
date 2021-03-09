@@ -5,6 +5,7 @@ import { OrgInterface } from "../../components/Utils";
 import { useHistory } from "react-router";
 import { PrimaryButton } from "../../components/Buttons";
 import { KeyType } from "../../store/State";
+import { DocsButton } from "../../components/Buttons";
 
 const EditApiKey = () => {
   const [keyType, setKeyType] = useState<string>("account");
@@ -33,6 +34,19 @@ const EditApiKey = () => {
   return (
     <div>
       <h1>Create new Key</h1>
+      <p>
+        You can use insecure keys creating non-signing keys.
+        <br /> These keys are meant to use during development only.
+        <br />
+        Read the tutorial on development mode to use these keys.
+      </p>
+      <a
+        href="https://docs.textile.io/hub/apis/"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <DocsButton>Learn more about API Keys</DocsButton>
+      </a>
       <p>Select key type:</p>
       <form onSubmit={handleSubmit}>
         <div>

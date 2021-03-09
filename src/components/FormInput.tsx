@@ -7,6 +7,7 @@ const { big } = typescale.desktop;
 const FormInputGoup = styled.div`
   position: relative;
   width: 100%;
+  margin-top: 20px;
   input {
     font-size: ${big};
     padding: 6px;
@@ -17,8 +18,8 @@ const FormInputGoup = styled.div`
     width: 100%;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid ${({ theme }) => theme.neutral1000};
-    margin: 20px 0;
+    border-bottom: 1px solid ${({ theme }) => theme.neutral700};
+    margin: 10px 0 20px 0;
     background-color: transparent;
 
     &:focus ~ .form-input-label {
