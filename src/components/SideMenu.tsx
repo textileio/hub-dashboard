@@ -1,4 +1,5 @@
-import { Bucket } from "@styled-icons/entypo";
+// import { Bucket } from "@styled-icons/entypo";
+import { Collection, Key } from "@styled-icons/heroicons-solid/";
 import { useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
@@ -8,12 +9,6 @@ import OrganizationSwitch from "../components/OrganizationSwitch";
 import Context from "../store/Context";
 import { borderRadius, space, typescale } from "../utils";
 import { OrgInterface } from "./Utils";
-import {
-  Collection,
-  CreditCard,
-  Database,
-  Key,
-} from "@styled-icons/heroicons-solid/";
 
 const { big } = typescale.desktop;
 
@@ -98,6 +93,24 @@ const SideMenu = () => {
             API Keys
           </Link>
         </SideMenuNavItem>
+        {/* <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/threads`}>
+            <Database />
+            ThreadDB
+          </Link>
+        </SideMenuNavItem>
+        <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/buckets`}>
+            <Bucket />
+            Buckets
+          </Link>
+        </SideMenuNavItem>
+        <SideMenuNavItem>
+          <Link to={`/${match?.params.currentOrganization}/billing`}>
+            <CreditCard />
+            Billing
+          </Link>
+        </SideMenuNavItem> */}
       </SideMenuNav>
       <SignOutButton onClick={() => actions.signOut()}>Sign Out</SignOutButton>
     </SideMenuContainer>
