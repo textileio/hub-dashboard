@@ -1,13 +1,20 @@
 import type {
+  KeyInfo,
+  OrgInfo,
+  SessionInfoResponse,
+  SigninOrSignupResponse,
+} from "@textile/hub-admin";
+import type { GetThreadResponse, Root } from "@textile/hub";
+import { KeyType } from "@textile/hub-admin";
+
+export type {
   OrgInfo,
   KeyInfo,
   SessionInfoResponse,
   SigninOrSignupResponse,
-} from "@textile/hub-admin";
-import { KeyType } from "@textile/hub-admin";
-
-export type { OrgInfo, KeyInfo, SessionInfoResponse, SigninOrSignupResponse };
-
+  GetThreadResponse,
+  Root,
+};
 export { KeyType };
 
 /**
@@ -27,6 +34,19 @@ export interface User {
    * The set of keys available to the current user/org
    */
   keys?: KeyInfo[];
+  /**
+   * Buckets avaliable to the current user/org
+   */
+  // TODO: any
+  buckets?: any;
+  /**
+   * Threads avaliable to the current user/org
+   */
+  threads?: GetThreadResponse[];
+  /**
+   * Threads avaliable to the current user/org
+   */
+  // client?: any;
 }
 
 /**
@@ -35,6 +55,8 @@ export interface User {
  */
 export interface State {
   user: User;
+  // Context
+  currentOrg: string;
   // Top-level state items, keep these to a minimum
   loading: boolean;
   error?: string;
@@ -42,6 +64,7 @@ export interface State {
 
 // Initial state reflects an un-authorized, empty user/hub state.
 export const initialState: State = {
-  user: {},
+  user: { buckets: [], threads: [] },
+  currentOrg: "",
   loading: false,
 };
