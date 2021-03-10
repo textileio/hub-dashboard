@@ -1,5 +1,8 @@
 import styled from "styled-components";
+import { Link, useRouteMatch } from "react-router-dom";
 import { DefaultButton } from "../../../components/Buttons";
+import { OrgInterface } from "../../../components/Utils";
+import Moment from "react-moment";
 import {
   borderRadius,
   primaryFontBold,
@@ -46,9 +49,12 @@ const BucketCardFooter = styled.div`
   padding: ${space[1]};
   font-size: ${typescale.desktop.small};
   span {
+    padding-right: 20px;
     margin: 0 10px;
-    text-transform: uppercase;
     small {
+      font-size: 11px;
+      margin-right: 5px;
+      text-transform: uppercase;
       color: ${({ theme }) => theme.neutral800};
     }
   }
@@ -73,6 +79,8 @@ const BucketCard = ({
   thread,
   updatedAt,
 }: Omit<BucketCardProps, "key"> & { pubKey: string }) => {
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+
   return (
     <BucketCardContainer>
       <BucketCardHeader>
@@ -85,7 +93,7 @@ const BucketCard = ({
           >
             Copy #
           </DefaultButton>
-          {/* <a
+          <a
             target="_blank"
             rel="noreferrer"
             href={"http://127.0.0.1:8006" + path}
@@ -94,7 +102,7 @@ const BucketCard = ({
           </a>
           <Link to={`/${match?.params.currentOrganization}/bucketview`}>
             <DefaultButton>Edit Bucket</DefaultButton>
-          </Link> */}
+          </Link>
         </BucketActions>
       </BucketCardHeader>
       <BucketCardBody>
@@ -105,11 +113,11 @@ const BucketCard = ({
       <BucketCardFooter>
         <span>
           <small>Created: </small>
-          {createdAt}
+          <Moment unix>{createdAt / 10 ** 9}</Moment>
         </span>
         <span>
           <small>Edited: </small>
-          {updatedAt}
+          <Moment unix>{updatedAt / 10 ** 9}</Moment>
         </span>
       </BucketCardFooter>
     </BucketCardContainer>
