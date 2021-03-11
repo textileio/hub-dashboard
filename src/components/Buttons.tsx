@@ -48,7 +48,15 @@ export const DefaultButton = styled.button<DefaultButtonProps>`
 
 export const DefaultPrimaryButton = styled(DefaultButton)`
   background-color: ${({ theme }) => theme.neutral1000};
-  color: ${({ theme }) => theme.neutral100}; ;
+  color: ${({ theme }) => theme.neutral100};
+`;
+
+export const InvertedDefaultButton = styled(DefaultButton)`
+  color: ${({ theme }) => theme.neutral100};
+  border: 2px solid ${({ theme }) => theme.neutral100};
+  &:hover {
+    background-color: ${({ theme }) => theme.primaryLight100};
+  }
 `;
 
 export const Button = styled.button`

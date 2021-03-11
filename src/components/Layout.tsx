@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 import Context from "../store/Context";
 import Header from "./Header";
 import SideMenu from "./SideMenu";
-import Routes from "./Routes";
+import Routes from "../Routes";
 
 const LayoutContainer = styled.div`
   display: flex;

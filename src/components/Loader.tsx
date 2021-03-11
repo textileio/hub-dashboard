@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import { fadeIn } from "../utils/";
 
 const PreloaderScreenContainer = styled.div`
-  animation: appear 0s linear;
+  animation: ${fadeIn} 0s linear;
   display: flex;
   flex-direction: column;
   justify-content: center;
