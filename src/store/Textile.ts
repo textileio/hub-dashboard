@@ -1,5 +1,5 @@
 import { Context } from "@textile/context";
-import { Buckets, Client } from "@textile/hub";
+import { Buckets, Client, Users } from "@textile/hub";
 import { Admin } from "@textile/hub-admin";
 import dotenv from "dotenv";
 
@@ -24,4 +24,8 @@ const client = new Client(
   new Context(process.env.REACT_APP_HUB_HOST ?? HUB_HOST)
 );
 
-export { admin, buckets, client, Context };
+const users = new Users(
+  new Context(process.env.REACT_APP_HUB_HOST ?? HUB_HOST)
+);
+
+export { admin, buckets, client, Context, users };

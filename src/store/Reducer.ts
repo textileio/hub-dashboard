@@ -5,7 +5,7 @@ import { AsyncActionHandlers } from "use-reducer-async";
 import * as Actions from "./Actions";
 import { initialState, State } from "./State";
 
-import { admin, buckets, Context, client } from "./Textile";
+import { admin, buckets, Context, client, users } from "./Textile";
 
 export const cookies = new Cookies();
 
@@ -187,6 +187,20 @@ export const reducer: Reducer<State, Actions.Action> = (
         ...state,
         loading: false,
         user: { ...state.user, threads },
+      };
+    }
+    // Billing
+    case Actions.InnerType.StartFetchBilling:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchBilling: {
+      const { billing } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, billing },
       };
     }
     default:
@@ -443,6 +457,20 @@ export const asyncActionHandlers: AsyncActionHandlers<
       .then((threads) => {
         dispatch({ type: Actions.InnerType.FinishFetchThread, threads });
         if (callback) callback(threads);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchBilling]: ({ dispatch }) => async ({ callback }) => {
+    dispatch({ type: Actions.InnerType.StartFetchThread });
+    users.context = withCookiesAndState(admin.context as Context);
+    return users
+      .getUsage()
+      .then((billing) => {
+        dispatch({ type: Actions.InnerType.FinishFetchBilling, billing });
+        if (callback) callback(billing);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });

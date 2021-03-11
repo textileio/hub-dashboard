@@ -37,12 +37,18 @@ export interface User {
   /**
    * Buckets avaliable to the current user/org
    */
-  // TODO: any
+  // TODO: change any
   buckets?: any;
   /**
    * Threads avaliable to the current user/org
    */
   threads?: GetThreadResponse[];
+  /**
+   * Threads avaliable to the current user/org
+   */
+  // client?: any;
+  // TODO: change any
+  billing?: any;
   /**
    * Threads avaliable to the current user/org
    */
@@ -64,7 +70,7 @@ export interface State {
 
 // Initial state reflects an un-authorized, empty user/hub state.
 export const initialState: State = {
-  user: { buckets: [], threads: [] },
+  user: { buckets: [], threads: [], billing: [] },
   currentOrg: "",
   loading: false,
 };

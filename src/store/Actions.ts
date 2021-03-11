@@ -55,6 +55,9 @@ export enum InnerType {
   //FetchThreads
   StartFetchThread = "START_FETCH_THREAD",
   FinishFetchThread = "FINISH_FETCH_THREAD",
+  //FetchBilling
+  StartFetchBilling = "START_FETCH_BILLING",
+  FinishFetchBilling = "FINISH_FETCH_BILLING",
 }
 
 /**
@@ -83,6 +86,7 @@ export enum AsyncType {
   FetchBuckets = "FETCH_BUCKETS",
   FetchThreads = "FETCH_THREADS",
   FetchThread = "FETCH_THREAD",
+  FetchBilling = "FETCH_BILLING",
 }
 
 /**
@@ -145,6 +149,12 @@ export type InnerAction =
   | {
       type: InnerType.FinishFetchThread;
       threads: any;
+    }
+  // FetchBilling
+  | { type: InnerType.StartFetchBilling }
+  | {
+      type: InnerType.FinishFetchBilling;
+      billing: any;
     };
 
 /**
@@ -232,6 +242,10 @@ export type AsyncAction =
       type: AsyncType.FetchThread;
       threadID: string;
       callback?: Callback<any>;
+    }
+  | {
+      type: AsyncType.FetchBilling;
+      callback?: Callback<any>;
     };
 
 /**
@@ -302,6 +316,9 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
   const fetchThread = (threadID: string, callback?: Callback<any>) =>
     dispatch({ type: AsyncType.FetchThread, threadID, callback });
 
+  const fetchBilling = (callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.FetchBilling, callback });
+
   return {
     setError,
     clearError,
@@ -319,5 +336,6 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
     fetchBuckets,
     fetchThreads,
     fetchThread,
+    fetchBilling,
   };
 }
