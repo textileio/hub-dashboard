@@ -57,6 +57,20 @@ const BillingOverview = ({
       <AccountInfo>
         <p>Account Type: {accountStatus}</p>
         <p>Account Status: {subscriptionStatus}</p>
+        <p>
+          start:
+          <b>
+            <Moment unix format="YYYY/MM/DD">
+              {invoicePeriod.unixStart}
+            </Moment>
+          </b>
+          end:
+          <b>
+            <Moment unix format="YYYY/MM/DD">
+              {invoicePeriod.unixEnd}
+            </Moment>
+          </b>
+        </p>
       </AccountInfo>
       <BalanceInfo>
         <span>
@@ -65,14 +79,6 @@ const BillingOverview = ({
         </span>
         <BalanceInfoAmmount>{balance}$</BalanceInfoAmmount>
         <InvertedDefaultButton big>Payment Portal</InvertedDefaultButton>
-        <span>start</span>
-        <Moment unix format="YYYY/MM/DD">
-          {invoicePeriod.unixStart}
-        </Moment>
-        <span>end:</span>
-        <Moment unix format="YYYY/MM/DD">
-          {invoicePeriod.unixEnd}
-        </Moment>
       </BalanceInfo>
     </BillingOverviewContainer>
   );

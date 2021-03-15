@@ -14,19 +14,11 @@ import {
 } from "@styled-icons/heroicons-outline/";
 
 const BillingCustomerInfoConatiner = styled.div`
-  h4 {
-    border-bottom: 1px solid ${({ theme }) => theme.neutral300};
-    padding-bottom: ${space[4]};
-    margin-bottom: ${space[3]};
-  }
-`;
-
-const BillingCustomerItem = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: ${space[3]};
-  margin: ${space[3]};
+  margin: ${space[3]} 0;
   border: 2px solid ${({ theme }) => theme.neutral300};
   border-radius: ${borderRadius.default};
   :first-child {
@@ -34,6 +26,9 @@ const BillingCustomerItem = styled.div`
   }
   :last-child {
     margin-right: 0;
+  }
+  h5 {
+    margin: ${space[2]} 0;
   }
   svg {
     color: ${({ theme }) => theme.neutral100};
@@ -45,16 +40,12 @@ const BillingCustomerItem = styled.div`
   }
 `;
 
-const CustomerDetails = styled.div`
-  display: flex;
-`;
-
 const BillingCustomerItemName = styled.span`
   font-family: ${primaryFontBold};
   color: ${({ theme }) => theme.neutral700};
 `;
 const BillingCustomerItemValue = styled.span`
-  font-size: ${typescale.desktop.heading4};
+  font-size: ${typescale.desktop.heading5};
   color: ${({ theme }) => theme.primary};
   small {
     font-size: ${typescale.desktop.big};
@@ -84,48 +75,30 @@ const BillingCustomerInfo = ({
 }: BillingCustomerInfoProps) => {
   return (
     <BillingCustomerInfoConatiner>
-      <h4>{description}</h4>
+      <h5>
+        <Calculator />
+        {description}
+      </h5>
+      <BillingCustomerItemName>Usage</BillingCustomerItemName>
+      <BillingCustomerItemValue>{free}</BillingCustomerItemValue>
+      <BillingCustomerItemName>Free Quota</BillingCustomerItemName>
+      <BillingCustomerItemValue>
+        {grace}
+        <small>98%</small>
+      </BillingCustomerItemValue>
+      <BillingCustomerItemName>Daily Cost</BillingCustomerItemName>
+      <BillingCustomerItemValue>
+        {cost}
+        <small>$</small>
+      </BillingCustomerItemValue>
+      <BillingCustomerItemName>Quota Ends</BillingCustomerItemName>
+      <BillingCustomerItemValue>
+        <Moment unix format="YYYY/MM/DD">
+          {period.unixStart}
+        </Moment>
 
-      <CustomerDetails>
-        <BillingCustomerItem>
-          <Calculator />
-          <BillingCustomerItemName>Usage</BillingCustomerItemName>
-          <BillingCustomerItemValue>
-            {free}
-            <small>GiB</small>
-          </BillingCustomerItemValue>
-        </BillingCustomerItem>
-
-        <BillingCustomerItem>
-          <Gift />
-          <BillingCustomerItemName>Free Quota</BillingCustomerItemName>
-          <BillingCustomerItemValue>
-            {grace}
-            <small>98%</small>
-          </BillingCustomerItemValue>
-        </BillingCustomerItem>
-
-        <BillingCustomerItem>
-          <CreditCard />
-          <BillingCustomerItemName>Daily Cost</BillingCustomerItemName>
-          <BillingCustomerItemValue>
-            {cost}
-            <small>$</small>
-          </BillingCustomerItemValue>
-        </BillingCustomerItem>
-
-        <BillingCustomerItem>
-          <Calendar />
-          <BillingCustomerItemName>Quota Ends</BillingCustomerItemName>
-          <BillingCustomerItemValue>
-            <Moment unix format="YYYY/MM/DD">
-              {period.unixStart}
-            </Moment>
-
-            <small>2021</small>
-          </BillingCustomerItemValue>
-        </BillingCustomerItem>
-      </CustomerDetails>
+        <small>2021</small>
+      </BillingCustomerItemValue>
     </BillingCustomerInfoConatiner>
   );
 };

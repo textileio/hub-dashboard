@@ -52,7 +52,7 @@ const Routes = () => {
       />
       <Route
         exact
-        path="/:currentOrganization/bucketview"
+        path="/:currentOrganization/bucketview/:bucketKey"
         component={BucketView}
       />
       <Route
