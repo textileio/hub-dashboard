@@ -89,7 +89,9 @@ const BucketCard = ({
     <BucketCardContainer>
       <BucketCardHeader>
         <BucketCardName>
-          <Link to={`/${match?.params.currentOrganization}/bucketview`}>
+          <Link
+            to={`/${match?.params.currentOrganization}/bucketview/${publicKey}`}
+          >
             {name}
           </Link>
         </BucketCardName>

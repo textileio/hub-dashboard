@@ -51,6 +51,19 @@ export const DefaultPrimaryButton = styled(DefaultButton)`
   color: ${({ theme }) => theme.neutral100};
 `;
 
+export const LightButton = styled(DefaultButton)`
+  background-color: ${({ theme }) => theme.neutral200};
+  color: ${({ theme }) => theme.primary};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  svg {
+    max-width: 15px;
+    margin-right: 4px;
+  }
+`;
+
 export const InvertedDefaultButton = styled(DefaultButton)`
   color: ${({ theme }) => theme.neutral100};
   border: 2px solid ${({ theme }) => theme.neutral100};
