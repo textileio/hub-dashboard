@@ -5,7 +5,7 @@ import { AsyncActionHandlers } from "use-reducer-async";
 import * as Actions from "./Actions";
 import { initialState, State } from "./State";
 
-import { admin, buckets, Context, client } from "./Textile";
+import { admin, buckets, Context, client, users } from "./Textile";
 
 export const cookies = new Cookies();
 
@@ -120,6 +120,7 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, orgs },
       };
     }
+
     // CreateOrg
     case Actions.InnerType.StartCreateOrg:
       return {
@@ -135,6 +136,7 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, orgs },
       };
     }
+
     // InviteToOrg
     case Actions.InnerType.StartInviteToOrg:
       return {
@@ -147,7 +149,8 @@ export const reducer: Reducer<State, Actions.Action> = (
         loading: false,
       };
     }
-    // buckets
+
+    // fetch buckets
     case Actions.InnerType.StartFetchBuckets:
       return {
         ...state,
@@ -155,6 +158,22 @@ export const reducer: Reducer<State, Actions.Action> = (
       };
     case Actions.InnerType.FinishFetchBuckets: {
       const { buckets } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, buckets },
+      };
+    }
+
+    // create bucket
+    case Actions.InnerType.StartCreateBucket:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishCreateBucket: {
+      const { bucket } = action;
+      const buckets = [...(state.user.buckets ?? []), bucket];
       return {
         ...state,
         loading: false,
@@ -187,6 +206,20 @@ export const reducer: Reducer<State, Actions.Action> = (
         ...state,
         loading: false,
         user: { ...state.user, threads },
+      };
+    }
+    // Billing
+    case Actions.InnerType.StartFetchBilling:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishFetchBilling: {
+      const { billing } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, billing },
       };
     }
     default:
@@ -417,6 +450,25 @@ export const asyncActionHandlers: AsyncActionHandlers<
         if (callback) callback(undefined, e);
       });
   },
+  [Actions.AsyncType.CreateBucket]: ({ dispatch }) => async ({
+    name,
+    // encrypted,
+    // cid,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartCreateBucket });
+    buckets.context = withCookiesAndState(admin.context as Context);
+    return buckets
+      .create(name)
+      .then((bucket) => {
+        dispatch({ type: Actions.InnerType.FinishCreateBucket, bucket });
+        if (callback) callback(bucket);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
   [Actions.AsyncType.FetchThreads]: ({ dispatch }) => async ({ callback }) => {
     dispatch({ type: Actions.InnerType.StartFetchThreads });
     client.context = withCookiesAndState(admin.context as Context);
@@ -443,6 +495,20 @@ export const asyncActionHandlers: AsyncActionHandlers<
       .then((threads) => {
         dispatch({ type: Actions.InnerType.FinishFetchThread, threads });
         if (callback) callback(threads);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.FetchBilling]: ({ dispatch }) => async ({ callback }) => {
+    dispatch({ type: Actions.InnerType.StartFetchThread });
+    users.context = withCookiesAndState(admin.context as Context);
+    return users
+      .getUsage()
+      .then((billing) => {
+        dispatch({ type: Actions.InnerType.FinishFetchBilling, billing });
+        if (callback) callback(billing);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });

@@ -33,7 +33,8 @@ const baseStyles = css`
   }
 
   ::selection {
-    background: ${({ theme }) => theme.accentC};
+    background: ${({ theme }) => theme.primaryLight100};
+    color: ${({ theme }) => theme.neutral100};
   }
 
   ul {

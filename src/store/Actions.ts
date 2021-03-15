@@ -49,12 +49,18 @@ export enum InnerType {
   //FetchBuckets
   StartFetchBuckets = "START_FETCH_BUCKETS",
   FinishFetchBuckets = "FINISH_FETCH_BUCKETS",
+  //CreateBuckets
+  StartCreateBucket = "START_CREATE_BUCKETS",
+  FinishCreateBucket = "FINISH_CREATE_BUCKETS",
   //FetchThreads
   StartFetchThreads = "START_FETCH_THREADS",
   FinishFetchThreads = "FINISH_FETCH_THREADS",
   //FetchThreads
   StartFetchThread = "START_FETCH_THREAD",
   FinishFetchThread = "FINISH_FETCH_THREAD",
+  //FetchBilling
+  StartFetchBilling = "START_FETCH_BILLING",
+  FinishFetchBilling = "FINISH_FETCH_BILLING",
 }
 
 /**
@@ -81,8 +87,10 @@ export enum AsyncType {
   InviteToOrg = "INVITE_TO_ORG",
   FetchSessionInfo = "FETCH_SESSION_INFO",
   FetchBuckets = "FETCH_BUCKETS",
+  CreateBucket = "CREATE_BUCKET",
   FetchThreads = "FETCH_THREADS",
   FetchThread = "FETCH_THREAD",
+  FetchBilling = "FETCH_BILLING",
 }
 
 /**
@@ -135,6 +143,12 @@ export type InnerAction =
       type: InnerType.FinishFetchBuckets;
       buckets: Root[];
     }
+  // CreateBucket
+  | { type: InnerType.StartCreateBucket }
+  | {
+      type: InnerType.FinishCreateBucket;
+      bucket: any;
+    }
   // FetchThreads
   | { type: InnerType.StartFetchThreads }
   | {
@@ -145,6 +159,12 @@ export type InnerAction =
   | {
       type: InnerType.FinishFetchThread;
       threads: any;
+    }
+  // FetchBilling
+  | { type: InnerType.StartFetchBilling }
+  | {
+      type: InnerType.FinishFetchBilling;
+      billing: any;
     };
 
 /**
@@ -225,12 +245,23 @@ export type AsyncAction =
       callback?: Callback<Root[]>;
     }
   | {
+      type: AsyncType.CreateBucket;
+      name: string;
+      encrypted?: boolean;
+      cid?: string;
+      callback?: Callback<any>;
+    }
+  | {
       type: AsyncType.FetchThreads;
       callback?: Callback<GetThreadResponse[]>;
     }
   | {
       type: AsyncType.FetchThread;
       threadID: string;
+      callback?: Callback<any>;
+    }
+  | {
+      type: AsyncType.FetchBilling;
       callback?: Callback<any>;
     };
 
@@ -293,6 +324,9 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
   const fetchSessionInfo = (callback?: Callback<SessionInfoResponse>) =>
     dispatch({ type: AsyncType.FetchSessionInfo, callback });
 
+  const createBucket = (name: string, callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.CreateBucket, name, callback });
+
   const fetchBuckets = (callback?: Callback<Root[]>) =>
     dispatch({ type: AsyncType.FetchBuckets, callback });
 
@@ -301,6 +335,9 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
 
   const fetchThread = (threadID: string, callback?: Callback<any>) =>
     dispatch({ type: AsyncType.FetchThread, threadID, callback });
+
+  const fetchBilling = (callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.FetchBilling, callback });
 
   return {
     setError,
@@ -319,5 +356,7 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
     fetchBuckets,
     fetchThreads,
     fetchThread,
+    fetchBilling,
+    createBucket,
   };
 }

@@ -2,7 +2,7 @@ export const primary = {
   default: "#2935FF",
   light: {
     100: "#6972FF",
-    200: "#6972FF",
+    200: "#A9AEFF",
     300: "#ECEDFF",
   },
   dark: {

@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { DefaultButton } from "../../../components/Buttons";
+import { Link, useRouteMatch } from "react-router-dom";
+// import { DefaultButton } from "../../../components/Buttons";
+import { OrgInterface } from "../../../components/Utils";
+import Moment from "react-moment";
+import { DefaultButton } from "../../../components";
 import {
   borderRadius,
   primaryFontBold,
@@ -31,6 +35,9 @@ const BucketCardName = styled.div`
   font-family: ${primaryFontBold};
   font-size: ${typescale.desktop.heading5};
   background-color: ${({ theme }) => theme.neutral200};
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const BucketCardBody = styled.div`
@@ -46,9 +53,12 @@ const BucketCardFooter = styled.div`
   padding: ${space[1]};
   font-size: ${typescale.desktop.small};
   span {
+    padding-right: 20px;
     margin: 0 10px;
-    text-transform: uppercase;
     small {
+      font-size: 11px;
+      margin-right: 5px;
+      text-transform: uppercase;
       color: ${({ theme }) => theme.neutral800};
     }
   }
@@ -58,7 +68,7 @@ const BucketCardFooter = styled.div`
 
 interface BucketCardProps {
   createdAt: number;
-  pubKey: string;
+  publicKey: string;
   name: string;
   path: string;
   thread: string;
@@ -67,16 +77,24 @@ interface BucketCardProps {
 
 const BucketCard = ({
   createdAt,
-  pubKey,
+  publicKey,
   name,
   path,
   thread,
   updatedAt,
-}: Omit<BucketCardProps, "key"> & { pubKey: string }) => {
+}: BucketCardProps) => {
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+
   return (
     <BucketCardContainer>
       <BucketCardHeader>
-        <BucketCardName>{name}</BucketCardName>
+        <BucketCardName>
+          <Link
+            to={`/${match?.params.currentOrganization}/bucketview/${publicKey}`}
+          >
+            {name}
+          </Link>
+        </BucketCardName>
         <BucketActions>
           <DefaultButton
             onClick={() => {
@@ -85,31 +103,32 @@ const BucketCard = ({
           >
             Copy #
           </DefaultButton>
-          {/* <a
+          <a
             target="_blank"
             rel="noreferrer"
             href={"http://127.0.0.1:8006" + path}
           >
             <DefaultButton>Gateway</DefaultButton>
           </a>
-          <Link to={`/${match?.params.currentOrganization}/bucketview`}>
-            <DefaultButton>Edit Bucket</DefaultButton>
-          </Link> */}
         </BucketActions>
       </BucketCardHeader>
       <BucketCardBody>
         <div>{path}</div>
-        <div>{pubKey}</div>
+        <div>{publicKey}</div>
         <div>{thread}</div>
       </BucketCardBody>
       <BucketCardFooter>
         <span>
           <small>Created: </small>
-          {createdAt}
+          <Moment unix format="YYYY/MM/DD">
+            {createdAt / 10 ** 9}
+          </Moment>
         </span>
         <span>
           <small>Edited: </small>
-          {updatedAt}
+          <Moment unix format="YYYY/MM/DD">
+            {updatedAt / 10 ** 9}
+          </Moment>
         </span>
       </BucketCardFooter>
     </BucketCardContainer>

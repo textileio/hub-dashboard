@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { DefaultButton as Button } from "../../components/Buttons";
+import { Link, useRouteMatch } from "react-router-dom";
+import { DefaultButton } from "../../components/Buttons";
 import BucketTopMenu from "./components/BucketTopMenu";
+import { ArrowLeft } from "@styled-icons/heroicons-outline/";
+import { LightButton } from "../../components/";
+import { OrgInterface } from "../../components/Utils";
 
 const BucketViewContainer = styled.div`
   width: 100%;
@@ -66,14 +70,22 @@ const FilecoinModule = styled.div`
 `;
 
 const BucketView = () => {
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+
   return (
     <BucketViewContainer>
+      <Link to={`/${match?.params.currentOrganization}/buckets`}>
+        <LightButton>
+          <ArrowLeft />
+          Back to Buckets
+        </LightButton>
+      </Link>
       <BucketHeader>
         <div>
           <h1>testbuck</h1>
         </div>
         <div>
-          <Button big>View Gateway</Button>
+          <DefaultButton big>View Gateway</DefaultButton>
         </div>
       </BucketHeader>
       <BucketTopMenu />
@@ -99,7 +111,7 @@ const BucketView = () => {
 
       <FilecoinModule>
         Create a filecoin Archive Learn More
-        <Button>Create Filecoin Archive</Button>
+        <DefaultButton>Create Filecoin Archive</DefaultButton>
       </FilecoinModule>
     </BucketViewContainer>
   );
