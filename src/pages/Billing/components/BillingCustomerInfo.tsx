@@ -6,12 +6,7 @@ import {
   primaryFontBold,
   typescale,
 } from "../../../utils";
-import {
-  Calculator,
-  Gift,
-  CreditCard,
-  Calendar,
-} from "@styled-icons/heroicons-outline/";
+import { InformationCircle } from "@styled-icons/heroicons-outline/";
 
 const BillingCustomerInfoConatiner = styled.div`
   display: flex;
@@ -75,10 +70,8 @@ const BillingCustomerInfo = ({
 }: BillingCustomerInfoProps) => {
   return (
     <BillingCustomerInfoConatiner>
-      <h5>
-        <Calculator />
-        {description}
-      </h5>
+      <InformationCircle />
+      <h5>{description}</h5>
       <BillingCustomerItemName>Usage</BillingCustomerItemName>
       <BillingCustomerItemValue>{free}</BillingCustomerItemValue>
       <BillingCustomerItemName>Free Quota</BillingCustomerItemName>
