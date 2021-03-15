@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link, useRouteMatch } from "react-router-dom";
-import { DefaultButton } from "../../../components/Buttons";
+// import { DefaultButton } from "../../../components/Buttons";
 import { OrgInterface } from "../../../components/Utils";
 import Moment from "react-moment";
+import { DefaultButton } from "../../../components";
 import {
   borderRadius,
   primaryFontBold,
@@ -34,6 +35,9 @@ const BucketCardName = styled.div`
   font-family: ${primaryFontBold};
   font-size: ${typescale.desktop.heading5};
   background-color: ${({ theme }) => theme.neutral200};
+  :hover {
+    text-decoration: underline;
+  }
 `;
 
 const BucketCardBody = styled.div`
@@ -64,7 +68,7 @@ const BucketCardFooter = styled.div`
 
 interface BucketCardProps {
   createdAt: number;
-  pubKey: string;
+  publicKey: string;
   name: string;
   path: string;
   thread: string;
@@ -73,18 +77,22 @@ interface BucketCardProps {
 
 const BucketCard = ({
   createdAt,
-  pubKey,
+  publicKey,
   name,
   path,
   thread,
   updatedAt,
-}: Omit<BucketCardProps, "key"> & { pubKey: string }) => {
+}: BucketCardProps) => {
   const match = useRouteMatch<OrgInterface>("/:currentOrganization");
 
   return (
     <BucketCardContainer>
       <BucketCardHeader>
-        <BucketCardName>{name}</BucketCardName>
+        <BucketCardName>
+          <Link to={`/${match?.params.currentOrganization}/bucketview`}>
+            {name}
+          </Link>
+        </BucketCardName>
         <BucketActions>
           <DefaultButton
             onClick={() => {
@@ -100,24 +108,25 @@ const BucketCard = ({
           >
             <DefaultButton>Gateway</DefaultButton>
           </a>
-          <Link to={`/${match?.params.currentOrganization}/bucketview`}>
-            <DefaultButton>Edit Bucket</DefaultButton>
-          </Link>
         </BucketActions>
       </BucketCardHeader>
       <BucketCardBody>
         <div>{path}</div>
-        <div>{pubKey}</div>
+        <div>{publicKey}</div>
         <div>{thread}</div>
       </BucketCardBody>
       <BucketCardFooter>
         <span>
           <small>Created: </small>
-          <Moment unix>{createdAt / 10 ** 9}</Moment>
+          <Moment unix format="YYYY/MM/DD">
+            {createdAt / 10 ** 9}
+          </Moment>
         </span>
         <span>
           <small>Edited: </small>
-          <Moment unix>{updatedAt / 10 ** 9}</Moment>
+          <Moment unix format="YYYY/MM/DD">
+            {updatedAt / 10 ** 9}
+          </Moment>
         </span>
       </BucketCardFooter>
     </BucketCardContainer>

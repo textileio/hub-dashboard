@@ -10,9 +10,14 @@ const BucketsPageContainer = styled.div`
   width: 100%;
 `;
 
+const BucketList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 interface BucketProps {
   createdAt: number;
-  pubKey: string;
+  key: string;
   name: string;
   path: string;
   thread: string;
@@ -44,13 +49,15 @@ const BucketsPanel = () => {
       <Button big>Create Bucket</Button>
       <hr />
       {/* <SearchBar /> */}
-      <div>
+      <BucketList>
         {state.user.buckets
           ? state.user.buckets.map(({ ...props }: BucketProps) => {
-              return <BucketCard {...props} key={props.path} />;
+              return (
+                <BucketCard {...props} key={props.path} publicKey={props.key} />
+              );
             })
           : []}
-      </div>
+      </BucketList>
     </BucketsPageContainer>
   );
 };

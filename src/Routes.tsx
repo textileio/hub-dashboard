@@ -3,8 +3,8 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import NotFoundPage from "./pages/404";
 import ApiKeysPanel from "./pages/ApiKeys/ApiKeysPanel";
 import EditApiKey from "./pages/ApiKeys/EditApiKey";
-import BucketsPanel from "./pages/Buckets/BucketsPanel";
-import BucketView from "./pages/Buckets/BucketView";
+import BucketsPanel from "./pages/Buckets/BucketsListPanel";
+import BucketView from "./pages/Buckets/BucketEditPage";
 import BillingPanel from "./pages/Billing/BillingPanel";
 import {
   AddOrganization,
