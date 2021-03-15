@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Moment from "react-moment";
 import {
   space,
   borderRadius,
@@ -53,7 +54,7 @@ const BillingCustomerItemName = styled.span`
   color: ${({ theme }) => theme.neutral700};
 `;
 const BillingCustomerItemValue = styled.span`
-  font-size: ${typescale.desktop.heading2};
+  font-size: ${typescale.desktop.heading4};
   color: ${({ theme }) => theme.primary};
   small {
     font-size: ${typescale.desktop.big};
@@ -62,16 +63,36 @@ const BillingCustomerItemValue = styled.span`
   }
 `;
 
-const BillingCustomerInfo = () => {
+interface BillingCustomerInfoProps {
+  description: string;
+  units: number;
+  total: number;
+  free: number;
+  grace: number;
+  cost: number;
+  period: { unixEnd: number; unixStart: number };
+}
+
+const BillingCustomerInfo = ({
+  description,
+  units,
+  total,
+  free,
+  grace,
+  cost,
+  period,
+}: BillingCustomerInfoProps) => {
   return (
     <BillingCustomerInfoConatiner>
-      <h4>ThreadDB reads</h4>
+      <h4>{description}</h4>
+
       <CustomerDetails>
         <BillingCustomerItem>
           <Calculator />
           <BillingCustomerItemName>Usage</BillingCustomerItemName>
           <BillingCustomerItemValue>
-            1106<small>GiB</small>
+            {free}
+            <small>GiB</small>
           </BillingCustomerItemValue>
         </BillingCustomerItem>
 
@@ -79,7 +100,8 @@ const BillingCustomerInfo = () => {
           <Gift />
           <BillingCustomerItemName>Free Quota</BillingCustomerItemName>
           <BillingCustomerItemValue>
-            48894<small>98%</small>
+            {grace}
+            <small>98%</small>
           </BillingCustomerItemValue>
         </BillingCustomerItem>
 
@@ -87,7 +109,8 @@ const BillingCustomerInfo = () => {
           <CreditCard />
           <BillingCustomerItemName>Daily Cost</BillingCustomerItemName>
           <BillingCustomerItemValue>
-            0.0000<small>$</small>
+            {cost}
+            <small>$</small>
           </BillingCustomerItemValue>
         </BillingCustomerItem>
 
@@ -95,7 +118,11 @@ const BillingCustomerInfo = () => {
           <Calendar />
           <BillingCustomerItemName>Quota Ends</BillingCustomerItemName>
           <BillingCustomerItemValue>
-            28 Jan<small>2021</small>
+            <Moment unix format="YYYY/MM/DD">
+              {period.unixStart}
+            </Moment>
+
+            <small>2021</small>
           </BillingCustomerItemValue>
         </BillingCustomerItem>
       </CustomerDetails>

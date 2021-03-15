@@ -7,6 +7,7 @@ import {
   typescale,
 } from "../../../utils";
 import { CreditCard } from "@styled-icons/heroicons-solid/";
+import Moment from "react-moment";
 
 const BillingOverviewContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.primaryLight200};
@@ -38,22 +39,40 @@ const BalanceInfoAmmount = styled.span`
   font-size: ${typescale.desktop.heading1};
 `;
 
-const BillingOverview = () => {
+interface BillingOverviewProps {
+  accountStatus: string;
+  subscriptionStatus: string;
+  balance: number;
+  invoicePeriod: { unixEnd: number; unixStart: number };
+}
+
+const BillingOverview = ({
+  accountStatus,
+  invoicePeriod,
+  subscriptionStatus,
+  balance,
+}: BillingOverviewProps) => {
   return (
     <BillingOverviewContainer>
       <AccountInfo>
-        {/* <h5>Account Type</h5>
-        <p>free-quota-only</p>
-        <h5>Account Status</h5>
-        <p>Active</p> */}
+        <p>Account Type: {accountStatus}</p>
+        <p>Account Status: {subscriptionStatus}</p>
       </AccountInfo>
       <BalanceInfo>
         <span>
           <CreditCard />
           Balance
         </span>
-        <BalanceInfoAmmount>501$</BalanceInfoAmmount>
+        <BalanceInfoAmmount>{balance}$</BalanceInfoAmmount>
         <InvertedDefaultButton big>Payment Portal</InvertedDefaultButton>
+        <span>start</span>
+        <Moment unix format="YYYY/MM/DD">
+          {invoicePeriod.unixStart}
+        </Moment>
+        <span>end:</span>
+        <Moment unix format="YYYY/MM/DD">
+          {invoicePeriod.unixEnd}
+        </Moment>
       </BalanceInfo>
     </BillingOverviewContainer>
   );
