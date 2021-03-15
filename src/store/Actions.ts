@@ -49,6 +49,9 @@ export enum InnerType {
   //FetchBuckets
   StartFetchBuckets = "START_FETCH_BUCKETS",
   FinishFetchBuckets = "FINISH_FETCH_BUCKETS",
+  //CreateBuckets
+  StartCreateBucket = "START_CREATE_BUCKETS",
+  FinishCreateBucket = "FINISH_CREATE_BUCKETS",
   //FetchThreads
   StartFetchThreads = "START_FETCH_THREADS",
   FinishFetchThreads = "FINISH_FETCH_THREADS",
@@ -84,6 +87,7 @@ export enum AsyncType {
   InviteToOrg = "INVITE_TO_ORG",
   FetchSessionInfo = "FETCH_SESSION_INFO",
   FetchBuckets = "FETCH_BUCKETS",
+  CreateBucket = "CREATE_BUCKET",
   FetchThreads = "FETCH_THREADS",
   FetchThread = "FETCH_THREAD",
   FetchBilling = "FETCH_BILLING",
@@ -138,6 +142,12 @@ export type InnerAction =
   | {
       type: InnerType.FinishFetchBuckets;
       buckets: Root[];
+    }
+  // CreateBucket
+  | { type: InnerType.StartCreateBucket }
+  | {
+      type: InnerType.FinishCreateBucket;
+      bucket: any;
     }
   // FetchThreads
   | { type: InnerType.StartFetchThreads }
@@ -235,6 +245,13 @@ export type AsyncAction =
       callback?: Callback<Root[]>;
     }
   | {
+      type: AsyncType.CreateBucket;
+      name: string;
+      encrypted?: boolean;
+      cid?: string;
+      callback?: Callback<any>;
+    }
+  | {
       type: AsyncType.FetchThreads;
       callback?: Callback<GetThreadResponse[]>;
     }
@@ -307,6 +324,9 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
   const fetchSessionInfo = (callback?: Callback<SessionInfoResponse>) =>
     dispatch({ type: AsyncType.FetchSessionInfo, callback });
 
+  const createBucket = (name: string, callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.CreateBucket, name, callback });
+
   const fetchBuckets = (callback?: Callback<Root[]>) =>
     dispatch({ type: AsyncType.FetchBuckets, callback });
 
@@ -337,5 +357,6 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
     fetchThreads,
     fetchThread,
     fetchBilling,
+    createBucket,
   };
 }

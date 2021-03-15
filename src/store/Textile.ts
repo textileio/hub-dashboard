@@ -28,4 +28,4 @@ const users = new Users(
   new Context(process.env.REACT_APP_HUB_HOST ?? HUB_HOST)
 );
 
-export { admin, buckets, client, Context, users };
+export { Context, admin, buckets, client, users };

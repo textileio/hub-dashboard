@@ -120,6 +120,7 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, orgs },
       };
     }
+
     // CreateOrg
     case Actions.InnerType.StartCreateOrg:
       return {
@@ -135,6 +136,7 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, orgs },
       };
     }
+
     // InviteToOrg
     case Actions.InnerType.StartInviteToOrg:
       return {
@@ -147,7 +149,8 @@ export const reducer: Reducer<State, Actions.Action> = (
         loading: false,
       };
     }
-    // buckets
+
+    // fetch buckets
     case Actions.InnerType.StartFetchBuckets:
       return {
         ...state,
@@ -155,6 +158,22 @@ export const reducer: Reducer<State, Actions.Action> = (
       };
     case Actions.InnerType.FinishFetchBuckets: {
       const { buckets } = action;
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, buckets },
+      };
+    }
+
+    // create bucket
+    case Actions.InnerType.StartCreateBucket:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishCreateBucket: {
+      const { bucket } = action;
+      const buckets = [...(state.user.buckets ?? []), bucket];
       return {
         ...state,
         loading: false,
@@ -425,6 +444,25 @@ export const asyncActionHandlers: AsyncActionHandlers<
       .then((buckets) => {
         dispatch({ type: Actions.InnerType.FinishFetchBuckets, buckets });
         if (callback) callback(buckets);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.CreateBucket]: ({ dispatch }) => async ({
+    name,
+    // encrypted,
+    // cid,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartCreateBucket });
+    buckets.context = withCookiesAndState(admin.context as Context);
+    return buckets
+      .create(name)
+      .then((bucket) => {
+        dispatch({ type: Actions.InnerType.FinishCreateBucket, bucket });
+        if (callback) callback(bucket);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });
