@@ -4,6 +4,7 @@ import NotFoundPage from "./pages/404";
 import ApiKeysPanel from "./pages/ApiKeys/ApiKeysPanel";
 import EditApiKey from "./pages/ApiKeys/EditApiKey";
 import BucketsPanel from "./pages/Buckets/BucketsListPanel";
+import BucketCreatePanel from "./pages/Buckets/BucketCreatePanel";
 import BucketView from "./pages/Buckets/BucketEditPage";
 import BillingPanel from "./pages/Billing/BillingPanel";
 import {
@@ -49,6 +50,11 @@ const Routes = () => {
         exact
         path="/:currentOrganization/buckets"
         component={BucketsPanel}
+      />
+      <Route
+        exact
+        path="/:currentOrganization/addbucket"
+        component={BucketCreatePanel}
       />
       <Route
         exact
