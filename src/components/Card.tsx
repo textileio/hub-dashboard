@@ -2,6 +2,13 @@ import styled from "styled-components";
 import { borderRadius, space } from "../utils";
 
 export const Card = styled.div`
+  padding: ${space[3]};
+  margin: ${space[3]} 0;
+  border: 2px solid ${({ theme }) => theme.neutral300};
+  border-radius: ${borderRadius.default};
+`;
+
+export const CardPrimary = styled.div`
   color: ${({ theme }) => theme.neutral100};
   margin-top: 100px;
   padding: ${space[4]};
