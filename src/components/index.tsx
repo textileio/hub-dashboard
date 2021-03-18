@@ -1,6 +1,7 @@
 export * from "../components/BackButton";
 export * from "../components/Buttons";
 export * from "../components/Card";
+export * from "../components/CodeInput";
 export * from "../components/FormInput";
 export * from "../components/Loader";
 export * from "../components/MessageBox";

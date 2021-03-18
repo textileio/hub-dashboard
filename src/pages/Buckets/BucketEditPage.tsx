@@ -1,18 +1,20 @@
-import Context from "../../store/Context";
 import { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams, useRouteMatch } from "react-router-dom";
+import styled from "styled-components";
+import Context from "../../store/Context";
 import Moment from "react-moment";
 
-import styled from "styled-components";
+import { BackButton, Card, CodeInput } from "../../components/";
 import { DefaultButton } from "../../components/Buttons";
 import BucketTopMenu from "./components/BucketTopMenu";
-import { BackButton } from "../../components/";
+import { ArrowRight } from "@styled-icons/bootstrap/";
+import { OrgInterface } from "../../components/Utils";
 
 const BucketViewContainer = styled.div`
   width: 100%;
 `;
 
-const BucketInformation = styled.div`
+const BucketInformation = styled(Card)`
   border: 1px solid ${({ theme }) => theme.neutral400};
   border-radius: 4px;
   padding: 16px;
@@ -26,7 +28,12 @@ const BucketHeader = styled.div`
   align-items: center;
 `;
 
-const BucketTab = styled.div``;
+const ThreadLink = styled(Link)`
+  color: ${({ theme }) => theme.primary};
+  svg {
+    max-width: 20px;
+  }
+`;
 
 const BucketStatus = styled.div`
   h4 {
@@ -35,30 +42,7 @@ const BucketStatus = styled.div`
   b {
     font-size: 14px;
   }
-  width: 60%;
   word-wrap: break-word;
-  margin-left: 16px;
-`;
-
-const BucketPreview = styled.div`
-  width: 40%;
-  border: 1px solid ${({ theme }) => theme.neutral500};
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    border-radius: 4px;
-  }
-`;
-
-const BucketEditMenu = styled.div`
-  display: flex;
-  border-top: 1px solid ${({ theme }) => theme.neutral300};
-  padding-top: 16px;
-  width: 100%;
-  button {
-    margin-right: 10px;
-  }
 `;
 
 const FilecoinModule = styled.div`
@@ -73,6 +57,8 @@ const FilecoinModule = styled.div`
 
 const BucketView = () => {
   const [state, actions] = useContext(Context);
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+
   const { bucketKey } = useParams<{ bucketKey: string }>();
   const [selectedBucket] =
     state.user.buckets.filter((bucket: any) => bucket.key === bucketKey) ?? [];
@@ -86,43 +72,42 @@ const BucketView = () => {
     <BucketViewContainer>
       <BackButton url="buckets" />
       <BucketHeader>
-        <div>
-          <h1>testbuck</h1>
-        </div>
+        <div>{selectedBucket ? <h1>{selectedBucket.name}</h1> : null}</div>
         <div>
           <DefaultButton big>View Gateway</DefaultButton>
         </div>
       </BucketHeader>
       <BucketTopMenu />
-      <BucketTab>
-        {selectedBucket ? (
-          <BucketInformation>
-            <BucketStatus>
-              <h4>General information</h4>
-              <ul>
-                <li>Path: {selectedBucket.key}</li>
-                <li>Thread: {selectedBucket.thread}</li>
-                <li>
-                  Created:
-                  <Moment unix format="YYYY/MM/DD">
-                    {selectedBucket.createdAt / 10 ** 9}
-                  </Moment>
-                </li>
-                <li>
-                  Updated:
-                  <Moment unix format="YYYY/MM/DD">
-                    {selectedBucket.updatedAt / 10 ** 9}
-                  </Moment>
-                </li>
-              </ul>
-              <BucketEditMenu></BucketEditMenu>
-            </BucketStatus>
-            <BucketPreview>
-              <iframe src="" title="preview"></iframe>
-            </BucketPreview>
-          </BucketInformation>
-        ) : null}
-      </BucketTab>
+
+      {selectedBucket ? (
+        <BucketInformation>
+          <BucketStatus>
+            <h4>General information</h4>
+            <div>Path: {selectedBucket.key}</div>
+            <CodeInput code={selectedBucket.key} />
+
+            <ThreadLink
+              to={{
+                pathname: `/${match?.params.currentOrganization}/threads/${selectedBucket.thread}`,
+              }}
+            >
+              View Thread <ArrowRight />
+            </ThreadLink>
+            <div>
+              Created:
+              <Moment unix format="YYYY/MM/DD">
+                {selectedBucket.createdAt / 10 ** 9}
+              </Moment>
+            </div>
+            <div>
+              Updated:
+              <Moment unix format="YYYY/MM/DD">
+                {selectedBucket.updatedAt / 10 ** 9}
+              </Moment>
+            </div>
+          </BucketStatus>
+        </BucketInformation>
+      ) : null}
 
       <FilecoinModule>
         Create a filecoin Archive Learn More
