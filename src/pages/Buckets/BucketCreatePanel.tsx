@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import Context from "../../store/Context";
 
@@ -13,12 +13,11 @@ interface EncryptedBoxProps {
   encrypted?: boolean;
 }
 const EncryptedBox = styled(Card)<EncryptedBoxProps>`
-  transition: all 0.3s linear;
+  transition: all 0.2 s linear;
   ${({ encrypted }: EncryptedBoxProps) =>
     encrypted
       ? css`
           border: 2px solid ${({ theme }) => theme.primaryLight200};
-          background-color: ${({ theme }) => theme.primaryLight300};
           > div {
             background-color: ${({ theme }) => theme.primary};
             color: ${({ theme }) => theme.neutral100};
@@ -30,13 +29,14 @@ const EncryptedBox = styled(Card)<EncryptedBoxProps>`
 `;
 
 const EncryptedCheckbox = styled(Card)`
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  * {
+  label {
     cursor: pointer;
+    margin-left: 8px;
   }
   checkbox {
     display: none;
@@ -50,6 +50,11 @@ const BucketCreatePanel = () => {
   const [bucketName, setbucketName] = useState<string>("");
   const [encrypted, setEncrypted] = useState<boolean>(false);
   const [, actions] = useContext(Context);
+
+  useEffect(() => {
+    actions.fetchThreads();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,9 +94,7 @@ const BucketCreatePanel = () => {
         </EncryptedBox>
         <hr />
         <DefaultButton big type="submit">
-          Create
-          {encrypted ? " Encrypted " : " Non-encrypted "}
-          Bucket
+          Create Bucket
         </DefaultButton>
       </form>
     </BucketCreatePanelContainer>

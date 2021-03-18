@@ -1,70 +1,44 @@
 import styled from "styled-components";
-import { Link, useRouteMatch } from "react-router-dom";
-// import { DefaultButton } from "../../../components/Buttons";
-import { OrgInterface } from "../../../components/Utils";
 import Moment from "react-moment";
-import { DefaultButton } from "../../../components";
-import {
-  borderRadius,
-  primaryFontBold,
-  space,
-  typescale,
-} from "../../../utils";
+import { Link, useRouteMatch } from "react-router-dom";
+import { InvertedDefaultButton, Card } from "../../../components";
+import { OrgInterface } from "../../../components/Utils";
+import { Copy as CopyIcon, World } from "@styled-icons/boxicons-regular";
 
-const BucketCardContainer = styled.div`
-  border: 1px solid ${({ theme }) => theme.neutral400};
-  border-radius: ${borderRadius.default};
-  margin: ${space[4]} 0;
-`;
-const BucketActions = styled.div`
-  button {
-    margin-left: ${space[2]};
-  }
-`;
+import { typescale, primaryFont, primaryFontBold } from "../../../utils";
 
-const BucketCardHeader = styled.div`
-  padding: ${space[2]};
-  background-color: ${({ theme }) => theme.neutral200};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const BucketCardName = styled.div`
-  color: ${({ theme }) => theme.primary};
-  font-family: ${primaryFontBold};
-  font-size: ${typescale.desktop.heading5};
-  background-color: ${({ theme }) => theme.neutral200};
-  :hover {
-    text-decoration: underline;
-  }
-`;
-
-const BucketCardBody = styled.div`
-  border-bottom: 1px solid ${({ theme }) => theme.neutral300};
-  border-top: 1px solid ${({ theme }) => theme.neutral300};
-  padding: ${space[2]};
+const BucketCardContainer = styled(Card)`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
-const BucketCardFooter = styled.div`
-  padding: ${space[1]};
-  font-size: ${typescale.desktop.small};
-  span {
-    padding-right: 20px;
-    margin: 0 10px;
-    small {
-      font-size: 11px;
-      margin-right: 5px;
-      text-transform: uppercase;
-      color: ${({ theme }) => theme.neutral800};
-    }
+const QuickActionButton = styled(InvertedDefaultButton)`
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  svg {
+    max-width: 20px;
   }
 `;
 
-// const BucketItem;
+const BucketCardName = styled(Link)`
+  font-size: ${typescale.desktop.heading4};
+  font-family: ${primaryFontBold};
+`;
+
+const BucketCardTime = styled.div`
+  font-size: ${typescale.desktop.small};
+  font-family: ${primaryFontBold};
+  display: flex;
+  justify-content: space-between;
+  small {
+    font-family: ${primaryFont};
+    text-transform: uppercase;
+    color: ${({ theme }) => theme.neutral600};
+  }
+`;
+
+const BucketCardActions = styled.div``;
 
 interface BucketCardProps {
   createdAt: number;
@@ -87,37 +61,13 @@ const BucketCard = ({
 
   return (
     <BucketCardContainer>
-      <BucketCardHeader>
-        <BucketCardName>
-          <Link
-            to={`/${match?.params.currentOrganization}/bucketview/${publicKey}`}
-          >
-            {name}
-          </Link>
-        </BucketCardName>
-        <BucketActions>
-          <DefaultButton
-            onClick={() => {
-              navigator.clipboard.writeText(path);
-            }}
-          >
-            Copy #
-          </DefaultButton>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href={"http://127.0.0.1:8006" + path}
-          >
-            <DefaultButton>Gateway</DefaultButton>
-          </a>
-        </BucketActions>
-      </BucketCardHeader>
-      <BucketCardBody>
-        <div>{path}</div>
-        <div>{publicKey}</div>
-        <div>{thread}</div>
-      </BucketCardBody>
-      <BucketCardFooter>
+      <BucketCardName
+        to={`/${match?.params.currentOrganization}/bucketview/${publicKey}`}
+      >
+        {name}
+      </BucketCardName>
+
+      <BucketCardTime>
         <span>
           <small>Created: </small>
           <Moment unix format="YYYY/MM/DD">
@@ -130,7 +80,30 @@ const BucketCard = ({
             {updatedAt / 10 ** 9}
           </Moment>
         </span>
-      </BucketCardFooter>
+      </BucketCardTime>
+      <BucketCardActions>
+        <QuickActionButton
+          onClick={() => {
+            navigator.clipboard.writeText(path);
+          }}
+        >
+          <CopyIcon />
+        </QuickActionButton>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href={"http://127.0.0.1:8006" + path}
+        >
+          <QuickActionButton>
+            <World />
+          </QuickActionButton>
+        </a>
+        <div>
+          {/* <div>{path}</div>
+        <div>{publicKey}</div>
+        <div>{thread}</div> */}
+        </div>
+      </BucketCardActions>
     </BucketCardContainer>
   );
 };

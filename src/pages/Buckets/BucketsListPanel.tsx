@@ -4,15 +4,20 @@ import { ReactComponent as DocsIcon } from "../../assets/icons/docs-icon.svg";
 import { DefaultButton as Button, DocsButton } from "../../components/Buttons";
 import Context from "../../store/Context";
 import BucketCard from "./components/BucketCard";
-// import SearchBar from "../../components/SearchBar";
+import { Link, useRouteMatch } from "react-router-dom";
+import { OrgInterface } from "../../components/Utils";
+
+import SearchBar from "../../components/SearchBar";
 
 const BucketsPageContainer = styled.div`
   width: 100%;
 `;
 
 const BucketList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px;
 `;
 
 interface BucketProps {
@@ -26,6 +31,7 @@ interface BucketProps {
 
 const BucketsPanel = () => {
   const [state, actions] = useContext(Context);
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
 
   useEffect(() => {
     actions.fetchBuckets();
@@ -46,9 +52,11 @@ const BucketsPanel = () => {
         <br />
         You can serve websites, data, and apps from buckets.
       </p>
-      <Button big>Create Bucket</Button>
+      <Link to={`/${match?.params.currentOrganization}/addbucket`}>
+        <Button big>Create Bucket</Button>
+      </Link>
       <hr />
-      {/* <SearchBar /> */}
+      <SearchBar />
       <BucketList>
         {state.user.buckets
           ? state.user.buckets.map(({ ...props }: BucketProps) => {

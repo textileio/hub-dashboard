@@ -117,25 +117,6 @@ export const PrimaryButtonInverted = styled(Button)`
   }
 `;
 
-export const ContextOrgButton = styled(PrimaryButton)`
-  color: ${({ theme }) => theme.neutral1000};
-  background-color: ${({ theme }) => theme.neutral100};
-  svg {
-    margin-left: 8px;
-    width: 12px;
-    height: 12px;
-    stroke: ${({ theme }) => theme.neutral1000};
-  }
-  &:hover {
-    svg {
-      stroke: ${({ theme }) => theme.primary};
-    }
-    color: ${({ theme }) => theme.primary};
-    background-color: ${({ theme }) => theme.neutral100};
-    /* border: 1px solid ${({ theme }) => theme.neutral300}; */
-  }
-`;
-
 export const DocsButton = styled(Button)`
   padding: 5px 6px;
   font-family: ${primaryFontMedium};

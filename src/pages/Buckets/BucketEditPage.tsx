@@ -1,10 +1,12 @@
+import Context from "../../store/Context";
+import { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Moment from "react-moment";
+
 import styled from "styled-components";
-import { Link, useRouteMatch } from "react-router-dom";
 import { DefaultButton } from "../../components/Buttons";
 import BucketTopMenu from "./components/BucketTopMenu";
-import { ArrowLeft } from "@styled-icons/heroicons-outline/";
-import { LightButton } from "../../components/";
-import { OrgInterface } from "../../components/Utils";
+import { BackButton } from "../../components/";
 
 const BucketViewContainer = styled.div`
   width: 100%;
@@ -70,16 +72,19 @@ const FilecoinModule = styled.div`
 `;
 
 const BucketView = () => {
-  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+  const [state, actions] = useContext(Context);
+  const { bucketKey } = useParams<{ bucketKey: string }>();
+  const [selectedBucket] =
+    state.user.buckets.filter((bucket: any) => bucket.key === bucketKey) ?? [];
+
+  useEffect(() => {
+    actions.fetchBuckets();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BucketViewContainer>
-      <Link to={`/${match?.params.currentOrganization}/buckets`}>
-        <LightButton>
-          <ArrowLeft />
-          Back to Buckets
-        </LightButton>
-      </Link>
+      <BackButton url="buckets" />
       <BucketHeader>
         <div>
           <h1>testbuck</h1>
@@ -90,23 +95,33 @@ const BucketView = () => {
       </BucketHeader>
       <BucketTopMenu />
       <BucketTab>
-        <BucketInformation>
-          <BucketStatus>
-            <h4>General information</h4>
-            <ul>
-              <li>Path:</li>
-              <li>Thread:</li>
-              <li>Created:</li>
-              <li>Updated:</li>
-              <li>Filecoin:</li>
-              <li>encrypted:</li>
-            </ul>
-            <BucketEditMenu></BucketEditMenu>
-          </BucketStatus>
-          <BucketPreview>
-            <iframe src="" title="preview"></iframe>
-          </BucketPreview>
-        </BucketInformation>
+        {selectedBucket ? (
+          <BucketInformation>
+            <BucketStatus>
+              <h4>General information</h4>
+              <ul>
+                <li>Path: {selectedBucket.key}</li>
+                <li>Thread: {selectedBucket.thread}</li>
+                <li>
+                  Created:
+                  <Moment unix format="YYYY/MM/DD">
+                    {selectedBucket.createdAt / 10 ** 9}
+                  </Moment>
+                </li>
+                <li>
+                  Updated:
+                  <Moment unix format="YYYY/MM/DD">
+                    {selectedBucket.updatedAt / 10 ** 9}
+                  </Moment>
+                </li>
+              </ul>
+              <BucketEditMenu></BucketEditMenu>
+            </BucketStatus>
+            <BucketPreview>
+              <iframe src="" title="preview"></iframe>
+            </BucketPreview>
+          </BucketInformation>
+        ) : null}
       </BucketTab>
 
       <FilecoinModule>

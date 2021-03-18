@@ -6,16 +6,13 @@ import {
   primaryFontBold,
   typescale,
 } from "../../../utils";
+import { Card } from "../../../components";
 import { InformationCircle } from "@styled-icons/heroicons-outline/";
 
-const BillingCustomerInfoConatiner = styled.div`
+const BillingCustomerInfoContainer = styled(Card)`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: ${space[3]};
-  margin: ${space[3]} 0;
-  border: 2px solid ${({ theme }) => theme.neutral300};
-  border-radius: ${borderRadius.default};
   :first-child {
     margin-left: 0;
   }
@@ -24,6 +21,7 @@ const BillingCustomerInfoConatiner = styled.div`
   }
   h5 {
     margin: ${space[2]} 0;
+    max-width: 50%;
   }
   svg {
     color: ${({ theme }) => theme.neutral100};
@@ -69,7 +67,7 @@ const BillingCustomerInfo = ({
   period,
 }: BillingCustomerInfoProps) => {
   return (
-    <BillingCustomerInfoConatiner>
+    <BillingCustomerInfoContainer>
       <InformationCircle />
       <h5>{description}</h5>
       <BillingCustomerItemName>Usage</BillingCustomerItemName>
@@ -89,10 +87,8 @@ const BillingCustomerInfo = ({
         <Moment unix format="YYYY/MM/DD">
           {period.unixStart}
         </Moment>
-
-        <small>2021</small>
       </BillingCustomerItemValue>
-    </BillingCustomerInfoConatiner>
+    </BillingCustomerInfoContainer>
   );
 };
 

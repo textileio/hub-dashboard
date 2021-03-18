@@ -6,7 +6,7 @@ import { useClickOutside } from "../hooks/ClickOutside";
 import { ReactComponent as ArrowDown } from "../assets/icons/arrow-down-icon.svg";
 import { ReactComponent as SettingsIcon } from "../assets/icons/settings-icon.svg";
 import { primaryFontBold, typescale, borderRadius, space } from "../utils";
-import { ContextOrgButton } from "./Buttons";
+import { DefaultButton } from "./";
 
 const { small } = typescale.desktop;
 
@@ -16,6 +16,26 @@ const OrgSwitchContainer = styled.div`
   width: 100%;
   button {
     width: 100%;
+  }
+`;
+
+const ContextOrgButton = styled(DefaultButton)`
+  color: ${({ theme }) => theme.neutral1000};
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 2px solid ${({ theme }) => theme.neutral300};
+  svg {
+    margin-left: 8px;
+    width: 12px;
+    height: 12px;
+    stroke: ${({ theme }) => theme.neutral1000};
+  }
+  &:hover {
+    svg {
+      stroke: ${({ theme }) => theme.primary};
+    }
+    color: ${({ theme }) => theme.primary};
+    background-color: ${({ theme }) => theme.neutral100};
+    border: 2px solid ${({ theme }) => theme.neutral300};
   }
 `;
 
@@ -121,7 +141,7 @@ const OrganizationSwitch = () => {
 
   return (
     <OrgSwitchContainer>
-      <ContextOrgButton onClick={handleClick}>
+      <ContextOrgButton big onClick={handleClick}>
         Organization
         <ArrowDown />
       </ContextOrgButton>

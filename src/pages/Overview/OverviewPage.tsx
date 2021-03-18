@@ -1,11 +1,10 @@
 import { useContext } from "react";
 import { Redirect, useParams } from "react-router";
 import styled from "styled-components";
+import { CardPrimary, DefaultButton } from "../../components/";
 import Toast from "../../components/Toast";
 import { OrgInterface } from "../../components/Utils";
 import Context from "../../store/Context";
-import { Card } from "../../components/Card";
-import { DefaultButton } from "../../components/Buttons";
 
 const OverviewContainer = styled.div``;
 
@@ -67,7 +66,7 @@ const OverviewPage = () => {
         message={"Welcome to " + currentOrganization + "'s organization panel"}
         kind="default"
       />
-      <Card>
+      <CardPrimary>
         <h3>New to textile?</h3>
         <p>
           Textile is a set of open source tools that provide a decentralized
@@ -75,7 +74,7 @@ const OverviewPage = () => {
           IPFS, and Filecoin.
         </p>
         <DefaultButton>Follow the Docs</DefaultButton>
-      </Card>
+      </CardPrimary>
       <OverviewTitle>
         <span>{currentOrganization ?? username}</span> Overview
       </OverviewTitle>
