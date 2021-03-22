@@ -59,12 +59,10 @@ const BucketsPanel = () => {
       <SearchBar />
       <BucketList>
         {state.user.buckets
-          ? state.user.buckets.map(({ ...props }: BucketProps) => {
-              return (
-                <BucketCard {...props} key={props.path} publicKey={props.key} />
-              );
-            })
-          : []}
+          ? state.user.buckets.map(({ ...props }: BucketProps) => (
+              <BucketCard {...props} key={props.key} publicKey={props.key} />
+            ))
+          : null}
       </BucketList>
     </BucketsPageContainer>
   );

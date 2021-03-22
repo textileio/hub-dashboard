@@ -14,9 +14,7 @@ const CodeInputContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  code {
-    overflow: hidden;
-  }
+  overflow: hidden;
   :hover {
     svg {
       transition: all 0.2s linear;
@@ -30,7 +28,7 @@ const CodeContainer = styled.div``;
 const CopyButton = styled.div`
   display: flex;
   svg {
-    margin-left: ${space[2]};
+    margin-right: ${space[1]};
     max-width: 24px;
     color: ${({ theme }) => theme.neutral500};
   }
@@ -53,12 +51,12 @@ export const CodeInput = ({ code }: CodeInputProps) => {
 
   return (
     <CodeInputContainer onClick={handleClick}>
-      <CodeContainer>
-        <code>{isVisible ? "Copied to Clipboard!" : code}</code>
-      </CodeContainer>
       <CopyButton>
         <Copy />
       </CopyButton>
+      <CodeContainer>
+        <code>{isVisible ? "Copied to Clipboard!" : code}</code>
+      </CodeContainer>
     </CodeInputContainer>
   );
 };

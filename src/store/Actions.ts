@@ -52,6 +52,9 @@ export enum InnerType {
   //CreateBuckets
   StartCreateBucket = "START_CREATE_BUCKETS",
   FinishCreateBucket = "FINISH_CREATE_BUCKETS",
+  //Delete Buckets
+  StartDeleteBucket = "START_DELETE_BUCKETS",
+  FinishDeleteBucket = "FINISH_DELETE_BUCKETS",
   //FetchThreads
   StartFetchThreads = "START_FETCH_THREADS",
   FinishFetchThreads = "FINISH_FETCH_THREADS",
@@ -88,6 +91,7 @@ export enum AsyncType {
   FetchSessionInfo = "FETCH_SESSION_INFO",
   FetchBuckets = "FETCH_BUCKETS",
   CreateBucket = "CREATE_BUCKET",
+  DeleteBucket = "DELETE_BUCKET",
   FetchThreads = "FETCH_THREADS",
   FetchThread = "FETCH_THREAD",
   FetchBilling = "FETCH_BILLING",
@@ -148,6 +152,12 @@ export type InnerAction =
   | {
       type: InnerType.FinishCreateBucket;
       bucket: any;
+    }
+  // Delete Bucket
+  | { type: InnerType.StartDeleteBucket }
+  | {
+      type: InnerType.FinishDeleteBucket;
+      key: any;
     }
   // FetchThreads
   | { type: InnerType.StartFetchThreads }
@@ -252,6 +262,11 @@ export type AsyncAction =
       callback?: Callback<any>;
     }
   | {
+      type: AsyncType.DeleteBucket;
+      key: string;
+      callback?: Callback<any>;
+    }
+  | {
       type: AsyncType.FetchThreads;
       callback?: Callback<GetThreadResponse[]>;
     }
@@ -324,11 +339,14 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
   const fetchSessionInfo = (callback?: Callback<SessionInfoResponse>) =>
     dispatch({ type: AsyncType.FetchSessionInfo, callback });
 
+  const fetchBuckets = (callback?: Callback<Root[]>) =>
+    dispatch({ type: AsyncType.FetchBuckets, callback });
+
   const createBucket = (name: string, callback?: Callback<any>) =>
     dispatch({ type: AsyncType.CreateBucket, name, callback });
 
-  const fetchBuckets = (callback?: Callback<Root[]>) =>
-    dispatch({ type: AsyncType.FetchBuckets, callback });
+  const deleteBucket = (key: string, callback?: Callback<any>) =>
+    dispatch({ type: AsyncType.DeleteBucket, key, callback });
 
   const fetchThreads = (callback?: Callback<GetThreadResponse[]>) =>
     dispatch({ type: AsyncType.FetchThreads, callback });
@@ -354,9 +372,10 @@ export function createActions(dispatch: Dispatch<OuterAction | AsyncAction>) {
     revokeKey,
     fetchSessionInfo,
     fetchBuckets,
+    createBucket,
+    deleteBucket,
     fetchThreads,
     fetchThread,
     fetchBilling,
-    createBucket,
   };
 }

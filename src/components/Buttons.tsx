@@ -51,6 +51,16 @@ export const DefaultPrimaryButton = styled(DefaultButton)`
   color: ${({ theme }) => theme.neutral100};
 `;
 
+export const DangerInvertedButton = styled(DefaultButton)`
+  background-color: ${({ theme }) => theme.neutral100};
+  border: 1px solid ${({ theme }) => theme.netrual1000};
+  color: ${({ theme }) => theme.neutral1000};
+  :hover {
+    color: ${({ theme }) => theme.errorDefault};
+    border: 1px solid ${({ theme }) => theme.errorDefault};
+  }
+`;
+
 export const LightButton = styled(DefaultButton)`
   background-color: ${({ theme }) => theme.neutral200};
   color: ${({ theme }) => theme.primary};

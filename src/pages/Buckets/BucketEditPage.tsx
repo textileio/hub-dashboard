@@ -1,10 +1,17 @@
-import { useContext, useEffect } from "react";
-import { Link, useParams, useRouteMatch } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Link, useParams, useRouteMatch, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Context from "../../store/Context";
 import Moment from "react-moment";
 
-import { BackButton, Card, CodeInput } from "../../components/";
+import { space } from "../../utils";
+import {
+  BackButton,
+  Card,
+  CodeInput,
+  DangerInvertedButton,
+  TextInput,
+} from "../../components/";
 import { DefaultButton } from "../../components/Buttons";
 import BucketTopMenu from "./components/BucketTopMenu";
 import { ArrowRight } from "@styled-icons/bootstrap/";
@@ -36,13 +43,20 @@ const ThreadLink = styled(Link)`
 `;
 
 const BucketStatus = styled.div`
+  width: 70%;
+  word-wrap: break-word;
   h4 {
-    margin: 0;
+    margin: ${space[2]} 0;
   }
   b {
     font-size: 14px;
   }
-  word-wrap: break-word;
+`;
+
+const BucketPreview = styled(Card)`
+  width: 30%;
+  margin: 0;
+  margin-right: ${space[2]};
 `;
 
 const FilecoinModule = styled.div`
@@ -55,9 +69,25 @@ const FilecoinModule = styled.div`
   padding: 16px;
 `;
 
+const BucketDates = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: ${space[2]};
+  margin-top: ${space[2]};
+  border-top: 1px solid ${({ theme }) => theme.neutral300};
+`;
+
+const BucketDelete = styled(Card)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const BucketView = () => {
   const [state, actions] = useContext(Context);
   const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+  const history = useHistory();
+  const [deleteEnabled, setDeleteEnabled] = useState<boolean>(false);
 
   const { bucketKey } = useParams<{ bucketKey: string }>();
   const [selectedBucket] =
@@ -67,6 +97,17 @@ const BucketView = () => {
     actions.fetchBuckets();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleDeleteInput = (BucketName: string) => {
+    BucketName === selectedBucket.name
+      ? setDeleteEnabled((deleteEnabled) => (deleteEnabled = true))
+      : setDeleteEnabled((deleteEnabled) => (deleteEnabled = false));
+  };
+
+  const HandleDelete = async () => {
+    await actions.deleteBucket(selectedBucket.key);
+    history.push("/" + match?.params.currentOrganization + "/buckets");
+  };
 
   return (
     <BucketViewContainer>
@@ -80,33 +121,53 @@ const BucketView = () => {
       <BucketTopMenu />
 
       {selectedBucket ? (
-        <BucketInformation>
-          <BucketStatus>
-            <h4>General information</h4>
-            <div>Path: {selectedBucket.key}</div>
-            <CodeInput code={selectedBucket.key} />
-
-            <ThreadLink
-              to={{
-                pathname: `/${match?.params.currentOrganization}/threads/${selectedBucket.thread}`,
-              }}
-            >
-              View Thread <ArrowRight />
-            </ThreadLink>
+        <>
+          <BucketInformation>
+            <BucketPreview />
+            <BucketStatus>
+              <h4>General information</h4>
+              <p>{selectedBucket.path}</p>
+              <CodeInput code={selectedBucket.key} />
+              <ThreadLink
+                to={{
+                  pathname: `/${match?.params.currentOrganization}/threads/${selectedBucket.thread}`,
+                }}
+              >
+                View Thread <ArrowRight />
+              </ThreadLink>
+              <BucketDates>
+                <div>
+                  Created:
+                  <Moment unix format="YYYY/MM/DD">
+                    {selectedBucket.createdAt / 10 ** 9}
+                  </Moment>
+                </div>
+                <div>
+                  Updated:
+                  <Moment unix format="YYYY/MM/DD">
+                    {selectedBucket.updatedAt / 10 ** 9}
+                  </Moment>
+                </div>
+              </BucketDates>
+            </BucketStatus>
+          </BucketInformation>
+          <BucketDelete>
             <div>
-              Created:
-              <Moment unix format="YYYY/MM/DD">
-                {selectedBucket.createdAt / 10 ** 9}
-              </Moment>
+              <p>Please type the name of the bucket to enable deletion</p>
+              <p>Deleted Buckets cannot be recovered</p>
+              <TextInput
+                type="text"
+                placeholder="Bucket Name"
+                onChange={(e) => handleDeleteInput(e.target.value)}
+              />
             </div>
-            <div>
-              Updated:
-              <Moment unix format="YYYY/MM/DD">
-                {selectedBucket.updatedAt / 10 ** 9}
-              </Moment>
-            </div>
-          </BucketStatus>
-        </BucketInformation>
+            {deleteEnabled ? (
+              <DangerInvertedButton onClick={HandleDelete}>
+                Delete Bucket
+              </DangerInvertedButton>
+            ) : null}
+          </BucketDelete>
+        </>
       ) : null}
 
       <FilecoinModule>

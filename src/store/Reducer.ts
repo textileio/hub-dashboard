@@ -180,6 +180,23 @@ export const reducer: Reducer<State, Actions.Action> = (
         user: { ...state.user, buckets },
       };
     }
+    // delete bucket
+    case Actions.InnerType.StartDeleteBucket:
+      return {
+        ...state,
+        loading: true,
+      };
+    case Actions.InnerType.FinishDeleteBucket: {
+      const { key } = action;
+      const buckets = (state.user.buckets ?? [])?.filter(
+        (bucket: any) => bucket.key !== key
+      );
+      return {
+        ...state,
+        loading: false,
+        user: { ...state.user, buckets },
+      };
+    }
     // All threads
     case Actions.InnerType.StartFetchThreads:
       return {
@@ -438,7 +455,6 @@ export const asyncActionHandlers: AsyncActionHandlers<
   [Actions.AsyncType.FetchBuckets]: ({ dispatch }) => async ({ callback }) => {
     dispatch({ type: Actions.InnerType.StartFetchBuckets });
     buckets.context = withCookiesAndState(admin.context as Context);
-    //TODO: listing all buckets- should instead list all from currentOrg
     return buckets
       .existing()
       .then((buckets) => {
@@ -463,6 +479,23 @@ export const asyncActionHandlers: AsyncActionHandlers<
       .then((bucket) => {
         dispatch({ type: Actions.InnerType.FinishCreateBucket, bucket });
         if (callback) callback(bucket);
+      })
+      .catch((e) => {
+        dispatch({ type: Actions.OuterType.SetError, message: e.message });
+        if (callback) callback(undefined, e);
+      });
+  },
+  [Actions.AsyncType.DeleteBucket]: ({ dispatch }) => async ({
+    key,
+    callback,
+  }) => {
+    dispatch({ type: Actions.InnerType.StartDeleteBucket });
+    buckets.context = withCookiesAndState(admin.context as Context);
+    return buckets
+      .remove(key)
+      .then(() => {
+        dispatch({ type: Actions.InnerType.FinishDeleteBucket, key });
+        if (callback) callback(key);
       })
       .catch((e) => {
         dispatch({ type: Actions.OuterType.SetError, message: e.message });

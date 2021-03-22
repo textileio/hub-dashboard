@@ -1,6 +1,8 @@
 import { FormEvent, useContext, useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import Context from "../../store/Context";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import { OrgInterface } from "../../components/Utils";
 
 import { BackButton, Card, DefaultButton, TextInput } from "../../components/";
 import { LockClosed, LockOpen } from "@styled-icons/heroicons-outline/";
@@ -47,6 +49,8 @@ const EncryptedCheckbox = styled(Card)`
 `;
 
 const BucketCreatePanel = () => {
+  const match = useRouteMatch<OrgInterface>("/:currentOrganization");
+  const history = useHistory();
   const [bucketName, setbucketName] = useState<string>("");
   const [encrypted, setEncrypted] = useState<boolean>(false);
   const [, actions] = useContext(Context);
@@ -56,9 +60,10 @@ const BucketCreatePanel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    actions.createBucket(bucketName);
+    await actions.createBucket(bucketName);
+    history.push("/" + match?.params.currentOrganization + "/buckets");
   };
 
   return (
