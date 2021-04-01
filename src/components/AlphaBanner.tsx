@@ -30,13 +30,13 @@ const Banner = () => (
     <HeaderMenu>
       <Beaker />
       This dashboard is an experimental work in progress! If you want to use the
-      full (stable) product, download the{" "}
+      full (stable) product, download the
       <a
         href="https://docs.textile.io/hub/accounts/"
         rel="noreferrer"
         target="_blank"
       >
-        Hub CLI →
+        → Hub CLI
       </a>
       .
     </HeaderMenu>
