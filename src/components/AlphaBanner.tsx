@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { borderRadius } from "../utils";
 import { Beaker } from "@styled-icons/heroicons-solid/";
 
 const BannerContainer = styled.div`
