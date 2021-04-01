@@ -4,6 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import AccessPage from "./pages/Access/AccessPage";
 import DashboardPage from "./pages/DashboardPage";
 import ProtectedRoute from "./components/PrivateRoute";
+import Banner from "./components/AlphaBanner";
 import { useCookies } from "react-cookie";
 
 import { blueTheme, GlobalStyles } from "./utils";
@@ -24,6 +25,7 @@ function App() {
             : defaultTheme
         }
       >
+        <Banner />
         <GlobalStyles />
         <Switch>
           <Route exact path="/access" component={AccessPage} />
