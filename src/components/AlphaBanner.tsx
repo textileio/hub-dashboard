@@ -29,8 +29,16 @@ const Banner = () => (
   <BannerContainer>
     <HeaderMenu>
       <Beaker />
-      The Hub Dashboard is an Alpha experiment. Expect bugs, missing features,
-      breaking changes, and issues... but have fun!
+      This dashboard is an experimental work in progress! If you want to use the
+      full (stable) product, download the{" "}
+      <a
+        href="https://docs.textile.io/hub/accounts/"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Hub CLI →
+      </a>
+      .
     </HeaderMenu>
   </BannerContainer>
 );
