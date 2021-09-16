@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Beaker } from "@styled-icons/heroicons-solid/";
+import { ExclamationCircle } from "@styled-icons/heroicons-solid/";
 
 const BannerContainer = styled.div`
   position: sticky;
@@ -14,20 +14,20 @@ const BannerContainer = styled.div`
 `;
 
 const HeaderMenu = styled.span`
-  color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.errorDefault};
   transition: all 0.2s linear;
   svg {
     margin-right: 4px;
     max-height: 20px;
     max-width: 20px;
-    color: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.errorDefault};
   }
 `;
 
 const Banner = () => (
   <BannerContainer>
     <HeaderMenu>
-      <Beaker />
+      <ExclamationCircle />
       This dashboard is an experimental work in progress! If you want to use the
       full (stable) product, download →{" "}
       <a
